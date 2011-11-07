@@ -15,6 +15,11 @@ from panda3d.core import Filename,AmbientLight,DirectionalLight
 from panda3d.core import PandaNode,NodePath,Camera,TextNode
 from panda3d.core import Vec3,Vec4,BitMask32
 from panda3d.core import WindowProperties
+
+from panda3d.physics import  *
+
+from pandac.PandaModules import *
+
 from direct.gui.OnscreenText import OnscreenText
 from direct.actor.Actor import Actor
 from direct.showbase.DirectObject import DirectObject
@@ -92,7 +97,34 @@ class World( DirectObject ):
 
         # Accept the control keys for movement and rotation
 
+    # create a gravity force for the rock
+        self.gravityFN = ForceNode('world-forces')
+        self.gravityFNP = render.attachNewNode(self.gravityFN)
+        self.gravityForce = LinearVectorForce(0, 0, -9.81) #gravity acceleration
+        self.gravityFN.addForce(self.gravityForce)
+
+    # create a new node path to handle physics
+        self.nodePath = NodePath(PandaNode("physics"))
+        self.actorNode = ActorNode("smiley-actornode")
+        self.actorNodePath = self.nodePath.attachNewNode(self.actorNode)
+    
+    # collision node for the projectile (it is associated with the physics node created above)
+        self.collider = self.actorNodePath.attachNewNode(CollisionNode('projectilcnode'))
+        self.collider.node().addSolid(CollisionSphere(0, 2.874, 2.8360, 0.9))
+        self.collider.node().setIntoCollideMask(0);
+
+    # sets a mass value to the rock
+        self.actorNode.getPhysicsObject().setMass(30.0)
+
+    # adds the gravity force to the physics engine
+        #base.physicsMgr.addLinearForce(self.gravityForce)    
+
+
+
+
         self.accept( "escape", sys.exit )
+        
+        self.accept("space", self.jump);
 
         #self.accept("arrow_left", self.setKey, ["left",1])
         #self.accept("arrow_right", self.setKey, ["right",1])
@@ -173,6 +205,9 @@ class World( DirectObject ):
         render.setLight(render.attachNewNode(ambientLight))
         render.setLight(render.attachNewNode(directionalLight))
     
+    
+    def jump (self):
+        print "value :", 5
     #Records the state of the arrow keys
     def setKey(self, key, value):
         self.keyMap[key] = value
@@ -219,6 +254,7 @@ class World( DirectObject ):
         #    self.ralph.setH( self.ralph.getH() - 300 * globalClock.getDt() )
         #if (self.keyMap["forward"]!=0):
         #    self.ralph.setY( self.ralph, -25 * globalClock.getDt() )
+
 
         if( self.keyMap["strafe-left"] != 0 ):
             #self.ralph.setH( base.camera.getH() + 270 )
