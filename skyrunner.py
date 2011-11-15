@@ -21,19 +21,15 @@ from panda3d.bullet import BulletPlaneShape
 from panda3d.bullet import BulletBoxShape
 from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletDebugNode
-from panda3d.bullet import BulletCapsuleShape
-from panda3d.bullet import BulletCharacterControllerNode
+
 from panda3d.bullet import BulletHeightfieldShape
-from panda3d.bullet import ZUp
+from avatar import Avatar
 
 class Game(DirectObject):
 
   def __init__(self):
     base.setBackgroundColor(0.0, 0.0, 0.6, 1)
     base.setFrameRateMeter(True)
-
-    #base.cam.setPos(0, -20, 4)
-    #base.cam.lookAt(0, 0, 0)
     
     # Light
     alight = AmbientLight('ambientLight')
@@ -56,19 +52,6 @@ class Game(DirectObject):
     self.accept('f2', self.toggleTexture)
     self.accept('f3', self.toggleDebug)
     self.accept('f5', self.doScreenshot)
-
-    self.accept('space', self.doJump)
-    self.accept('c', self.doCrouch)
-
-    inputState.watchWithModifiers('forward', 'w')
-    inputState.watchWithModifiers('left', 'a')
-    inputState.watchWithModifiers('reverse', 's')
-    inputState.watchWithModifiers('right', 'd')
-    inputState.watchWithModifiers('turnLeft', 'q')
-    inputState.watchWithModifiers('turnRight', 'e')
-    
-    self.isMoving = False
-    self.isJumping = False
 
     # Task
     taskMgr.add(self.update, 'updateWorld')
@@ -101,21 +84,6 @@ class Game(DirectObject):
   def doScreenshot(self):
     base.screenshot('Bullet')
 
-  def doJump(self):
-    self.player.setMaxJumpHeight(80)
-    self.player.setJumpSpeed(9.6)
-    self.player.doJump()
-    self.playerNP.loop("jump")
-
-  def doCrouch(self):
-    self.crouching = not self.crouching
-    sz = self.crouching and 0.6 or 1.0
-
-    self.player.getShape().setLocalScale(Vec3(1, 1, sz))
-
-    self.playerNP.setScale(Vec3(1, 1, sz) * 0.3048)
-    self.playerNP.setPos(0, 0, -1 * sz)
-
   # ____TASK___
 
   def processInput(self):
@@ -129,21 +97,21 @@ class Game(DirectObject):
     if inputState.isSet('turnLeft'):  omega =  120.0
     if inputState.isSet('turnRight'): omega = -120.0
 
-    self.player.setAngularVelocity(omega)
-    self.player.setLinearVelocity(speed, True)
-    base.camera.setHpr( self.playerNP.getH(render)+180, self.playerNP.getP(render), 0 )
-    base.camera.setPos( self.playerNP.getX(render), self.playerNP.getY(render), self.playerNP.getZ(render)+2 )
+    self.avatar.setAngularVelocity(omega)
+    self.avatar.setLinearVelocity(speed, True)
+    base.camera.setHpr( self.avatar.getH()+180, self.avatar.getP(), 0 )
+    base.camera.setPos( self.avatar.getX(), self.avatar.getY(), self.avatar.getZ()+2 )
 
 
     if (inputState.isSet('forward')) or (inputState.isSet('reverse')) or (inputState.isSet('left')) or (inputState.isSet('right')):
-        if self.isMoving is False:
-            self.playerNP.loop("run")
-            self.isMoving = True
+        if self.avatar.isMoving is False:
+            self.avatar.playerNP.loop("run")
+            self.avatar.isMoving = True
     else:
-        if self.isMoving:
-            self.playerNP.stop()
-            self.playerNP.pose("walk",5)
-            self.isMoving = False
+        if self.avatar.isMoving:
+            self.avatar.playerNP.stop()
+            self.avatar.playerNP.pose("walk",5)
+            self.avatar.isMoving = False
     
     
   def update(self, task):
@@ -153,7 +121,7 @@ class Game(DirectObject):
     self.world.doPhysics(dt, 10, 0.008)
 
     #condicao de game over
-    if self.playerNP.getZ(render) < -2: self.doExit()
+    if self.avatar.playerNP.getZ(render) < -2: self.doExit()
     
     return task.cont
 
@@ -232,34 +200,11 @@ class Game(DirectObject):
 
     self.world.attachRigidBody(np2.node())
 
-    # Character
-    self.crouching = False
-
-    h = 1.75
-    w = 0.4
-    shape = BulletCapsuleShape(w, h - 2 * w, ZUp)
-
-    node = BulletCharacterControllerNode(shape, 0.4, 'Player')
-    np = self.worldNP.attachNewNode(node)
-    np.setPos(-2, 0, 14)
-    np.setH(45)
-    np.setCollideMask(BitMask32.allOn())
-
-    self.world.attachCharacter(np.node())
-
-    self.player = node # For player control
-
-    self.playerNP = Actor('models/ralph.egg', {
-                          'run' : 'models/ralph-run.egg',
-                          'walk' : 'models/ralph-walk.egg',
-                          'jump' : 'models/ralph-jump.egg'})
-    self.playerNP.reparentTo(np)
-    self.playerNP.setScale(0.3048) # 1ft = 0.3048m
-    self.playerNP.setH(180)
-    self.playerNP.setPos(0, 0, -1)
+    # Loading Character
+    self.avatar = Avatar(self.worldNP,self.world)
     
-    base.camera.setPos( self.playerNP.getX(), self.playerNP.getY(), self.playerNP.getZ()+1 )
-    base.camera.setHpr( self.playerNP.getH(), self.playerNP.getP(), 0 )
+    base.camera.setPos( self.avatar.getX(), self.avatar.getY(), self.avatar.getZ()+1 )
+    base.camera.setHpr( self.avatar.getH(), self.avatar.getP(), 0 )
 
 game = Game()
 run()
