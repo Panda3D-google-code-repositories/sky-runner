@@ -66,6 +66,9 @@ class Game(DirectObject):
     inputState.watchWithModifiers('right', 'd')
     inputState.watchWithModifiers('turnLeft', 'q')
     inputState.watchWithModifiers('turnRight', 'e')
+    
+    self.isMoving = False
+    self.isJumping = False
 
     # Task
     taskMgr.add(self.update, 'updateWorld')
@@ -119,9 +122,7 @@ class Game(DirectObject):
     speed = Vec3(0, 0, 0)
     omega = 0.0
 
-    if inputState.isSet('forward'): 
-        speed.setY( 5.0)
-        self.playerNP.loop("run")
+    if inputState.isSet('forward'): speed.setY( 5.0)
     if inputState.isSet('reverse'): speed.setY(-5.0)
     if inputState.isSet('left'):    speed.setX(-5.0)
     if inputState.isSet('right'):   speed.setX( 5.0)
@@ -133,6 +134,18 @@ class Game(DirectObject):
     base.camera.setHpr( self.playerNP.getH(render)+180, self.playerNP.getP(render), 0 )
     base.camera.setPos( self.playerNP.getX(render), self.playerNP.getY(render), self.playerNP.getZ(render)+2 )
 
+
+    if (inputState.isSet('forward')) or (inputState.isSet('reverse')) or (inputState.isSet('left')) or (inputState.isSet('right')):
+        if self.isMoving is False:
+            self.playerNP.loop("run")
+            self.isMoving = True
+    else:
+        if self.isMoving:
+            self.playerNP.stop()
+            self.playerNP.pose("walk",5)
+            self.isMoving = False
+    
+    
   def update(self, task):
     dt = globalClock.getDt()
 
