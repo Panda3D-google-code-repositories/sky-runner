@@ -13,6 +13,7 @@ class Avatar(DirectObject):
         self.crouching = False
         self.isMoving = False
         self.isJumping = False
+        self.speed = 0;
 
         h = 1.75
         w = 0.4

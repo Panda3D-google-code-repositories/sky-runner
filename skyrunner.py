@@ -90,12 +90,33 @@ class Game(DirectObject):
     speed = Vec3(0, 0, 0)
     omega = 0.0
 
-    if inputState.isSet('forward'): speed.setY( 5.0)
-    if inputState.isSet('reverse'): speed.setY(-5.0)
-    if inputState.isSet('left'):    speed.setX(-5.0)
-    if inputState.isSet('right'):   speed.setX( 5.0)
-    if inputState.isSet('turnLeft'):  omega =  120.0
-    if inputState.isSet('turnRight'): omega = -120.0
+    if inputState.isSet('forward'): 
+        if self.avatar.speed < 0 :
+            self.avatar.speed = self.avatar.speed + 3
+        elif self.avatar.speed < 35 : 
+            self.avatar.speed = self.avatar.speed + 0.1;
+        
+        speed.setY( self.avatar.speed)
+    
+    elif inputState.isSet('reverse'): 
+        if self.avatar.speed > 0 :
+            self.avatar.speed = self.avatar.speed - 3
+        elif self.avatar.speed > -15 : 
+            self.avatar.speed = self.avatar.speed - 0.1;
+        
+        speed.setY( self.avatar.speed)
+    
+    elif inputState.isSet('left'):    speed.setX(-5.0)
+    elif inputState.isSet('right'):   speed.setX( 5.0)
+    elif inputState.isSet('turnLeft'):  omega =  120.0
+    elif inputState.isSet('turnRight'): omega = -120.0
+    else:
+        if self.avatar.speed < 0.5 :
+            self.avatar.speed = 0
+        if not self.avatar.speed == 0 :
+            self.avatar.speed = self.avatar.speed + (self.avatar.speed * -0.1)
+            speed.setY( self.avatar.speed)
+            
 
     self.avatar.setAngularVelocity(omega)
     self.avatar.setLinearVelocity(speed, True)
@@ -167,7 +188,7 @@ class Game(DirectObject):
     np.setH(0.0)
     np.setCollideMask(BitMask32.allOn())
     model = loader.loadModel('models/cubo.egg')
-    model.setScale(10,300,0.15)
+    model.setScale(10,300,0.1)
     model.flattenLight()
     model.reparentTo(np)
 
@@ -181,7 +202,7 @@ class Game(DirectObject):
     np.setH(20.0)
     np.setCollideMask(BitMask32.allOn())
     model = loader.loadModel('models/cubo.egg')
-    model.setScale(5,15,0.15)
+    model.setScale(1,3,0.2)
     model.flattenLight()
     model.reparentTo(np)
 
@@ -194,7 +215,7 @@ class Game(DirectObject):
     np2.setH(10.0)
     np2.setCollideMask(BitMask32.allOn())
     model = loader.loadModel('models/cubo.egg')
-    model.setScale(5,15,0.15)
+    model.setScale(1,3,0.2)
     model.flattenLight()
     model.reparentTo(np2)
 
