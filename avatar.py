@@ -1,5 +1,6 @@
 from direct.showbase.DirectObject import DirectObject
 from direct.actor.Actor import Actor
+from panda3d.core import Vec3
 
 from panda3d.bullet import BulletCapsuleShape
 from panda3d.bullet import ZUp

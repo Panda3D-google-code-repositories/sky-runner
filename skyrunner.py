@@ -114,7 +114,7 @@ class Game(DirectObject):
         if self.avatar.speed < 0.5 :
             self.avatar.speed = 0
         if not self.avatar.speed == 0 :
-            self.avatar.speed = self.avatar.speed + (self.avatar.speed * -0.1)
+            self.avatar.speed = self.avatar.speed + (self.avatar.speed * -0.01)
             speed.setY( self.avatar.speed)
             
 
