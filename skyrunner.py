@@ -18,12 +18,12 @@ from panda3d.core import PNMImage
 
 from panda3d.bullet import BulletWorld
 from panda3d.bullet import BulletPlaneShape
-from panda3d.bullet import BulletBoxShape
 from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletDebugNode
 
 from panda3d.bullet import BulletHeightfieldShape
 from avatar import Avatar
+from plataforma import Plataformas
 
 class Game(DirectObject):
 
@@ -52,6 +52,7 @@ class Game(DirectObject):
     self.accept('f2', self.toggleTexture)
     self.accept('f3', self.toggleDebug)
     self.accept('f5', self.doScreenshot)
+    self.accept('f6', self.doRoda)
 
     # Task
     taskMgr.add(self.update, 'updateWorld')
@@ -84,6 +85,8 @@ class Game(DirectObject):
   def doScreenshot(self):
     base.screenshot('Bullet')
 
+  def doRoda(self):
+    self.plataformas.estradaNp.setP(self.plataformas.estradaNp.getP()+1)
   # ____TASK___
 
   def processInput(self):
@@ -98,7 +101,7 @@ class Game(DirectObject):
         
         speed.setY( self.avatar.speed)
     
-    elif inputState.isSet('reverse'): 
+    if inputState.isSet('reverse'): 
         if self.avatar.speed > 0 :
             self.avatar.speed = self.avatar.speed - 3
         elif self.avatar.speed > -15 : 
@@ -106,11 +109,12 @@ class Game(DirectObject):
         
         speed.setY( self.avatar.speed)
     
-    elif inputState.isSet('left'):    speed.setX(-5.0)
-    elif inputState.isSet('right'):   speed.setX( 5.0)
-    elif inputState.isSet('turnLeft'):  omega =  120.0
-    elif inputState.isSet('turnRight'): omega = -120.0
-    else:
+    if inputState.isSet('left'):    speed.setX(-5.0)
+    if inputState.isSet('right'):   speed.setX( 5.0)
+    if inputState.isSet('turnLeft'):  omega =  120.0
+    if inputState.isSet('turnRight'): omega = -120.0
+    
+    if not inputState.isSet('forward') and not inputState.isSet('reverse') and not inputState.isSet('left') and not inputState.isSet('right') and not inputState.isSet('turnLeft') and not inputState.isSet('turnRight'):
         if self.avatar.speed < 0.5 :
             self.avatar.speed = 0
         if not self.avatar.speed == 0 :
@@ -142,7 +146,7 @@ class Game(DirectObject):
     self.world.doPhysics(dt, 10, 0.008)
 
     #condicao de game over
-    if self.avatar.playerNP.getZ(render) < -2: self.doExit()
+    if self.avatar.playerNP.getZ(render) < -80: self.doExit()
     
     return task.cont
 
@@ -165,61 +169,15 @@ class Game(DirectObject):
     # Ground
     shape = BulletPlaneShape(Vec3(0, 0, 1), 0)
 
-    #img = PNMImage(Filename('models/elevation2.png'))
-    #shape = BulletHeightfieldShape(img, 1.0, ZUp)
-
     np = self.worldNP.attachNewNode(BulletRigidBodyNode('Ground'))
     np.node().addShape(shape)
-    np.setPos(0, 0, -10)
+    np.setPos(0, 0, -200)
     np.setCollideMask(BitMask32.allOn())
 
     self.world.attachRigidBody(np.node())
 
-    # Box
-    shape = BulletBoxShape(Vec3(1.0, 3.0, 0.3))
-   
-   
-    # estrada
-    estrada = BulletBoxShape(Vec3(10.0, 300.0, 0.3))
-    np = self.worldNP.attachNewNode(BulletRigidBodyNode('Estrada'))
-    #np.node().setMass(1.0)
-    np.node().addShape(estrada)
-    np.setPos(0, 40, -1.3)
-    np.setH(0.0)
-    np.setCollideMask(BitMask32.allOn())
-    model = loader.loadModel('models/cubo.egg')
-    model.setScale(10,300,0.1)
-    model.flattenLight()
-    model.reparentTo(np)
-
-    self.world.attachRigidBody(np.node())
-    
-    
-    np = self.worldNP.attachNewNode(BulletRigidBodyNode('Box'))
-    #np.node().setMass(1.0)
-    np.node().addShape(shape)
-    np.setPos(3, 4, 2)
-    np.setH(20.0)
-    np.setCollideMask(BitMask32.allOn())
-    model = loader.loadModel('models/cubo.egg')
-    model.setScale(1,3,0.2)
-    model.flattenLight()
-    model.reparentTo(np)
-
-    self.world.attachRigidBody(np.node())
-    
-    np2 = self.worldNP.attachNewNode(BulletRigidBodyNode('Box'))
-    #np.node().setMass(1.0)
-    np2.node().addShape(shape)
-    np2.setPos(2, 3, 3)
-    np2.setH(10.0)
-    np2.setCollideMask(BitMask32.allOn())
-    model = loader.loadModel('models/cubo.egg')
-    model.setScale(1,3,0.2)
-    model.flattenLight()
-    model.reparentTo(np2)
-
-    self.world.attachRigidBody(np2.node())
+    # Loading plataformas
+    self.plataformas = Plataformas(self.worldNP,self.world,50)
 
     # Loading Character
     self.avatar = Avatar(self.worldNP,self.world)
