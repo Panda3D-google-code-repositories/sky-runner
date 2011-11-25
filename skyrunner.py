@@ -1,10 +1,14 @@
 import sys
 import preload
-import direct.directbase.DirectStart
+import datetime
 
 from direct.actor.Actor import Actor
+
+import direct.directbase.DirectStart
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.InputStateGlobal import inputState
+
+from direct.gui.OnscreenText import OnscreenText 
 
 from panda3d.core import AmbientLight
 from panda3d.core import DirectionalLight
@@ -21,7 +25,6 @@ from panda3d.bullet import BulletPlaneShape
 from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletDebugNode
 
-from panda3d.bullet import BulletHeightfieldShape
 from avatar import Avatar
 from plataforma import Plataformas
 
@@ -29,6 +32,7 @@ class Game(DirectObject):
 
   def __init__(self):
     base.setBackgroundColor(0.0, 0.0, 0.6, 1)
+    
     base.setFrameRateMeter(True)
     
     # Light
@@ -118,7 +122,7 @@ class Game(DirectObject):
         if self.avatar.speed < 0.5 :
             self.avatar.speed = 0
         if not self.avatar.speed == 0 :
-            self.avatar.speed = self.avatar.speed + (self.avatar.speed * -0.01)
+            self.avatar.speed = self.avatar.speed + (self.avatar.speed * -0.05)
             speed.setY( self.avatar.speed)
             
 
@@ -143,20 +147,44 @@ class Game(DirectObject):
     dt = globalClock.getDt()
 
     self.processInput()
-    self.world.doPhysics(dt, 10, 0.008)
-
+    self.world.doPhysics(dt, 5, 0.005)
+    
+    heading = base.camera.getH()
+    pitch   = base.camera.getP()
+    
     #condicao de game over
-    if self.avatar.playerNP.getZ(render) < -80: self.doExit()
+    if self.avatar.playerNP.getZ(render) < -80: 
+        taskMgr.remove('updateWorld')
+        taskMgr.remove ('Timer')
+        OnscreenText('YOU LOSE',scale = 0.4, fg= (1,0,0,1))
     
     return task.cont
 
   def cleanup(self):
     self.world = None
     self.worldNP.removeNode()
-
+    
+  def timer( self, task ): 
+      nowTime = datetime.datetime.today()
+      t = nowTime - self.startTime
+      s = str(t).split(':')
+      s2 = s[2].split('.')
+      if len(s2) == 1:
+       s2.append('00')
+      self.clock.setText(':'.join(s[:2])+':'+s2[0]+'\''+s2[1][:1])
+      #self.clock.setText( str( int( round( task.time ) ) ) ) 
+      return task.cont 
+      
   def setup(self):
+    self.startTime = datetime.datetime.today()
+    self.clock = OnscreenText(scale = .15, mayChange = True, pos= (-0.8,0.87), fg= (1,1,1,1))
+    
+    self.timerTask = taskMgr.add( self.timer, 'Timer' )
+    
     self.worldNP = render.attachNewNode('World')
 
+    self.H_anterior = base.camera.getH()
+    
     # World
     self.debugNP = self.worldNP.attachNewNode(BulletDebugNode('Debug'))
     self.debugNP.show()
@@ -177,7 +205,7 @@ class Game(DirectObject):
     self.world.attachRigidBody(np.node())
 
     # Loading plataformas
-    self.plataformas = Plataformas(self.worldNP,self.world,50)
+    self.plataformas = Plataformas(self,self.worldNP,self.world,50)
 
     # Loading Character
     self.avatar = Avatar(self.worldNP,self.world)

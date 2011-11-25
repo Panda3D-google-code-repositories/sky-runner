@@ -22,7 +22,7 @@ class Avatar(DirectObject):
 
         node = BulletCharacterControllerNode(shape, 0.4, 'Player')
         np = worldNP.attachNewNode(node)
-        np.setPos(-2, 0, 14)
+        np.setPos(-30, 0, 14)
         np.setH(45)
         np.setCollideMask(BitMask32.allOn())
 
