@@ -43,7 +43,7 @@ class World( DirectObject ):
 
     def __init__( self ):
         
-        self.keyMap = { "w":0, "a":0, "s":0, "d":0, "c":0 }
+        self.keyMap = { "w":0, "a":0, "s":0, "d":0 }
         base.win.setClearColor( Vec4( 0, 0, 0, 1 ) )
 
         # Make the mouse invisible, turn off normal mouse controls
@@ -73,7 +73,7 @@ class World( DirectObject ):
         # mesh -- a mesh which is optimized for collision, not rendering.
         # It also keeps the original mesh, so there are now two copies ---
         # one optimized for rendering, one for collisions.  
-        self.environ = loader.loadModel("models/world")      
+        self.environ = loader.loadModel("models/world")
         self.environ.reparentTo(render)
         self.environ.setPos(0,0,0)
         
@@ -128,34 +128,38 @@ class World( DirectObject ):
         self.cTrav = CollisionTraverser()
 
         self.ralphGroundRay = CollisionRay()
-        self.ralphGroundRay.setOrigin(0,0,1000)
+        self.ralphGroundRay.setOrigin(0,0,5)
         self.ralphGroundRay.setDirection(0,0,-1)
-        self.ralphGroundCol = CollisionNode('ralphRay')
-        self.ralphGroundCol.addSolid(self.ralphGroundRay)
+
+        self.ralphGroundCol = CollisionNode( 'ralphRay' )
+        self.ralphGroundCol.addSolid( self.ralphGroundRay )
         self.ralphGroundCol.setFromCollideMask(BitMask32.bit(0))
         self.ralphGroundCol.setIntoCollideMask(BitMask32.allOff())
-        self.ralphGroundColNp = self.ralph.attachNewNode(self.ralphGroundCol)
+
+        self.ralphGroundColNp = self.ralph.attachNewNode( self.ralphGroundCol )
         self.ralphGroundHandler = CollisionHandlerQueue()
-        self.cTrav.addCollider(self.ralphGroundColNp, self.ralphGroundHandler)
+        self.cTrav.addCollider( self.ralphGroundColNp, self.ralphGroundHandler )
 
         self.camGroundRay = CollisionRay()
         self.camGroundRay.setOrigin(0,0,1000)
         self.camGroundRay.setDirection(0,0,-1)
-        self.camGroundCol = CollisionNode('camRay')
-        self.camGroundCol.addSolid(self.camGroundRay)
+
+        self.camGroundCol = CollisionNode( 'camRay' )
+        self.camGroundCol.addSolid( self.camGroundRay )
         self.camGroundCol.setFromCollideMask(BitMask32.bit(0))
         self.camGroundCol.setIntoCollideMask(BitMask32.allOff())
-        self.camGroundColNp = base.camera.attachNewNode(self.camGroundCol)
+
+        self.camGroundColNp = base.camera.attachNewNode( self.camGroundCol )
         self.camGroundHandler = CollisionHandlerQueue()
-        self.cTrav.addCollider(self.camGroundColNp, self.camGroundHandler)
+        self.cTrav.addCollider( self.camGroundColNp, self.camGroundHandler )
 
         # Uncomment this line to see the collision rays
-        #self.ralphGroundColNp.show()
-        #self.camGroundColNp.show()
+        self.ralphGroundColNp.show()
+        self.camGroundColNp.show()
        
         # Uncomment this line to show a visual representation of the 
         # collisions occuring
-        #self.cTrav.showCollisions(render)
+        self.cTrav.showCollisions(render)
         
         # Create some lighting
         ambientLight = AmbientLight("ambientLight")
@@ -270,7 +274,7 @@ class World( DirectObject ):
         # update his Z. If it hit anything else, or didn't hit anything, put
         # him back where he was last frame.
         entries = []
-        for i in range(self.ralphGroundHandler.getNumEntries()):
+        for i in range( self.ralphGroundHandler.getNumEntries() ):
             entry = self.ralphGroundHandler.getEntry(i)
             entries.append(entry)
         entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
@@ -289,7 +293,7 @@ class World( DirectObject ):
             # Keep the camera at one foot above the terrain,
             # or two feet above ralph, whichever is greater.
             entries = []
-            for i in range(self.camGroundHandler.getNumEntries()):
+            for i in range( self.camGroundHandler.getNumEntries() ):
                 entry = self.camGroundHandler.getEntry(i)
                 entries.append(entry)
             entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
