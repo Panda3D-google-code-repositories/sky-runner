@@ -4,15 +4,6 @@ class Player( object ):
 
     KeyMap = { "w":0, "a":0, "s":0, "d":0, "space":0 }
 
-    FORWARD  = Vec3( 0, 2, 0)
-    BACKWARD = Vec3( 0,-1, 0)
-    LEFT     = Vec3(-1, 0, 0)
-    RIGHT    = Vec3( 1, 0, 0)
-    STOP     = Vec3( 0, 0, 0)
-
-    Walk   = STOP
-    Strafe = STOP
-
     Accel = 100
     PassiveDeaccel = Accel * 2
     ActiveDeaccel  = Accel * 4
@@ -148,8 +139,6 @@ class Player( object ):
             # Accelerate forward
             if self.KeyMap["w"] == 1:
 
-                self.Walk = self.FORWARD
-
                 if self.CurSpeed < 0:
                     self.CurSpeed += self.ActiveDeaccel * globalClock.getDt()
                 else:
@@ -160,8 +149,6 @@ class Player( object ):
 
             # Accelerate backward
             elif self.KeyMap["s"] == 1:
-
-                self.Walk = self.BACKWARD
 
                 if self.CurSpeed > 0:
                     self.CurSpeed -= self.ActiveDeaccel * globalClock.getDt()
@@ -174,12 +161,11 @@ class Player( object ):
             # If not going forward or backward, slow down until speed is 0
             else:
 
-                self.Walk = self.STOP
-
                 if self.CurSpeed > 0:
                     self.CurSpeed -= self.PassiveDeaccel * globalClock.getDt()
                     if self.CurSpeed < 0:
                         self.CurSpeed = 0
+
                 elif self.CurSpeed < 0:
                     self.CurSpeed += self.PassiveDeaccel * globalClock.getDt()
                     if self.CurSpeed > 0:
@@ -187,8 +173,6 @@ class Player( object ):
 
             # Left/Right movement
             if self.KeyMap["d"] == 1:
-
-                self.Strafe = self.RIGHT
 
                 if self.CurStrafeSpeed < 0:
                     self.CurStrafeSpeed += self.ActiveDeaccel * globalClock.getDt()
@@ -200,8 +184,6 @@ class Player( object ):
 
             elif self.KeyMap["a"] == 1:
 
-                self.Strafe = self.LEFT
-
                 if self.CurStrafeSpeed > 0:
                     self.CurStrafeSpeed -= self.ActiveDeaccel * globalClock.getDt()
                 else:
@@ -212,12 +194,11 @@ class Player( object ):
 
             else:
 
-                self.Strafe = self.STOP
-
                 if self.CurStrafeSpeed > 0:
                     self.CurStrafeSpeed -= self.PassiveDeaccel * globalClock.getDt()
                     if self.CurStrafeSpeed < 0:
                         self.CurStrafeSpeed = 0
+
                 elif self.CurStrafeSpeed < 0:
                     self.CurStrafeSpeed += self.PassiveDeaccel * globalClock.getDt()
                     if self.CurStrafeSpeed > 0:
@@ -284,7 +265,7 @@ class Player( object ):
             self.CurJumpMomentum = self.MaxJumpMomentum
             self.Jumping = True
 
-            # Jumping in a certain direction can give you momentum, at the price of lower jump height
+            # Jumping in a certain direction can give you horizontal momentum, at the price of vertical momentum
             if self.KeyMap["w"] == 0:
                 if self.KeyMap["s"] == 1:
                     self.CurJumpMomentum *= 0.8
