@@ -1,7 +1,8 @@
 import direct.directbase.DirectStart
+import sys
 from pandac.PandaModules import *
 from direct.gui.OnscreenText import OnscreenText
-import sys
+from player import Player
 
 class Game(object):
 
@@ -10,6 +11,7 @@ class Game(object):
         self.initCollision()
         self.loadLevel()
         self.initPlayer()
+
         base.accept( "escape" , sys.exit)
 
         # Make the mouse invisible, turn off normal mouse controls
@@ -18,10 +20,22 @@ class Game(object):
         props.setCursorHidden( True )
         base.win.requestProperties( props )
 
-        OnscreenText(text="Sky-Runner: Mirror's Edge-like Game", style=1, fg=(1,0,0,1),
-                    pos=(1.3,-0.95), align=TextNode.ARight, scale = .07)
-        #OnscreenText(text=__doc__, style=1, fg=(1,1,1,1),
-        #            pos=(-1.3, 0.95), align=TextNode.ALeft, scale = .05)
+        OnscreenText(text = "Sky-Runner: Mirror's Edge-like Game", style = 1, fg=( 1, 0, 0, 1 ),
+                    pos = ( 1.32, -0.98 ), align=TextNode.ARight, scale = .07 )
+        OnscreenText(text = "[ESC]: Quit", style = 1, fg = ( 1, 0, 0, 1 ),
+                    pos = ( -1.33, 0.95 ), align = TextNode.ALeft, scale = .05 )
+        OnscreenText(text = "[mouse]: Move Camera", style = 1, fg = ( 1, 0, 0, 1 ),
+                    pos = ( -1.33, 0.90 ), align = TextNode.ALeft, scale = .05 )
+        OnscreenText(text = "[W]: Move Forward", style = 1, fg = ( 1, 0, 0, 1 ),
+                    pos = ( -1.33, 0.85 ), align = TextNode.ALeft, scale = .05 )
+        OnscreenText(text = "[S]: Move Backward", style = 1, fg = ( 1, 0, 0, 1 ),
+                    pos = ( -1.33, 0.80 ), align = TextNode.ALeft, scale = .05 )
+        OnscreenText(text = "[A]: Strafe Left", style = 1, fg = ( 1, 0, 0, 1 ),
+                    pos = ( -1.33, 0.75 ), align = TextNode.ALeft, scale = .05 )
+        OnscreenText(text = "[D]: Strafe Right", style = 1, fg = ( 1, 0, 0, 1 ),
+                    pos = ( -1.33, 0.70 ), align = TextNode.ALeft, scale = .05 )
+        OnscreenText(text = "[space]: Jump", style = 1, fg = ( 1, 0, 0, 1 ),
+                    pos = ( -1.33, 0.65 ), align = TextNode.ALeft, scale = .05 )
 
 
     def initCollision(self):
@@ -46,182 +60,5 @@ class Game(object):
         """ loads the player and creates all the controls for him"""
         self.player = Player()
 
-
-class Player(object):
-
-    MouseSensitivity = 0.2 # Higher value means faster mouse movement
-    Speed = 30
-
-    FORWARD = Vec3( 0, 2, 0)
-    BACK    = Vec3( 0,-1, 0)
-    LEFT    = Vec3(-1, 0, 0)
-    RIGHT   = Vec3( 1, 0, 0)
-    STOP    = Vec3( 0, 0, 0)
-
-    walk   = STOP
-    strafe = STOP
-
-    Jumping         = False
-    ReadyToJump     = False
-    CurJumpMomentum = 0
-    MaxJumpMomentum = 3 # Higher value results in higher jumps
-    JumpMultiplier  = 7 # Higher value will cause player to rise and fall faster
-
-    CameraCurTilt = 0
-    CameraMaxTilt = 0.016 # Higher value results in wider tilts
-    CameraTiltDt  = 0.15  # Higher value results in faster tilts
-
-
-    def __init__(self):
-        """ inits the player """
-        self.loadModel()
-        self.setUpCamera()
-        self.createCollisions()
-        self.attachControls()
-
-        taskMgr.add( self.mouseUpdate, 'mouse-task' )
-        taskMgr.add( self.moveUpdate,  'move-task'  )
-        taskMgr.add( self.jumpUpdate,  'jump-task'  )
-
-
-    def loadModel(self):
-        """ make the nodepath for player """
-        self.player = NodePath('player')
-        self.player.reparentTo(render)
-        self.player.setPos(0,0,2)
-        self.player.setScale(.05)
-
-
-    def setUpCamera(self):
-        """ puts camera at the players node """
-        pl =  base.cam.node().getLens()
-        pl.setFov(80)
-        base.cam.node().setLens(pl)
-        base.camera.reparentTo(self.player)
-
-
-    def createCollisions(self):
-        """ create a collision solid and ray for the player """
-        cn = CollisionNode('player')
-        cn.addSolid(CollisionSphere(0,0,0,3))
-        solid = self.player.attachNewNode(cn)
-        base.cTrav.addCollider(solid,base.pusher)
-        base.pusher.addCollider(solid,self.player, base.drive.node())
-
-        # init players floor collisions
-        ray = CollisionRay()
-        ray.setOrigin(0,0,-.2)
-        ray.setDirection(0,0,-1)
-        cn = CollisionNode('playerRay')
-        cn.addSolid(ray)
-        cn.setFromCollideMask(BitMask32.bit(0))
-        cn.setIntoCollideMask(BitMask32.allOff())
-        solid = self.player.attachNewNode(cn)
-        self.playerGroundHandler = CollisionHandlerQueue()
-        base.cTrav.addCollider(solid, self.playerGroundHandler)
-
-
-    def attachControls(self):
-        """ attach key events """
-        base.accept( "space" ,    self.__setattr__, [ "ReadyToJump", True  ] )
-        base.accept( "space-up" , self.__setattr__, [ "ReadyToJump", False ] )
-        base.accept( "w" ,    self.__setattr__, [ "walk", self.FORWARD ] )
-        base.accept( "w-up" , self.__setattr__, [ "walk", self.STOP    ] )
-        base.accept( "s" ,    self.__setattr__, [ "walk", self.BACK    ] )
-        base.accept( "s-up" , self.__setattr__, [ "walk", self.STOP    ] )
-        base.accept( "a" ,    self.__setattr__, [ "strafe", self.LEFT  ] )
-        base.accept( "a-up" , self.__setattr__, [ "strafe", self.STOP  ] )
-        base.accept( "d" ,    self.__setattr__, [ "strafe", self.RIGHT ] )
-        base.accept( "d-up" , self.__setattr__, [ "strafe", self.STOP  ] )
-
-
-    def mouseUpdate(self,task):
-
-        md = base.win.getPointer(0)
-        x = md.getX()
-        y = md.getY()
-        if base.win.movePointer( 0, base.win.getXSize()/2, base.win.getYSize()/2 ):
-            self.player.setH( self.player.getH() - ( x - base.win.getXSize() / 2 ) * self.MouseSensitivity )
-            base.camera.setP( base.camera.getP() - ( y - base.win.getYSize() / 2 ) * self.MouseSensitivity )
-
-        return task.cont
-
-
-    def moveUpdate(self,task): 
-
-        self.player.setPos( self.player, self.walk   * self.Speed * globalClock.getDt() )
-        self.player.setPos( self.player, self.strafe * self.Speed * globalClock.getDt() )
-
-        if self.walk == self.FORWARD or self.walk == self.BACK:
-
-            base.camera.setR( base.camera.getR() + self.CameraCurTilt )
-            self.CameraCurTilt += self.CameraTiltDt * globalClock.getDt()
-
-            if self.CameraCurTilt > self.CameraMaxTilt:
-                self.CameraCurTilt = self.CameraMaxTilt
-                self.CameraTiltDt *= -1
-            else:
-                if self.CameraCurTilt < -self.CameraMaxTilt:
-                    self.CameraCurTilt = -self.CameraMaxTilt
-                    self.CameraTiltDt *= -1
-
-        else:
-            """
-            if self.strafe == self.LEFT:
-                base.camera.setR( 1 - self.CameraMaxTilt )
-            else:
-                if self.strafe == self.RIGHT:
-                    base.camera.setR( 1 + self.CameraMaxTilt )
-                else:
-                    base.camera.setR(0)
-            """
-            base.camera.setR(0)
-
-        if self.Jumping == True:
-            base.camera.setR(0)
-
-        return task.cont
-
-
-    def jumpUpdate(self,task):
-
-        # get the highest Z from the down casting ray
-        highestZ = -1000
-        for i in range( self.playerGroundHandler.getNumEntries() ):
-            entry = self.playerGroundHandler.getEntry(i)
-            z = entry.getSurfacePoint(render).getZ()
-            if z > highestZ and entry.getIntoNode().getName() == "Cube":
-                highestZ = z
-
-        # gravity effects and jumps
-        """
-        self.player.setZ( self.player.getZ() + self.CurJumpMomentum * self.JumpMultiplier * globalClock.getDt() )
-        self.CurJumpMomentum -= self.JumpMultiplier * globalClock.getDt()
-        if highestZ > self.player.getZ() - 0.3:
-            self.CurJumpMomentum = 0
-            self.player.setZ( highestZ + 0.3 )
-            if self.ReadyToJump:
-                self.CurJumpMomentum = self.MaxJumpMomentum
-        """
-
-        self.player.setZ( self.player.getZ() + self.CurJumpMomentum * globalClock.getDt() )
-        self.CurJumpMomentum -= self.JumpMultiplier * globalClock.getDt()
-
-        zdif = self.player.getZ() - highestZ
-
-        if zdif >= 0.35:
-            self.Jumping = True
-        else:
-            if zdif < 0.3 or ( zdif < 0.35 and self.Jumping == False ):
-                self.player.setZ( highestZ + 0.3 )
-                self.CurJumpMomentum = 0
-                self.Jumping = False
-
-        if self.ReadyToJump == True and self.Jumping == False:
-            self.CurJumpMomentum = self.MaxJumpMomentum
-            self.Jumping = True
-
-        return task.cont
-
 Game()
-run() 
+run()
