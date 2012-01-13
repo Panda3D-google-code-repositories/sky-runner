@@ -97,12 +97,12 @@ class Player( object ):
         base.cTrav.addCollider( self.forwardColNp, self.forwardHandler )
 
         # Uncomment this line to see the collision rays
-        self.groundColNp.show()
-        self.forwardColNp.show()
+        #self.groundColNp.show()
+        #self.forwardColNp.show()
 
         # Uncomment this line to show a visual representation of the 
         # collisions occuring
-        base.cTrav.showCollisions(render)
+        #base.cTrav.showCollisions(render)
        
 
     def attachControls( self ):
@@ -280,20 +280,24 @@ class Player( object ):
             self.Jumping = False
 
         if self.KeyMap["space"] == 1 and self.Jumping == False:
+
             self.CurJumpMomentum = self.MaxJumpMomentum
             self.Jumping = True
 
-            # Jumping in a certain direction can give you momentum
+            # Jumping in a certain direction can give you momentum, at the price of lower jump height
             if self.KeyMap["w"] == 0:
                 if self.KeyMap["s"] == 1:
+                    self.CurJumpMomentum *= 0.8
                     if self.CurSpeed > 0:
-                        self.CurSpeed = - ( self.MaxSpeed / 2 ) + ( self.CurSpeed * 0.25 )
+                        self.CurSpeed = - self.MaxSpeed / 2 + self.CurSpeed * 0.25
                     else:
                         self.CurSpeed = - self.MaxSpeed / 2
                 elif self.KeyMap["d"] == 1:
+                    self.CurJumpMomentum *= 0.8
                     self.CurSpeed *= 0.1
                     self.CurStrafeSpeed = self.MaxStrafeSpeed*1.5
                 elif self.KeyMap["a"] == 1:
+                    self.CurJumpMomentum *= 0.8
                     self.CurSpeed *= 0.1
                     self.CurStrafeSpeed = -self.MaxStrafeSpeed*1.5
 
