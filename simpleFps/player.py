@@ -115,6 +115,7 @@ class Player( object ):
 
     def moveUpdate( self, task ):
 
+        # Only let player alter his course if not jumping (he can still alter it by moving the camera, though)
         if self.Jumping == False:
 
             # Accelerate forward
@@ -157,7 +158,7 @@ class Player( object ):
                     if self.CurSpeed > 0:
                         self.CurSpeed = 0
 
-            # If not jumping, let the player move left and right
+            # Left/Right movement
             if self.KeyMap["a"] == 1:
                 self.Strafe = self.LEFT
             elif self.KeyMap["d"] == 1:
@@ -165,12 +166,15 @@ class Player( object ):
             else:
                 self.Strafe = self.STOP
 
+        # Update player position
         self.player.setY( self.player, self.CurSpeed * globalClock.getDt() )
         self.player.setPos( self.player, self.Strafe * self.StrafeSpeed * globalClock.getDt() )
 
-        # Camera tilts from the player running
+        # Shake camera when player is running
+        # Don't shake camera when player is stopped or in mid-air
         if self.CurSpeed != 0:
 
+            # The camera will shake most when MaxSpeed is reached
             relSpeed = self.CurSpeed / self.MaxSpeed
             if self.CurSpeed < 0: relSpeed *= -1
 

@@ -20,7 +20,7 @@ class Game( object ):
         props.setCursorHidden( True )
         base.win.requestProperties( props )
 
-        OnscreenText(text = "Sky-Runner: Mirror's Edge-like Game", style = 1, fg=( 1, 0, 0, 1 ),
+        OnscreenText(text = "Sky-Runner: Mirror's Edge-like Game", style = 1, fg = ( 1, 0, 0, 1 ),
                     pos = ( 1.32, -0.98 ), align=TextNode.ARight, scale = .07 )
         OnscreenText(text = "[ESC]: Quit", style = 1, fg = ( 1, 0, 0, 1 ),
                     pos = ( -1.33, 0.95 ), align = TextNode.ALeft, scale = .05 )
