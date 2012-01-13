@@ -13,14 +13,14 @@ class Player( object ):
     Walk   = STOP
     Strafe = STOP
 
-    Accel    = 80
+    Accel    = 70
     PassiveDeaccel = Accel * 2
     ActiveDeaccel  = Accel * 4
     MaxSpeed = 100
     CurSpeed = 0
     StrafeSpeed = 30
 
-    Jumping         = False
+    Jumping = False
     CurJumpMomentum = 0
     MaxJumpMomentum = 3 # Higher value results in higher jumps
     JumpMultiplier  = 7 # Higher value will cause player to rise and fall faster
@@ -115,51 +115,49 @@ class Player( object ):
 
     def moveUpdate( self, task ):
 
-        # Accelerate forward
-        if self.KeyMap["w"] == 1:
-            if self.Jumping == False:
-
-                self.Walk = self.FORWARD
-
-                if self.CurSpeed < 0:
-                    self.CurSpeed += self.ActiveDeaccel * globalClock.getDt()
-                else:
-                    self.CurSpeed += self.Accel * globalClock.getDt()
-
-                if self.CurSpeed > self.MaxSpeed:
-                    self.CurSpeed = self.MaxSpeed
-
-        # Accelerate backward
-        elif self.KeyMap["s"] == 1:
-            if self.Jumping == False:
-
-                self.Walk = self.BACKWARD
-
-                if self.CurSpeed > 0:
-                    self.CurSpeed -= self.ActiveDeaccel * globalClock.getDt()
-                else:
-                    self.CurSpeed -= self.Accel * globalClock.getDt()
-
-                if self.CurSpeed < -self.MaxSpeed/2:
-                    self.CurSpeed = -self.MaxSpeed/2
-
-        # If not going forward or backward, slow down until speed is 0
-        else:
-
-            self.Walk = self.STOP
-
-            if self.CurSpeed > 0:
-                self.CurSpeed -= self.PassiveDeaccel * globalClock.getDt()
-                if self.CurSpeed < 0:
-                    self.CurSpeed = 0
-            elif self.CurSpeed < 0:
-                self.CurSpeed += self.PassiveDeaccel * globalClock.getDt()
-                if self.CurSpeed > 0:
-                    self.CurSpeed = 0
-
-        # If not jumping, let the player move left and right
         if self.Jumping == False:
 
+            # Accelerate forward
+            if self.KeyMap["w"] == 1:
+
+                    self.Walk = self.FORWARD
+
+                    if self.CurSpeed < 0:
+                        self.CurSpeed += self.ActiveDeaccel * globalClock.getDt()
+                    else:
+                        self.CurSpeed += self.Accel * globalClock.getDt()
+
+                    if self.CurSpeed > self.MaxSpeed:
+                        self.CurSpeed = self.MaxSpeed
+
+            # Accelerate backward
+            elif self.KeyMap["s"] == 1:
+
+                    self.Walk = self.BACKWARD
+
+                    if self.CurSpeed > 0:
+                        self.CurSpeed -= self.ActiveDeaccel * globalClock.getDt()
+                    else:
+                        self.CurSpeed -= self.Accel * globalClock.getDt()
+
+                    if self.CurSpeed < -self.MaxSpeed/2:
+                        self.CurSpeed = -self.MaxSpeed/2
+
+            # If not going forward or backward, slow down until speed is 0
+            else:
+
+                self.Walk = self.STOP
+
+                if self.CurSpeed > 0:
+                    self.CurSpeed -= self.PassiveDeaccel * globalClock.getDt()
+                    if self.CurSpeed < 0:
+                        self.CurSpeed = 0
+                elif self.CurSpeed < 0:
+                    self.CurSpeed += self.PassiveDeaccel * globalClock.getDt()
+                    if self.CurSpeed > 0:
+                        self.CurSpeed = 0
+
+            # If not jumping, let the player move left and right
             if self.KeyMap["a"] == 1:
                 self.Strafe = self.LEFT
             elif self.KeyMap["d"] == 1:
