@@ -115,30 +115,35 @@ class Player( object ):
 
     def moveUpdate( self, task ):
 
+        # Accelerate forward
         if self.KeyMap["w"] == 1:
+            if self.Jumping == False:
 
-            self.Walk = self.FORWARD
+                self.Walk = self.FORWARD
 
-            if self.CurSpeed < 0:
-                self.CurSpeed += self.ActiveDeaccel * globalClock.getDt()
-            else:
-                self.CurSpeed += self.Accel * globalClock.getDt()
+                if self.CurSpeed < 0:
+                    self.CurSpeed += self.ActiveDeaccel * globalClock.getDt()
+                else:
+                    self.CurSpeed += self.Accel * globalClock.getDt()
 
-            if self.CurSpeed > self.MaxSpeed:
-                self.CurSpeed = self.MaxSpeed
+                if self.CurSpeed > self.MaxSpeed:
+                    self.CurSpeed = self.MaxSpeed
 
+        # Accelerate backward
         elif self.KeyMap["s"] == 1:
+            if self.Jumping == False:
 
-            self.Walk = self.BACKWARD
+                self.Walk = self.BACKWARD
 
-            if self.CurSpeed > 0:
-                self.CurSpeed -= self.ActiveDeaccel * globalClock.getDt()
-            else:
-                self.CurSpeed -= self.Accel * globalClock.getDt()
+                if self.CurSpeed > 0:
+                    self.CurSpeed -= self.ActiveDeaccel * globalClock.getDt()
+                else:
+                    self.CurSpeed -= self.Accel * globalClock.getDt()
 
-            if self.CurSpeed < -self.MaxSpeed/2:
-                self.CurSpeed = -self.MaxSpeed/2
+                if self.CurSpeed < -self.MaxSpeed/2:
+                    self.CurSpeed = -self.MaxSpeed/2
 
+        # If not going forward or backward, slow down until speed is 0
         else:
 
             self.Walk = self.STOP
@@ -152,6 +157,7 @@ class Player( object ):
                 if self.CurSpeed > 0:
                     self.CurSpeed = 0
 
+        # If not jumping, let the player move left and right
         if self.Jumping == False:
 
             if self.KeyMap["a"] == 1:
