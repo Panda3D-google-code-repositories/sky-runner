@@ -13,12 +13,13 @@ class Player( object ):
     Walk   = STOP
     Strafe = STOP
 
-    Accel    = 70
+    Accel = 100
     PassiveDeaccel = Accel * 2
     ActiveDeaccel  = Accel * 4
-    MaxSpeed = 100
     CurSpeed = 0
-    StrafeSpeed = 30
+    MaxSpeed = 100
+    CurStrafeSpeed = 0
+    MaxStrafeSpeed = 40
 
     Jumping = False
     CurJumpMomentum = 0
@@ -45,39 +46,64 @@ class Player( object ):
 
     def loadModel( self ):
         """ make the nodepath for player """
-        self.player = NodePath('player')
-        self.player.reparentTo(render)
-        self.player.setPos(0,0,2)
-        self.player.setScale(.05)
+        self.player = NodePath( 'player' )
+        self.player.reparentTo( render )
+        self.player.setPos( 0, 0, 2 )
+        self.player.setScale( .05 )
 
 
     def setUpCamera( self ):
         """ puts camera at the players node """
         pl =  base.cam.node().getLens()
-        pl.setFov(self.CameraFOV)
-        base.cam.node().setLens(pl)
-        base.camera.reparentTo(self.player)
+        pl.setFov( self.CameraFOV )
+        base.cam.node().setLens( pl )
+        base.camera.reparentTo( self.player )
 
 
     def createCollisions( self ):
         """ create a collision solid and ray for the player """
-        cn = CollisionNode('player')
-        cn.addSolid(CollisionSphere(0,0,0,3))
-        solid = self.player.attachNewNode(cn)
-        base.cTrav.addCollider(solid,base.pusher)
-        base.pusher.addCollider(solid,self.player, base.drive.node())
-        # init players floor collisions
-        ray = CollisionRay()
-        ray.setOrigin(0,0,-.2)
-        ray.setDirection(0,0,-1)
-        cn = CollisionNode('playerRay')
-        cn.addSolid(ray)
-        cn.setFromCollideMask(BitMask32.bit(0))
-        cn.setIntoCollideMask(BitMask32.allOff())
-        solid = self.player.attachNewNode(cn)
-        self.playerGroundHandler = CollisionHandlerQueue()
-        base.cTrav.addCollider(solid, self.playerGroundHandler)
+        cn = CollisionNode( 'player' )
+        cn.addSolid( CollisionSphere( 0, 0, 0, 3 ) )
+        solid = self.player.attachNewNode( cn )
+        base.cTrav.addCollider( solid, base.pusher )
+        base.pusher.addCollider( solid, self.player, base.drive.node() )
 
+        # init player's floor collisions
+        self.groundRay = CollisionRay()
+        self.groundRay.setOrigin( 0, 0, -.2 )
+        self.groundRay.setDirection( 0, 0, -1 )
+
+        self.groundCol = CollisionNode( 'playerGroundRay' )
+        self.groundCol.addSolid( self.groundRay )
+        self.groundCol.setFromCollideMask( BitMask32.bit(0) )
+        self.groundCol.setIntoCollideMask( BitMask32.allOff() )
+
+        self.groundColNp = self.player.attachNewNode( self.groundCol )
+        self.groundHandler = CollisionHandlerQueue()
+        base.cTrav.addCollider( self.groundColNp, self.groundHandler )
+
+        # init player's forward collisions
+        self.forwardRay = CollisionRay()
+        self.forwardRay.setOrigin( 0, 0, -.2 )
+        self.forwardRay.setDirection( 0, 1, 0 )
+
+        self.forwardCol = CollisionNode( 'playerForwardRay' )
+        self.forwardCol.addSolid( self.forwardRay )
+        self.forwardCol.setFromCollideMask( BitMask32.bit(0) )
+        self.forwardCol.setIntoCollideMask( BitMask32.allOff() )
+
+        self.forwardColNp = self.player.attachNewNode( self.forwardCol )
+        self.forwardHandler = CollisionHandlerQueue()
+        base.cTrav.addCollider( self.forwardColNp, self.forwardHandler )
+
+        # Uncomment this line to see the collision rays
+        self.groundColNp.show()
+        self.forwardColNp.show()
+
+        # Uncomment this line to show a visual representation of the 
+        # collisions occuring
+        base.cTrav.showCollisions(render)
+       
 
     def attachControls( self ):
         """ attach key events """
@@ -104,6 +130,7 @@ class Player( object ):
         y = md.getY()
 
         if base.win.movePointer( 0, base.win.getXSize()/2, base.win.getYSize()/2 ):
+
             self.player.setH( self.player.getH() - ( x - base.win.getXSize() / 2 ) * self.MouseSensitivity )
             pitch = base.camera.getP() - ( y - base.win.getYSize() / 2 ) * self.MouseSensitivity
             if pitch < -self.PitchMax: pitch = -self.PitchMax
@@ -121,28 +148,28 @@ class Player( object ):
             # Accelerate forward
             if self.KeyMap["w"] == 1:
 
-                    self.Walk = self.FORWARD
+                self.Walk = self.FORWARD
 
-                    if self.CurSpeed < 0:
-                        self.CurSpeed += self.ActiveDeaccel * globalClock.getDt()
-                    else:
-                        self.CurSpeed += self.Accel * globalClock.getDt()
+                if self.CurSpeed < 0:
+                    self.CurSpeed += self.ActiveDeaccel * globalClock.getDt()
+                else:
+                    self.CurSpeed += self.Accel * globalClock.getDt()
 
-                    if self.CurSpeed > self.MaxSpeed:
-                        self.CurSpeed = self.MaxSpeed
+                if self.CurSpeed > self.MaxSpeed:
+                    self.CurSpeed = self.MaxSpeed
 
             # Accelerate backward
             elif self.KeyMap["s"] == 1:
 
-                    self.Walk = self.BACKWARD
+                self.Walk = self.BACKWARD
 
-                    if self.CurSpeed > 0:
-                        self.CurSpeed -= self.ActiveDeaccel * globalClock.getDt()
-                    else:
-                        self.CurSpeed -= self.Accel * globalClock.getDt()
+                if self.CurSpeed > 0:
+                    self.CurSpeed -= self.ActiveDeaccel * globalClock.getDt()
+                else:
+                    self.CurSpeed -= self.Accel * globalClock.getDt()
 
-                    if self.CurSpeed < -self.MaxSpeed/2:
-                        self.CurSpeed = -self.MaxSpeed/2
+                if self.CurSpeed < -self.MaxSpeed/2:
+                    self.CurSpeed = -self.MaxSpeed/2
 
             # If not going forward or backward, slow down until speed is 0
             else:
@@ -159,16 +186,46 @@ class Player( object ):
                         self.CurSpeed = 0
 
             # Left/Right movement
-            if self.KeyMap["a"] == 1:
-                self.Strafe = self.LEFT
-            elif self.KeyMap["d"] == 1:
+            if self.KeyMap["d"] == 1:
+
                 self.Strafe = self.RIGHT
+
+                if self.CurStrafeSpeed < 0:
+                    self.CurStrafeSpeed += self.ActiveDeaccel * globalClock.getDt()
+                else:
+                    self.CurStrafeSpeed += self.Accel * globalClock.getDt()
+
+                if self.CurStrafeSpeed > self.MaxStrafeSpeed:
+                    self.CurStrafeSpeed = self.MaxStrafeSpeed
+
+            elif self.KeyMap["a"] == 1:
+
+                self.Strafe = self.LEFT
+
+                if self.CurStrafeSpeed > 0:
+                    self.CurStrafeSpeed -= self.ActiveDeaccel * globalClock.getDt()
+                else:
+                    self.CurStrafeSpeed -= self.Accel * globalClock.getDt()
+
+                if self.CurStrafeSpeed < -self.MaxStrafeSpeed:
+                    self.CurStrafeSpeed = -self.MaxStrafeSpeed
+
             else:
+
                 self.Strafe = self.STOP
+
+                if self.CurStrafeSpeed > 0:
+                    self.CurStrafeSpeed -= self.PassiveDeaccel * globalClock.getDt()
+                    if self.CurStrafeSpeed < 0:
+                        self.CurStrafeSpeed = 0
+                elif self.CurStrafeSpeed < 0:
+                    self.CurStrafeSpeed += self.PassiveDeaccel * globalClock.getDt()
+                    if self.CurStrafeSpeed > 0:
+                        self.CurStrafeSpeed = 0
 
         # Update player position
         self.player.setY( self.player, self.CurSpeed * globalClock.getDt() )
-        self.player.setPos( self.player, self.Strafe * self.StrafeSpeed * globalClock.getDt() )
+        self.player.setX( self.player, self.CurStrafeSpeed * globalClock.getDt() )
 
         # Shake camera when player is running
         # Don't shake camera when player is stopped or in mid-air
@@ -189,9 +246,11 @@ class Player( object ):
                 self.CameraRollDt *= -1
 
         else:
+            self.CameraCurRoll = 0
             base.camera.setR(0)
 
         if self.Jumping == True:
+            self.CameraCurRoll = 0
             base.camera.setR(0)
 
         return task.cont
@@ -199,15 +258,15 @@ class Player( object ):
 
     def jumpUpdate( self, task ):
 
-        # get the highest Z from the down casting ray
+        # Get the highest Z from the down casting ray
         highestZ = -1000
-        for i in range( self.playerGroundHandler.getNumEntries() ):
-            entry = self.playerGroundHandler.getEntry(i)
+        for i in range( self.groundHandler.getNumEntries() ):
+            entry = self.groundHandler.getEntry(i)
             z = entry.getSurfacePoint(render).getZ()
             if z > highestZ and entry.getIntoNode().getName() == "Cube":
                 highestZ = z
 
-        # gravity effects and jumps
+        # Gravity effects and jumps
         self.player.setZ( self.player.getZ() + self.CurJumpMomentum * globalClock.getDt() )
         self.CurJumpMomentum -= self.JumpMultiplier * globalClock.getDt()
 
@@ -223,5 +282,19 @@ class Player( object ):
         if self.KeyMap["space"] == 1 and self.Jumping == False:
             self.CurJumpMomentum = self.MaxJumpMomentum
             self.Jumping = True
+
+            # Jumping in a certain direction can give you momentum
+            if self.KeyMap["w"] == 0:
+                if self.KeyMap["s"] == 1:
+                    if self.CurSpeed > 0:
+                        self.CurSpeed = - ( self.MaxSpeed / 2 ) + ( self.CurSpeed * 0.25 )
+                    else:
+                        self.CurSpeed = - self.MaxSpeed / 2
+                elif self.KeyMap["d"] == 1:
+                    self.CurSpeed *= 0.1
+                    self.CurStrafeSpeed = self.MaxStrafeSpeed*1.5
+                elif self.KeyMap["a"] == 1:
+                    self.CurSpeed *= 0.1
+                    self.CurStrafeSpeed = -self.MaxStrafeSpeed*1.5
 
         return task.cont
