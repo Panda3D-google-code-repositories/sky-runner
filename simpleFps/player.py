@@ -1,11 +1,8 @@
 from pandac.PandaModules import *
 
-class Player(object):
+class Player( object ):
 
     KeyMap = { "w":0, "a":0, "s":0, "d":0, "space":0 }
-
-    MouseSensitivity = 0.2 # Higher value means faster mouse movement
-    Speed = 30
 
     FORWARD  = Vec3( 0, 2, 0)
     BACKWARD = Vec3( 0,-1, 0)
@@ -16,31 +13,37 @@ class Player(object):
     Walk   = STOP
     Strafe = STOP
 
+    Accel    = 80
+    PassiveDeaccel = Accel * 2
+    ActiveDeaccel  = Accel * 4
+    MaxSpeed = 100
+    CurSpeed = 0
+    StrafeSpeed = 30
+
     Jumping         = False
     CurJumpMomentum = 0
     MaxJumpMomentum = 3 # Higher value results in higher jumps
     JumpMultiplier  = 7 # Higher value will cause player to rise and fall faster
 
+    MouseSensitivity = 0.2 # Higher value means faster camera movement
     CameraFOV     = 80
     CameraCurRoll = 0
     CameraMaxRoll = 0.016 # Higher value results in wider rolls
     CameraRollDt  = 0.15  # Higher value results in faster rolls
     PitchMax      = 60    # Camera can't look up or down past this value
 
-
-    def __init__(self):
+    def __init__( self ):
         """ inits the player """
         self.loadModel()
         self.setUpCamera()
         self.createCollisions()
         self.attachControls()
-
         taskMgr.add( self.mouseUpdate, 'MouseTask' )
         taskMgr.add( self.moveUpdate,  'MoveTask'  )
         taskMgr.add( self.jumpUpdate,  'JumpTask'  )
 
 
-    def loadModel(self):
+    def loadModel( self ):
         """ make the nodepath for player """
         self.player = NodePath('player')
         self.player.reparentTo(render)
@@ -48,7 +51,7 @@ class Player(object):
         self.player.setScale(.05)
 
 
-    def setUpCamera(self):
+    def setUpCamera( self ):
         """ puts camera at the players node """
         pl =  base.cam.node().getLens()
         pl.setFov(self.CameraFOV)
@@ -56,14 +59,13 @@ class Player(object):
         base.camera.reparentTo(self.player)
 
 
-    def createCollisions(self):
+    def createCollisions( self ):
         """ create a collision solid and ray for the player """
         cn = CollisionNode('player')
         cn.addSolid(CollisionSphere(0,0,0,3))
         solid = self.player.attachNewNode(cn)
         base.cTrav.addCollider(solid,base.pusher)
         base.pusher.addCollider(solid,self.player, base.drive.node())
-
         # init players floor collisions
         ray = CollisionRay()
         ray.setOrigin(0,0,-.2)
@@ -77,11 +79,10 @@ class Player(object):
         base.cTrav.addCollider(solid, self.playerGroundHandler)
 
 
-    def attachControls(self):
+    def attachControls( self ):
         """ attach key events """
         base.accept( "space",    self.setKey, [ "space", 1  ] )
         base.accept( "space-up", self.setKey, [ "space", 0  ] )
-
         base.accept( "w",    self.setKey, [ "w", 1  ] )
         base.accept( "w-up", self.setKey, [ "w", 0  ] )
         base.accept( "s",    self.setKey, [ "s", 1  ] )
@@ -96,7 +97,7 @@ class Player(object):
         self.KeyMap[ key ] = value
 
 
-    def mouseUpdate(self,task):
+    def mouseUpdate( self, task ):
 
         md = base.win.getPointer(0)
         x = md.getX()
@@ -112,16 +113,46 @@ class Player(object):
         return task.cont
 
 
-    def moveUpdate(self,task):
+    def moveUpdate( self, task ):
+
+        if self.KeyMap["w"] == 1:
+
+            self.Walk = self.FORWARD
+
+            if self.CurSpeed < 0:
+                self.CurSpeed += self.ActiveDeaccel * globalClock.getDt()
+            else:
+                self.CurSpeed += self.Accel * globalClock.getDt()
+
+            if self.CurSpeed > self.MaxSpeed:
+                self.CurSpeed = self.MaxSpeed
+
+        elif self.KeyMap["s"] == 1:
+
+            self.Walk = self.BACKWARD
+
+            if self.CurSpeed > 0:
+                self.CurSpeed -= self.ActiveDeaccel * globalClock.getDt()
+            else:
+                self.CurSpeed -= self.Accel * globalClock.getDt()
+
+            if self.CurSpeed < -self.MaxSpeed/2:
+                self.CurSpeed = -self.MaxSpeed/2
+
+        else:
+
+            self.Walk = self.STOP
+
+            if self.CurSpeed > 0:
+                self.CurSpeed -= self.PassiveDeaccel * globalClock.getDt()
+                if self.CurSpeed < 0:
+                    self.CurSpeed = 0
+            elif self.CurSpeed < 0:
+                self.CurSpeed += self.PassiveDeaccel * globalClock.getDt()
+                if self.CurSpeed > 0:
+                    self.CurSpeed = 0
 
         if self.Jumping == False:
-
-            if self.KeyMap["w"] == 1:
-                self.Walk = self.FORWARD
-            elif self.KeyMap["s"] == 1:
-                self.Walk = self.BACKWARD
-            else:
-                self.Walk = self.STOP
 
             if self.KeyMap["a"] == 1:
                 self.Strafe = self.LEFT
@@ -130,19 +161,23 @@ class Player(object):
             else:
                 self.Strafe = self.STOP
 
-        self.player.setPos( self.player, self.Walk   * self.Speed * globalClock.getDt() )
-        self.player.setPos( self.player, self.Strafe * self.Speed * globalClock.getDt() )
+        self.player.setY( self.player, self.CurSpeed * globalClock.getDt() )
+        self.player.setPos( self.player, self.Strafe * self.StrafeSpeed * globalClock.getDt() )
 
-        if self.Walk == self.FORWARD or self.Walk == self.BACKWARD:
+        # Camera tilts from the player running
+        if self.CurSpeed != 0:
+
+            relSpeed = self.CurSpeed / self.MaxSpeed
+            if self.CurSpeed < 0: relSpeed *= -1
 
             base.camera.setR( base.camera.getR() + self.CameraCurRoll )
-            self.CameraCurRoll += self.CameraRollDt * globalClock.getDt()
+            self.CameraCurRoll += relSpeed * self.CameraRollDt * globalClock.getDt()
 
-            if self.CameraCurRoll > self.CameraMaxRoll:
-                self.CameraCurRoll = self.CameraMaxRoll
+            if self.CameraCurRoll > self.CameraMaxRoll * relSpeed:
+                self.CameraCurRoll = self.CameraMaxRoll * relSpeed
                 self.CameraRollDt *= -1
-            elif self.CameraCurRoll < -self.CameraMaxRoll:
-                self.CameraCurRoll = -self.CameraMaxRoll
+            elif self.CameraCurRoll < -self.CameraMaxRoll * relSpeed:
+                self.CameraCurRoll = -self.CameraMaxRoll * relSpeed
                 self.CameraRollDt *= -1
 
         else:
@@ -154,7 +189,7 @@ class Player(object):
         return task.cont
 
 
-    def jumpUpdate(self,task):
+    def jumpUpdate( self, task ):
 
         # get the highest Z from the down casting ray
         highestZ = -1000

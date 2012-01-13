@@ -4,9 +4,9 @@ from pandac.PandaModules import *
 from direct.gui.OnscreenText import OnscreenText
 from player import Player
 
-class Game(object):
+class Game( object ):
 
-    def __init__(self):
+    def __init__( self ):
         """ create a FPS type game """
         self.initCollision()
         self.loadLevel()
@@ -38,13 +38,13 @@ class Game(object):
                     pos = ( -1.33, 0.65 ), align = TextNode.ALeft, scale = .05 )
 
 
-    def initCollision(self):
+    def initCollision( self ):
         """ create the collision system """
         base.cTrav = CollisionTraverser()
         base.pusher = CollisionHandlerPusher()
 
 
-    def loadLevel(self):
+    def loadLevel( self ):
         """ load the self.level 
             must have
             <Group> *something* { 
@@ -56,9 +56,10 @@ class Game(object):
         self.level.setTwoSided(True)
 
 
-    def initPlayer(self):
+    def initPlayer( self ):
         """ loads the player and creates all the controls for him"""
         self.player = Player()
+
 
 Game()
 run()
