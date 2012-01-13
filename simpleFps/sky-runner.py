@@ -49,7 +49,7 @@ class Game(object):
 
 class Player(object):
 
-    MouseSensitivity = 0.2
+    MouseSensitivity = 0.2 # Higher value means faster mouse movement
     Speed = 30
 
     FORWARD = Vec3( 0, 2, 0)
@@ -61,9 +61,15 @@ class Player(object):
     walk   = STOP
     strafe = STOP
 
-    readyToJump = False
-    JumpMomentum = 0
-    JumpMultiplier = 3
+    Jumping         = False
+    ReadyToJump     = False
+    CurJumpMomentum = 0
+    MaxJumpMomentum = 3 # Higher value results in higher jumps
+    JumpMultiplier  = 7 # Higher value will cause player to rise and fall faster
+
+    CameraCurTilt = 0
+    CameraMaxTilt = 0.016 # Higher value results in wider tilts
+    CameraTiltDt  = 0.15  # Higher value results in faster tilts
 
 
     def __init__(self):
@@ -117,8 +123,8 @@ class Player(object):
 
     def attachControls(self):
         """ attach key events """
-        base.accept( "space" ,    self.__setattr__, [ "readyToJump", True  ] )
-        base.accept( "space-up" , self.__setattr__, [ "readyToJump", False ] )
+        base.accept( "space" ,    self.__setattr__, [ "ReadyToJump", True  ] )
+        base.accept( "space-up" , self.__setattr__, [ "ReadyToJump", False ] )
         base.accept( "w" ,    self.__setattr__, [ "walk", self.FORWARD ] )
         base.accept( "w-up" , self.__setattr__, [ "walk", self.STOP    ] )
         base.accept( "s" ,    self.__setattr__, [ "walk", self.BACK    ] )
@@ -130,37 +136,91 @@ class Player(object):
 
 
     def mouseUpdate(self,task):
+
         md = base.win.getPointer(0)
         x = md.getX()
         y = md.getY()
         if base.win.movePointer( 0, base.win.getXSize()/2, base.win.getYSize()/2 ):
             self.player.setH( self.player.getH() - ( x - base.win.getXSize() / 2 ) * self.MouseSensitivity )
             base.camera.setP( base.camera.getP() - ( y - base.win.getYSize() / 2 ) * self.MouseSensitivity )
+
         return task.cont
 
 
     def moveUpdate(self,task): 
-        self.player.setPos( self.player, self.walk   * globalClock.getDt() * self.Speed )
-        self.player.setPos( self.player, self.strafe * globalClock.getDt() * self.Speed )
+
+        self.player.setPos( self.player, self.walk   * self.Speed * globalClock.getDt() )
+        self.player.setPos( self.player, self.strafe * self.Speed * globalClock.getDt() )
+
+        if self.walk == self.FORWARD or self.walk == self.BACK:
+
+            base.camera.setR( base.camera.getR() + self.CameraCurTilt )
+            self.CameraCurTilt += self.CameraTiltDt * globalClock.getDt()
+
+            if self.CameraCurTilt > self.CameraMaxTilt:
+                self.CameraCurTilt = self.CameraMaxTilt
+                self.CameraTiltDt *= -1
+            else:
+                if self.CameraCurTilt < -self.CameraMaxTilt:
+                    self.CameraCurTilt = -self.CameraMaxTilt
+                    self.CameraTiltDt *= -1
+
+        else:
+            """
+            if self.strafe == self.LEFT:
+                base.camera.setR( 1 - self.CameraMaxTilt )
+            else:
+                if self.strafe == self.RIGHT:
+                    base.camera.setR( 1 + self.CameraMaxTilt )
+                else:
+                    base.camera.setR(0)
+            """
+            base.camera.setR(0)
+
+        if self.Jumping == True:
+            base.camera.setR(0)
+
         return task.cont
 
 
     def jumpUpdate(self,task):
+
         # get the highest Z from the down casting ray
         highestZ = -1000
-        for i in range(self.playerGroundHandler.getNumEntries()):
+        for i in range( self.playerGroundHandler.getNumEntries() ):
             entry = self.playerGroundHandler.getEntry(i)
             z = entry.getSurfacePoint(render).getZ()
             if z > highestZ and entry.getIntoNode().getName() == "Cube":
                 highestZ = z
+
         # gravity effects and jumps
-        self.player.setZ( self.player.getZ() + self.JumpMomentum * self.JumpMultiplier * globalClock.getDt() )
-        self.JumpMomentum -= self.JumpMultiplier * globalClock.getDt()
+        """
+        self.player.setZ( self.player.getZ() + self.CurJumpMomentum * self.JumpMultiplier * globalClock.getDt() )
+        self.CurJumpMomentum -= self.JumpMultiplier * globalClock.getDt()
         if highestZ > self.player.getZ() - 0.3:
-            self.JumpMomentum = 0
+            self.CurJumpMomentum = 0
             self.player.setZ( highestZ + 0.3 )
-            if self.readyToJump:
-                self.JumpMomentum = 1
+            if self.ReadyToJump:
+                self.CurJumpMomentum = self.MaxJumpMomentum
+        """
+
+        self.player.setZ( self.player.getZ() + self.CurJumpMomentum * globalClock.getDt() )
+        self.CurJumpMomentum -= self.JumpMultiplier * globalClock.getDt()
+
+        zdif = self.player.getZ() - highestZ
+
+        if zdif >= 0.35:
+            self.Jumping = True
+        else:
+            if zdif < 0.3 or ( zdif < 0.35 and self.Jumping == False ):
+                self.player.setZ( highestZ + 0.3 )
+                self.CurJumpMomentum = 0
+                self.Jumping = False
+
+        if self.ReadyToJump == True and self.Jumping == False:
+            self.CurJumpMomentum = self.MaxJumpMomentum
+            self.Jumping = True
+
         return task.cont
 
 Game()
