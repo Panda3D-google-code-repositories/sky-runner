@@ -4,25 +4,31 @@ class Player( object ):
 
     KeyMap = { "w":0, "a":0, "s":0, "d":0, "space":0 }
 
-    Accel = 100
-    PassiveDeaccel = Accel * 2
-    ActiveDeaccel  = Accel * 4
+    Accel = 60
+    AirDeaccel     = 150
+    PassiveDeaccel = 200
+    ActiveDeaccel  = 400
+
     CurSpeed = 0
-    MaxSpeed = 100
+    MaxSpeed = 80
     CurStrafeSpeed = 0
     MaxStrafeSpeed = 40
 
-    Jumping = False
+    Falling           = False
+    Jumping           = False
+    DoubleJumping     = False
+    ReadyToDoubleJump = False
+
     CurJumpMomentum = 0
     MaxJumpMomentum = 3 # Higher value results in higher jumps
     JumpMultiplier  = 7 # Higher value will cause player to rise and fall faster
 
     MouseSensitivity = 0.2 # Higher value means faster camera movement
-    CameraFOV     = 80
-    CameraCurRoll = 0
-    CameraMaxRoll = 0.016 # Higher value results in wider rolls
-    CameraRollDt  = 0.15  # Higher value results in faster rolls
-    PitchMax      = 60    # Camera can't look up or down past this value
+    CameraFOV      = 80
+    CameraCurShake = 0
+    CameraMaxShake = 0.025 # Higher value results in wider shaker
+    CameraShakeDt  = 0.18  # Higher value results in faster shaker
+    PitchMax       = 60    # Camera can't look up or down past this value
 
     def __init__( self ):
         """ inits the player """
@@ -53,11 +59,11 @@ class Player( object ):
 
     def createCollisions( self ):
         """ create a collision solid and ray for the player """
-        cn = CollisionNode( 'player' )
-        cn.addSolid( CollisionSphere( 0, 0, 0, 3 ) )
-        solid = self.player.attachNewNode( cn )
-        base.cTrav.addCollider( solid, base.pusher )
-        base.pusher.addCollider( solid, self.player, base.drive.node() )
+        self.playerCol = CollisionNode( 'player' )
+        self.playerCol.addSolid( CollisionSphere( 0, 0, 0, 3 ) )
+        self.playerColNp = self.player.attachNewNode( self.playerCol )
+        base.cTrav.addCollider( self.playerColNp, base.pusher )
+        base.pusher.addCollider( self.playerColNp, self.player, base.drive.node() )
 
         # init player's floor collisions
         self.groundRay = CollisionRay()
@@ -74,6 +80,7 @@ class Player( object ):
         base.cTrav.addCollider( self.groundColNp, self.groundHandler )
 
         # init player's forward collisions
+        """
         self.forwardRay = CollisionRay()
         self.forwardRay.setOrigin( 0, 0, -.2 )
         self.forwardRay.setDirection( 0, 1, 0 )
@@ -86,6 +93,7 @@ class Player( object ):
         self.forwardColNp = self.player.attachNewNode( self.forwardCol )
         self.forwardHandler = CollisionHandlerQueue()
         base.cTrav.addCollider( self.forwardColNp, self.forwardHandler )
+        """
 
         # Uncomment this line to see the collision rays
         #self.groundColNp.show()
@@ -111,6 +119,10 @@ class Player( object ):
 
 
     def setKey( self, key, value ):
+
+        if key == "space" and value == 0 and self.Jumping == True and self.DoubleJumping == False:
+            self.ReadyToDoubleJump = True
+
         self.KeyMap[ key ] = value
 
 
@@ -123,6 +135,7 @@ class Player( object ):
         if base.win.movePointer( 0, base.win.getXSize()/2, base.win.getYSize()/2 ):
 
             self.player.setH( self.player.getH() - ( x - base.win.getXSize() / 2 ) * self.MouseSensitivity )
+
             pitch = base.camera.getP() - ( y - base.win.getYSize() / 2 ) * self.MouseSensitivity
             if pitch < -self.PitchMax: pitch = -self.PitchMax
             elif pitch > self.PitchMax: pitch = self.PitchMax
@@ -134,7 +147,7 @@ class Player( object ):
     def moveUpdate( self, task ):
 
         # Only let player alter his course if not jumping (he can still alter it by moving the camera, though)
-        if self.Jumping == False:
+        if self.Falling == False and self.Jumping == False:
 
             # Accelerate forward
             if self.KeyMap["w"] == 1:
@@ -171,7 +184,7 @@ class Player( object ):
                     if self.CurSpeed > 0:
                         self.CurSpeed = 0
 
-            # Left/Right movement
+            # Accelerate right
             if self.KeyMap["d"] == 1:
 
                 if self.CurStrafeSpeed < 0:
@@ -182,6 +195,7 @@ class Player( object ):
                 if self.CurStrafeSpeed > self.MaxStrafeSpeed:
                     self.CurStrafeSpeed = self.MaxStrafeSpeed
 
+            # Accelerate left
             elif self.KeyMap["a"] == 1:
 
                 if self.CurStrafeSpeed > 0:
@@ -192,6 +206,7 @@ class Player( object ):
                 if self.CurStrafeSpeed < -self.MaxStrafeSpeed:
                     self.CurStrafeSpeed = -self.MaxStrafeSpeed
 
+            # If not going right or left, slow down until speed is 0
             else:
 
                 if self.CurStrafeSpeed > 0:
@@ -209,29 +224,32 @@ class Player( object ):
         self.player.setX( self.player, self.CurStrafeSpeed * globalClock.getDt() )
 
         # Shake camera when player is running
-        # Don't shake camera when player is stopped or in mid-air
+        # Don't shake camera when player has stopped or is in mid-air
         if self.CurSpeed != 0:
 
             # The camera will shake most when MaxSpeed is reached
             relSpeed = self.CurSpeed / self.MaxSpeed
             if self.CurSpeed < 0: relSpeed *= -1
 
-            base.camera.setR( base.camera.getR() + self.CameraCurRoll )
-            self.CameraCurRoll += relSpeed * self.CameraRollDt * globalClock.getDt()
+            base.camera.setX( base.camera.getX() + self.CameraCurShake )
+            base.camera.setR( base.camera.getR() + self.CameraCurShake )
+            self.CameraCurShake += relSpeed * self.CameraShakeDt * globalClock.getDt()
 
-            if self.CameraCurRoll > self.CameraMaxRoll * relSpeed:
-                self.CameraCurRoll = self.CameraMaxRoll * relSpeed
-                self.CameraRollDt *= -1
-            elif self.CameraCurRoll < -self.CameraMaxRoll * relSpeed:
-                self.CameraCurRoll = -self.CameraMaxRoll * relSpeed
-                self.CameraRollDt *= -1
+            if self.CameraCurShake > self.CameraMaxShake * relSpeed:
+                self.CameraCurShake = self.CameraMaxShake * relSpeed
+                self.CameraShakeDt *= -1
+            elif self.CameraCurShake < -self.CameraMaxShake * relSpeed:
+                self.CameraCurShake = -self.CameraMaxShake * relSpeed
+                self.CameraShakeDt *= -1
 
         else:
-            self.CameraCurRoll = 0
+            self.CameraCurShake = 0
+            base.camera.setX(0)
             base.camera.setR(0)
 
-        if self.Jumping == True:
-            self.CameraCurRoll = 0
+        if self.Falling == True or self.Jumping == True:
+            self.CameraCurShake = 0
+            base.camera.setX(0)
             base.camera.setR(0)
 
         return task.cont
@@ -253,33 +271,56 @@ class Player( object ):
 
         zdif = self.player.getZ() - highestZ
 
-        if zdif >= 0.35:
-            self.Jumping = True
+        # Detecting a fall
+        if zdif >= 0.35 and self.Jumping == False:
+
+            self.Falling = True
+
+        # Detecting the end of a fall/jump, or preventing a really small one
         elif zdif < 0.3 or ( zdif < 0.35 and self.Jumping == False ):
+
             self.player.setZ( highestZ + 0.3 )
             self.CurJumpMomentum = 0
+            self.Falling = False
             self.Jumping = False
+            self.DoubleJumping = False
+            self.ReadyToDoubleJump = False
 
-        if self.KeyMap["space"] == 1 and self.Jumping == False:
+        # Player wants to jump
+        if self.KeyMap["space"] == 1 and self.Falling == False:
 
-            self.CurJumpMomentum = self.MaxJumpMomentum
-            self.Jumping = True
+            if self.Jumping == False:
 
-            # Jumping in a certain direction can give you horizontal momentum, at the price of vertical momentum
-            if self.KeyMap["w"] == 0:
-                if self.KeyMap["s"] == 1:
-                    self.CurJumpMomentum *= 0.8
-                    if self.CurSpeed > 0:
-                        self.CurSpeed = - self.MaxSpeed / 2 + self.CurSpeed * 0.25
-                    else:
-                        self.CurSpeed = - self.MaxSpeed / 2
-                elif self.KeyMap["d"] == 1:
-                    self.CurJumpMomentum *= 0.8
-                    self.CurSpeed *= 0.1
-                    self.CurStrafeSpeed = self.MaxStrafeSpeed*1.5
-                elif self.KeyMap["a"] == 1:
-                    self.CurJumpMomentum *= 0.8
-                    self.CurSpeed *= 0.1
-                    self.CurStrafeSpeed = -self.MaxStrafeSpeed*1.5
+                self.CurJumpMomentum = self.MaxJumpMomentum
+                self.Jumping = True
+
+                # Jumping in a certain direction can give you horizontal momentum, at the price of vertical momentum
+                if self.KeyMap["w"] == 0:
+                    if self.KeyMap["s"] == 1:
+
+                        self.CurJumpMomentum *= 0.8
+                        self.CurStrafeSpeed *= 0.1
+                        if self.CurSpeed > 0:
+                            self.CurSpeed = - self.MaxSpeed / 2 + self.CurSpeed * 0.25
+                        else:
+                            self.CurSpeed = - self.MaxSpeed / 2
+
+                    elif self.KeyMap["d"] == 1:
+
+                        self.CurJumpMomentum *= 0.8
+                        self.CurSpeed *= 0.1
+                        self.CurStrafeSpeed = self.MaxStrafeSpeed * 1.5
+
+                    elif self.KeyMap["a"] == 1:
+
+                        self.CurJumpMomentum *= 0.8
+                        self.CurSpeed *= 0.1
+                        self.CurStrafeSpeed = -self.MaxStrafeSpeed * 1.5
+
+            elif self.ReadyToDoubleJump == True:
+
+                self.CurJumpMomentum = self.MaxJumpMomentum
+                self.DoubleJumping = True
+                self.ReadyToDoubleJump = False
 
         return task.cont

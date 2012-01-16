@@ -22,6 +22,7 @@ class Game( object ):
 
         self.title = OnscreenText(text = "Sky-Runner: Mirror's Edge-like Game", style = 1, fg = ( 1, 0, 0, 1 ),
                                 pos = ( 1.32, -0.98 ), align=TextNode.ARight, scale = .07 )
+
         self.inst1 = OnscreenText(text = "[ESC]: Quit", style = 1, fg = ( 1, 0, 0, 1 ),
                                 pos = ( -1.33, 0.95 ), align = TextNode.ALeft, scale = .05 )
         self.inst2 = OnscreenText(text = "[mouse]: Move Camera", style = 1, fg = ( 1, 0, 0, 1 ),
@@ -41,7 +42,7 @@ class Game( object ):
                             pos = ( 0.65, 0.95 ), align = TextNode.ALeft, scale = .05 )
         self.curStrafeSpeedText = OnscreenText(text = "CurStrafeSpeed = 0", style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.90 ), align = TextNode.ALeft, scale = .05 )
-        self.camCurRollText = OnscreenText(text = "CamCurRoll = 0", style = 1, fg = ( 1, 0, 0, 1 ),
+        self.camCurShakeText = OnscreenText(text = "CamCurShake = 0", style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
 
         taskMgr.add( self.messageUpdate, 'MessageTask' )
@@ -80,8 +81,8 @@ class Game( object ):
         self.curStrafeSpeedText = OnscreenText(text = "CurStrafeSpeed = " + str( self.player.CurStrafeSpeed ), style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.90 ), align = TextNode.ALeft, scale = .05 )
 
-        self.camCurRollText.destroy()
-        self.camCurRollText = OnscreenText(text = "CamCurRoll = " + str( self.player.CameraCurRoll ), style = 1, fg = ( 1, 0, 0, 1 ),
+        self.camCurShakeText.destroy()
+        self.camCurShakeText = OnscreenText(text = "CamCurShake = " + str( self.player.CameraCurShake ), style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
 
         return task.cont
