@@ -1,5 +1,3 @@
-
-
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import CollisionTraverser, CollisionHandlerPusher
 from pandac.PandaModules import CollisionNode, CollisionSphere
