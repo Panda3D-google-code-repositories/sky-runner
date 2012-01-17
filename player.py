@@ -11,7 +11,7 @@ class Player( object ):
     ActiveDeaccel  = 400
 
     CurSpeed = 0
-    MaxSpeed = 80
+    MaxSpeed = 100
     CurStrafeSpeed = 0
     MaxStrafeSpeed = 40
 
@@ -29,7 +29,7 @@ class Player( object ):
     CameraCurShake = 0
     CameraMaxShake = 0.025 # Higher value results in wider shaker
     CameraShakeDt  = 0.18  # Higher value results in faster shaker
-    PitchMax       = 60    # Camera can't look up or down past this value
+    PitchMax       = 90    # Camera can't look up or down past this value
 
     def __init__( self ):
         """ inits the player """
@@ -125,32 +125,26 @@ class Player( object ):
         self.KeyMap[ key ] = value
 
 
-    def mouseUpdate( self, task ):
+    def verifyGroundCollisions( self ):
 
-        md = base.win.getPointer(0)
-        x = md.getX()
-        y = md.getY()
+        # Get the highest Z from the down casting ray
+        highestZ = -1000
+        for i in range( self.groundHandler.getNumEntries() ):
+            entry = self.groundHandler.getEntry( i )
+            z = entry.getSurfacePoint( render ).getZ()
+            if z > highestZ and entry.getIntoNode().getName() == "Cube":
+                highestZ = z
 
-        if base.win.movePointer( 0, base.win.getXSize()/2, base.win.getYSize()/2 ):
-
-            self.player.setH( self.player.getH() - ( x - base.win.getXSize() / 2 ) * self.MouseSensitivity )
-
-            pitch = base.camera.getP() - ( y - base.win.getYSize() / 2 ) * self.MouseSensitivity
-            if pitch < -self.PitchMax: pitch = -self.PitchMax
-            elif pitch > self.PitchMax: pitch = self.PitchMax
-            base.camera.setP( pitch )
-
-        return task.cont
+        return highestZ
 
 
-    def moveUpdate( self, task ):
+    def verifyForwardCollisions( self ):
 
         # Get the closest obstacle from the forward ray
         px = self.player.getX()
         py = self.player.getY()
 
         lowestDist = 1000
-
         for i in range( self.forwardHandler.getNumEntries() ):
 
             entry = self.forwardHandler.getEntry( i )
@@ -164,7 +158,12 @@ class Player( object ):
                 if dist < lowestDist:
                     lowestDist = dist
 
-        #print lowestDist
+        return lowestDist
+
+
+    def applyAcceleration( self ):
+
+        lowestDist = self.verifyForwardCollisions()
 
         # Only let player alter his course if not jumping (he can still alter it by moving the camera, though)
         if self.Falling == False and self.Jumping == False:
@@ -245,9 +244,8 @@ class Player( object ):
                     if self.CurStrafeSpeed > 0:
                         self.CurStrafeSpeed = 0
 
-        # Update player position
-        self.player.setY( self.player, self.CurSpeed * globalClock.getDt() )
-        self.player.setX( self.player, self.CurStrafeSpeed * globalClock.getDt() )
+
+    def shakeCamera( self ):
 
         # Shake camera when player is running
         # Don't shake camera when player has stopped or is in mid-air
@@ -278,39 +276,8 @@ class Player( object ):
             base.camera.setX(0)
             base.camera.setR(0)
 
-        return task.cont
 
-
-    def jumpUpdate( self, task ):
-
-        # Get the highest Z from the down casting ray
-        highestZ = -1000
-        for i in range( self.groundHandler.getNumEntries() ):
-            entry = self.groundHandler.getEntry(i)
-            z = entry.getSurfacePoint(render).getZ()
-            if z > highestZ and entry.getIntoNode().getName() == "Cube":
-                highestZ = z
-
-        # Gravity effects and jumps
-        self.player.setZ( self.player.getZ() + self.CurJumpMomentum * globalClock.getDt() )
-        self.CurJumpMomentum -= self.JumpMultiplier * globalClock.getDt()
-
-        zdif = self.player.getZ() - highestZ
-
-        # Detecting a fall
-        if zdif >= 0.35 and self.Jumping == False:
-
-            self.Falling = True
-
-        # Detecting the end of a fall/jump, or preventing a really small one
-        elif zdif < 0.3 or ( zdif < 0.35 and self.Jumping == False ):
-
-            self.player.setZ( highestZ + 0.3 )
-            self.CurJumpMomentum = 0
-            self.Falling = False
-            self.Jumping = False
-            self.DoubleJumping = False
-            self.ReadyToDoubleJump = False
+    def applyJump( self ):
 
         # Player wants to jump
         if self.KeyMap["space"] == 1 and self.Falling == False:
@@ -348,5 +315,66 @@ class Player( object ):
                 self.CurJumpMomentum = self.MaxJumpMomentum
                 self.DoubleJumping = True
                 self.ReadyToDoubleJump = False
+
+
+    def mouseUpdate( self, task ):
+
+        md = base.win.getPointer(0)
+        x = md.getX()
+        y = md.getY()
+
+        if base.win.movePointer( 0, base.win.getXSize()/2, base.win.getYSize()/2 ):
+
+            self.player.setH( self.player.getH() - ( x - base.win.getXSize() / 2 ) * self.MouseSensitivity )
+
+            pitch = base.camera.getP() - ( y - base.win.getYSize() / 2 ) * self.MouseSensitivity
+            if pitch < -self.PitchMax: pitch = -self.PitchMax
+            elif pitch > self.PitchMax: pitch = self.PitchMax
+            base.camera.setP( pitch )
+
+        return task.cont
+
+
+    def moveUpdate( self, task ):
+
+        # Update player speed
+        self.applyAcceleration()
+
+        # Update player position
+        self.player.setY( self.player, self.CurSpeed * globalClock.getDt() )
+        self.player.setX( self.player, self.CurStrafeSpeed * globalClock.getDt() )
+
+        # Apply camera shake effect
+        self.shakeCamera()
+
+        return task.cont
+
+
+    def jumpUpdate( self, task ):
+
+        # Gravity effects and jumps
+        self.player.setZ( self.player.getZ() + self.CurJumpMomentum * globalClock.getDt() )
+        self.CurJumpMomentum -= self.JumpMultiplier * globalClock.getDt()
+
+        highestZ = self.verifyGroundCollisions()
+        zdif = self.player.getZ() - highestZ
+
+        # Detecting a fall
+        if zdif >= 0.35 and self.Jumping == False:
+
+            self.Falling = True
+
+        # Detecting the end of a fall/jump, or preventing a really small one
+        elif zdif < 0.3 or ( zdif < 0.35 and self.Jumping == False ):
+
+            self.player.setZ( highestZ + 0.3 )
+            self.CurJumpMomentum = 0
+            self.Falling = False
+            self.Jumping = False
+            self.DoubleJumping = False
+            self.ReadyToDoubleJump = False
+
+        # Apply jumps
+        self.applyJump()
 
         return task.cont
