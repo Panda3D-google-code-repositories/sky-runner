@@ -1,9 +1,14 @@
 from pandac.PandaModules import *
 import math
 
+class State( object ):
+    RUNNING, FALLING, JUMPING, DOUBLE_JUMPING, ROLLING, RATTLED = range(6)
+
 class Player( object ):
 
-    KeyMap = { "w":0, "a":0, "s":0, "d":0, "space":0 }
+    KeyMap = { "w":0, "a":0, "s":0, "d":0, "space":0, "r":0 }
+
+    CurState = State.RUNNING
 
     Accel = 60
     AirDeaccel     = 150
@@ -11,13 +16,11 @@ class Player( object ):
     ActiveDeaccel  = 400
 
     CurSpeed = 0
+    OldSpeed = 0
     MaxSpeed = 100
     CurStrafeSpeed = 0
     MaxStrafeSpeed = 40
 
-    Falling           = False
-    Jumping           = False
-    DoubleJumping     = False
     ReadyToDoubleJump = False
 
     CurJumpMomentum = 0
@@ -27,9 +30,15 @@ class Player( object ):
     MouseSensitivity = 0.2 # Higher value means faster camera movement
     CameraFOV      = 80
     CameraCurShake = 0
-    CameraMaxShake = 0.025 # Higher value results in wider shaker
-    CameraShakeDt  = 0.18  # Higher value results in faster shaker
+    CameraMaxShake = 0.025 # Higher value results in wider shakes
+    CameraShakeDt  = 0.18  # Higher value results in faster shakes
     PitchMax       = 90    # Camera can't look up or down past this value
+
+    RollDegrees   = 0
+    RollCurHeight = 0
+    RollMaxHeight = 0.09 # Higher value means the camera will descend more
+    RollCamDt     = 800  # Higher values mean faster rolls (360 degrees)
+    RollPosDt     = 0.28 # Higher values mean faster rolls (up & down)
 
     def __init__( self ):
         """ inits the player """
@@ -116,13 +125,31 @@ class Player( object ):
         base.accept( "d",    self.setKey, [ "d", 1  ] )
         base.accept( "d-up", self.setKey, [ "d", 0  ] )
 
+        base.accept( "r", self.setKey, [ "r", 1 ] )
+        base.accept( "r-up", self.setKey, [ "r", 0 ] )
+        #base.accept( "r", self.roll )
+
 
     def setKey( self, key, value ):
 
-        if key == "space" and value == 0 and self.Jumping == True and self.DoubleJumping == False:
+        if key == "space" and value == 0 and self.CurState == State.JUMPING:
             self.ReadyToDoubleJump = True
 
         self.KeyMap[ key ] = value
+
+
+    def roll( self ):
+
+        if self.CurState != State.ROLLING:
+
+            self.CurState = State.ROLLING
+            self.OldSpeed = self.CurSpeed * 0.20
+            if self.OldSpeed >= 0: self.CurSpeed = 10
+            else: self.CurSpeed = -5
+            self.CurStrafeSpeed = 0
+            self.RollDegrees = -base.camera.getP()
+            self.RollCurHeight = 0
+            base.camera.setZ(0)
 
 
     def verifyGroundCollisions( self ):
@@ -166,7 +193,7 @@ class Player( object ):
         lowestDist = self.verifyForwardCollisions()
 
         # Only let player alter his course if not jumping (he can still alter it by moving the camera, though)
-        if self.Falling == False and self.Jumping == False:
+        if self.CurState == State.RUNNING:
 
             # Accelerate forward
             if self.KeyMap["w"] == 1:
@@ -245,47 +272,70 @@ class Player( object ):
                         self.CurStrafeSpeed = 0
 
 
-    def shakeCamera( self ):
+    def cameraEffects( self ):
 
-        # Shake camera when player is running
-        # Don't shake camera when player has stopped or is in mid-air
-        if self.CurSpeed != 0:
+        if self.CurState == State.RUNNING:
 
-            # The camera will shake most when MaxSpeed is reached
-            relSpeed = self.CurSpeed / self.MaxSpeed
-            if self.CurSpeed < 0: relSpeed *= -1
+            # Shake camera when player is running
+            # Don't shake camera when player has stopped or is in mid-air
+            if self.CurSpeed != 0:
 
-            base.camera.setX( base.camera.getX() + self.CameraCurShake )
-            base.camera.setR( base.camera.getR() + self.CameraCurShake )
-            self.CameraCurShake += relSpeed * self.CameraShakeDt * globalClock.getDt()
+                # The camera will shake most when MaxSpeed is reached
+                relSpeed = abs( self.CurSpeed / self.MaxSpeed )
 
-            if self.CameraCurShake > self.CameraMaxShake * relSpeed:
-                self.CameraCurShake = self.CameraMaxShake * relSpeed
-                self.CameraShakeDt *= -1
-            elif self.CameraCurShake < -self.CameraMaxShake * relSpeed:
-                self.CameraCurShake = -self.CameraMaxShake * relSpeed
-                self.CameraShakeDt *= -1
+                base.camera.setX( base.camera.getX() + self.CameraCurShake )
+                base.camera.setR( base.camera.getR() + self.CameraCurShake )
+                self.CameraCurShake += relSpeed * self.CameraShakeDt * globalClock.getDt()
 
-        else:
+                if self.CameraCurShake > self.CameraMaxShake * relSpeed:
+                    self.CameraCurShake = self.CameraMaxShake * relSpeed
+                    self.CameraShakeDt *= -1
+                elif self.CameraCurShake < -self.CameraMaxShake * relSpeed:
+                    self.CameraCurShake = -self.CameraMaxShake * relSpeed
+                    self.CameraShakeDt *= -1
+
+        elif( self.CurState == State.JUMPING or 
+            self.CurState == State.DOUBLE_JUMPING or
+            self.CurState == State.FALLING ):
+
             self.CameraCurShake = 0
             base.camera.setX(0)
             base.camera.setR(0)
 
-        if self.Falling == True or self.Jumping == True:
-            self.CameraCurShake = 0
-            base.camera.setX(0)
-            base.camera.setR(0)
+        elif self.CurState == State.ROLLING:
+
+            if self.RollDegrees < 360:
+                self.RollDegrees += self.RollCamDt * globalClock.getDt()
+                if self.RollDegrees > 360: self.RollDegrees = 360
+                if self.OldSpeed >= 0:
+                    base.camera.setP( -self.RollDegrees )
+                else:
+                    base.camera.setP( self.RollDegrees )
+
+            if self.RollDegrees > 210:
+
+                base.camera.setZ( base.camera.getZ() - self.RollCurHeight )
+                self.RollCurHeight += self.RollPosDt * globalClock.getDt()
+
+                if self.RollCurHeight > self.RollMaxHeight:
+                    self.RollCurHeight = -self.RollMaxHeight
+
+                if base.camera.getZ() > 0:
+                    self.CurState = State.RUNNING
+                    self.CurSpeed = self.OldSpeed
+                    base.camera.setP(0)
+                    base.camera.setZ(0)
 
 
     def applyJump( self ):
 
         # Player wants to jump
-        if self.KeyMap["space"] == 1 and self.Falling == False:
+        if self.KeyMap["space"] == 1:
 
-            if self.Jumping == False:
+            if self.CurState == State.RUNNING:
 
                 self.CurJumpMomentum = self.MaxJumpMomentum
-                self.Jumping = True
+                self.CurState = State.JUMPING
 
                 # Jumping in a certain direction can give you horizontal momentum, at the price of vertical momentum
                 if self.KeyMap["w"] == 0:
@@ -313,7 +363,7 @@ class Player( object ):
             elif self.ReadyToDoubleJump == True:
 
                 self.CurJumpMomentum = self.MaxJumpMomentum
-                self.DoubleJumping = True
+                self.CurState = State.DOUBLE_JUMPING
                 self.ReadyToDoubleJump = False
 
 
@@ -325,12 +375,14 @@ class Player( object ):
 
         if base.win.movePointer( 0, base.win.getXSize()/2, base.win.getYSize()/2 ):
 
-            self.player.setH( self.player.getH() - ( x - base.win.getXSize() / 2 ) * self.MouseSensitivity )
+            if self.CurState != State.ROLLING:
 
-            pitch = base.camera.getP() - ( y - base.win.getYSize() / 2 ) * self.MouseSensitivity
-            if pitch < -self.PitchMax: pitch = -self.PitchMax
-            elif pitch > self.PitchMax: pitch = self.PitchMax
-            base.camera.setP( pitch )
+                self.player.setH( self.player.getH() - ( x - base.win.getXSize() / 2 ) * self.MouseSensitivity )
+
+                pitch = base.camera.getP() - ( y - base.win.getYSize() / 2 ) * self.MouseSensitivity
+                if pitch < -self.PitchMax: pitch = -self.PitchMax
+                elif pitch > self.PitchMax: pitch = self.PitchMax
+                base.camera.setP( pitch )
 
         return task.cont
 
@@ -344,8 +396,8 @@ class Player( object ):
         self.player.setY( self.player, self.CurSpeed * globalClock.getDt() )
         self.player.setX( self.player, self.CurStrafeSpeed * globalClock.getDt() )
 
-        # Apply camera shake effect
-        self.shakeCamera()
+        # Apply camera shake effects
+        self.cameraEffects()
 
         return task.cont
 
@@ -360,19 +412,26 @@ class Player( object ):
         zdif = self.player.getZ() - highestZ
 
         # Detecting a fall
-        if zdif >= 0.35 and self.Jumping == False:
+        if zdif >= 0.333 and self.CurState == State.RUNNING:
 
-            self.Falling = True
+            self.CurState = State.FALLING
 
         # Detecting the end of a fall/jump, or preventing a really small one
-        elif zdif < 0.3 or ( zdif < 0.35 and self.Jumping == False ):
+        elif zdif < 0.3 or ( zdif < 0.333 and self.CurState == State.RUNNING ):
 
             self.player.setZ( highestZ + 0.3 )
             self.CurJumpMomentum = 0
-            self.Falling = False
-            self.Jumping = False
-            self.DoubleJumping = False
-            self.ReadyToDoubleJump = False
+
+            if( self.CurState == State.JUMPING or 
+                self.CurState == State.DOUBLE_JUMPING or
+                self.CurState == State.FALLING ):
+
+                if self.KeyMap["r"] == 1:
+                    self.roll()
+                else:
+                    self.CurState = State.RUNNING
+
+                self.ReadyToDoubleJump = False
 
         # Apply jumps
         self.applyJump()

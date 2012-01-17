@@ -37,6 +37,8 @@ class Game( object ):
                                 pos = ( -1.33, 0.70 ), align = TextNode.ALeft, scale = .05 )
         self.inst7 = OnscreenText(text = "[space]: Jump", style = 1, fg = ( 1, 0, 0, 1 ),
                                 pos = ( -1.33, 0.65 ), align = TextNode.ALeft, scale = .05 )
+        self.inst7 = OnscreenText(text = "[R]: Roll", style = 1, fg = ( 1, 0, 0, 1 ),
+                                pos = ( -1.33, 0.60 ), align = TextNode.ALeft, scale = .05 )
 
         self.curSpeedText = OnscreenText(text = "CurSpeed = 0", style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.95 ), align = TextNode.ALeft, scale = .05 )
