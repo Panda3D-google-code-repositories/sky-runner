@@ -1,4 +1,5 @@
 from pandac.PandaModules import *
+import math
 
 class Player( object ):
 
@@ -58,7 +59,7 @@ class Player( object ):
 
 
     def createCollisions( self ):
-        """ create a collision solid and ray for the player """
+        """ create a collision solid and rays for the player """
         self.playerCol = CollisionNode( 'player' )
         self.playerCol.addSolid( CollisionSphere( 0, 0, 0, 3 ) )
         self.playerColNp = self.player.attachNewNode( self.playerCol )
@@ -80,7 +81,6 @@ class Player( object ):
         base.cTrav.addCollider( self.groundColNp, self.groundHandler )
 
         # init player's forward collisions
-        """
         self.forwardRay = CollisionRay()
         self.forwardRay.setOrigin( 0, 0, -.2 )
         self.forwardRay.setDirection( 0, 1, 0 )
@@ -93,7 +93,6 @@ class Player( object ):
         self.forwardColNp = self.player.attachNewNode( self.forwardCol )
         self.forwardHandler = CollisionHandlerQueue()
         base.cTrav.addCollider( self.forwardColNp, self.forwardHandler )
-        """
 
         # Uncomment this line to see the collision rays
         #self.groundColNp.show()
@@ -146,19 +145,46 @@ class Player( object ):
 
     def moveUpdate( self, task ):
 
+        # Get the closest obstacle from the forward ray
+        px = self.player.getX()
+        py = self.player.getY()
+
+        lowestDist = 1000
+
+        for i in range( self.forwardHandler.getNumEntries() ):
+
+            entry = self.forwardHandler.getEntry( i )
+            if entry.getIntoNode().getName() == "Cube":
+
+                point = entry.getSurfacePoint( render )
+                x = point.getX()
+                y = point.getY()
+                dist = math.sqrt( (px-x)*(px-x) + (py-y)*(py-y) )
+
+                if dist < lowestDist:
+                    lowestDist = dist
+
+        #print lowestDist
+
         # Only let player alter his course if not jumping (he can still alter it by moving the camera, though)
         if self.Falling == False and self.Jumping == False:
 
             # Accelerate forward
             if self.KeyMap["w"] == 1:
 
-                if self.CurSpeed < 0:
-                    self.CurSpeed += self.ActiveDeaccel * globalClock.getDt()
-                else:
-                    self.CurSpeed += self.Accel * globalClock.getDt()
+                # Can't accelerate into a brick wall
+                if lowestDist > 0.24:
 
-                if self.CurSpeed > self.MaxSpeed:
-                    self.CurSpeed = self.MaxSpeed
+                    if self.CurSpeed < 0:
+                        self.CurSpeed += self.ActiveDeaccel * globalClock.getDt()
+                    else:
+                        self.CurSpeed += self.Accel * globalClock.getDt()
+
+                    if self.CurSpeed > self.MaxSpeed:
+                        self.CurSpeed = self.MaxSpeed
+
+                else:
+                    self.CurSpeed = 0
 
             # Accelerate backward
             elif self.KeyMap["s"] == 1:
