@@ -16,7 +16,6 @@ class Player( object ):
     ActiveDeaccel  = 400
 
     CurSpeed = 0
-    OldSpeed = 0
     MaxSpeed = 100
     CurStrafeSpeed = 0
     MaxStrafeSpeed = 40
@@ -142,9 +141,8 @@ class Player( object ):
         if self.CurState != State.ROLLING:
 
             self.CurState = State.ROLLING
-            self.OldSpeed = self.CurSpeed * 0.20
-            if self.OldSpeed >= 0: self.CurSpeed = 10
-            else: self.CurSpeed = -5
+            if self.CurSpeed >= 0: self.CurSpeed = 10
+            elif self.CurSpeed < 0: self.CurSpeed = -5
             self.CurStrafeSpeed = 0
             self.RollDegrees = -base.camera.getP()
             self.RollCurHeight = 0
@@ -331,7 +329,7 @@ class Player( object ):
             if self.RollDegrees < 360:
                 self.RollDegrees += self.RollCamDt * globalClock.getDt()
                 if self.RollDegrees > 360: self.RollDegrees = 360
-                if self.OldSpeed >= 0:
+                if self.CurSpeed >= 0:
                     base.camera.setP( -self.RollDegrees )
                 else:
                     base.camera.setP( self.RollDegrees )
@@ -346,7 +344,6 @@ class Player( object ):
 
                 if base.camera.getZ() > 0:
                     self.CurState = State.RUNNING
-                    self.CurSpeed = self.OldSpeed
                     base.camera.setP(0)
                     base.camera.setZ(0)
 
