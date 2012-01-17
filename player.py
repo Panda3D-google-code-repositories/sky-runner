@@ -11,7 +11,7 @@ class Player( object ):
     CurState = State.RUNNING
 
     Accel = 60
-    AirDeaccel     = 150
+    AirDeaccel     = 10
     PassiveDeaccel = 200
     ActiveDeaccel  = 400
 
@@ -127,7 +127,6 @@ class Player( object ):
 
         base.accept( "r", self.setKey, [ "r", 1 ] )
         base.accept( "r-up", self.setKey, [ "r", 0 ] )
-        #base.accept( "r", self.roll )
 
 
     def setKey( self, key, value ):
@@ -270,6 +269,31 @@ class Player( object ):
                     self.CurStrafeSpeed += self.PassiveDeaccel * globalClock.getDt()
                     if self.CurStrafeSpeed > 0:
                         self.CurStrafeSpeed = 0
+
+        # Slowly deaccelerate all speeds while in mid-air
+        elif( self.CurState == State.JUMPING or 
+            self.CurState == State.DOUBLE_JUMPING or
+            self.CurState == State.FALLING ):
+
+            if self.CurSpeed > 0:
+                self.CurSpeed -= self.AirDeaccel * globalClock.getDt()
+                if self.CurSpeed < 0:
+                    self.CurSpeed = 0
+
+            elif self.CurSpeed < 0:
+                self.CurSpeed += self.AirDeaccel * globalClock.getDt()
+                if self.CurSpeed > 0:
+                    self.CurSpeed = 0
+
+            if self.CurStrafeSpeed > 0:
+                self.CurStrafeSpeed -= self.AirDeaccel * globalClock.getDt()
+                if self.CurStrafeSpeed < 0:
+                    self.CurStrafeSpeed = 0
+
+            elif self.CurStrafeSpeed < 0:
+                self.CurStrafeSpeed += self.AirDeaccel * globalClock.getDt()
+                if self.CurStrafeSpeed > 0:
+                    self.CurStrafeSpeed = 0
 
 
     def cameraEffects( self ):
