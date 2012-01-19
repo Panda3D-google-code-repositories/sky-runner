@@ -14,8 +14,9 @@ class TestApp(ShowBase):
         shader = Shader.load(Shader.SLGLSL, 'simple.vert', 'simple.frag') 
         node.setShader(shader) 
         
-        base.disableMouse() 
-        self.camera.setPos(0, -10, 0) 
+#        base.disableMouse() 
+#        self.camera.setPos(0, -10, 0) 
+        base.trackball.node().setPos(0, 10, 0)
         
 app = TestApp() 
 app.run()
