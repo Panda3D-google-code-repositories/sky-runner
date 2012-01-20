@@ -3,13 +3,14 @@ import math
 
 
 class State( object ):
-    RUNNING, FALLING, JUMPING, DOUBLE_JUMPING, ROLLING, RATTLED = range(6)
+    RUNNING, FALLING, JUMPING, DOUBLE_JUMPING, ROLLING, BAD_LANDING, STUNNED = range(7)
 
     @staticmethod
     def canMoveCamera( state ):
-        if state == State.ROLLING or state == State.RATTLED:
-            return False
-        return True
+        if( state == State.RUNNING or state == State.FALLING or
+            state == State.JUMPING or state == State.DOUBLE_JUMPING ):
+            return True
+        return False
 
     @staticmethod
     def canAccelerate( state ):
@@ -45,6 +46,14 @@ class Player( object ):
     CurJumpMomentum = 0
     MaxJumpMomentum = 3 # Higher value results in higher jumps
     JumpMultiplier  = 7 # Higher value will cause player to rise and fall faster
+
+    FallHeight          = 0
+    FallHeightThreshold = 2.5 # Falling from a height greater than this without rolling will cause a bad landing
+    LandingCurHeight = 0
+    LandingMaxHeight = 0.17
+    LandingFastDt    = 0.60  # How fast the player falls in a bad landing
+    LandingSlowDt    = -0.01 # How fast the player gets back up from a bad landing
+    LandingCurDt     = 0
 
     MouseSensitivity = 0.2 # Higher value means faster camera movement
     CameraFOV      = 80
@@ -165,6 +174,18 @@ class Player( object ):
             self.CurStrafeSpeed = 0
             self.RollDegrees = -base.camera.getP()
             self.RollCurHeight = 0
+            base.camera.setZ(0)
+
+
+    def bad_landing( self ):
+
+        if self.CurState != State.BAD_LANDING:
+
+            self.CurState = State.BAD_LANDING
+            self.CurSpeed = 0
+            self.CurStrafeSpeed = 0
+            self.LandingCurHeight = 0
+            self.LandingCurDt = self.LandingFastDt
             base.camera.setZ(0)
 
 
@@ -365,6 +386,24 @@ class Player( object ):
                     base.camera.setP(0)
                     base.camera.setZ(0)
 
+        elif self.CurState == State.BAD_LANDING:
+
+            base.camera.setZ( base.camera.getZ() - self.LandingCurHeight )
+            base.camera.setR( base.camera.getR() - self.LandingCurHeight )
+            base.camera.setP( base.camera.getP() - self.LandingCurHeight * 8 )
+            self.LandingCurHeight += self.LandingCurDt * globalClock.getDt()
+
+            if self.LandingCurHeight > self.LandingMaxHeight:
+                self.LandingCurHeight = 0
+                self.LandingCurDt = self.LandingSlowDt
+
+            if base.camera.getZ() > 0:
+                self.CurState = State.RUNNING
+                base.camera.setZ(0)
+                base.camera.setR(0)
+
+        #elif self.CurState == State.STUNNED:
+
 
     def applyJump( self ):
 
@@ -401,9 +440,10 @@ class Player( object ):
 
             elif self.ReadyToDoubleJump == True:
 
+                self.ReadyToDoubleJump = False
                 self.CurJumpMomentum = self.MaxJumpMomentum
                 self.CurState = State.DOUBLE_JUMPING
-                self.ReadyToDoubleJump = False
+                self.FallHeight = 0
 
 
     def mouseUpdate( self, task ):
@@ -444,6 +484,9 @@ class Player( object ):
     def jumpUpdate( self, task ):
 
         # Gravity effects and jumps
+        if self.CurJumpMomentum < 0:
+            self.FallHeight -= self.CurJumpMomentum * globalClock.getDt()
+
         self.player.setZ( self.player.getZ() + self.CurJumpMomentum * globalClock.getDt() )
         self.CurJumpMomentum -= self.JumpMultiplier * globalClock.getDt()
 
@@ -465,10 +508,13 @@ class Player( object ):
 
                 if self.KeyMap["r"] == 1:
                     self.roll()
+                elif self.FallHeight > self.FallHeightThreshold:
+                    self.bad_landing()
                 else:
                     self.CurState = State.RUNNING
 
                 self.ReadyToDoubleJump = False
+                self.FallHeight = 0
 
         # If the player wants to jump and meets the requirements, apply it
         self.applyJump()

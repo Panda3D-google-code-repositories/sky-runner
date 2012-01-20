@@ -44,7 +44,7 @@ class Game( object ):
                             pos = ( 0.65, 0.95 ), align = TextNode.ALeft, scale = .05 )
         self.curStrafeSpeedText = OnscreenText(text = "CurStrafeSpeed = 0", style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.90 ), align = TextNode.ALeft, scale = .05 )
-        self.camCurShakeText = OnscreenText(text = "CamCurShake = 0", style = 1, fg = ( 1, 0, 0, 1 ),
+        self.fallHeightText = OnscreenText(text = "FallHeight = 0", style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
 
         taskMgr.add( self.messageUpdate, 'MessageTask' )
@@ -83,8 +83,8 @@ class Game( object ):
         self.curStrafeSpeedText = OnscreenText(text = "CurStrafeSpeed = " + str( self.player.CurStrafeSpeed ), style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.90 ), align = TextNode.ALeft, scale = .05 )
 
-        self.camCurShakeText.destroy()
-        self.camCurShakeText = OnscreenText(text = "CamCurShake = " + str( self.player.CameraCurShake ), style = 1, fg = ( 1, 0, 0, 1 ),
+        self.fallHeightText.destroy()
+        self.fallHeightText = OnscreenText(text = "FallHeight = " + str( self.player.FallHeight ), style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
 
         return task.cont
