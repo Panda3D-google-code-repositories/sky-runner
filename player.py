@@ -27,46 +27,64 @@ class State( object ):
 
 class Player( object ):
 
+    # To keep track of which keys are pressed
     KeyMap = { "w":0, "a":0, "s":0, "d":0, "space":0, "r":0 }
 
+    # Player state
     CurState = State.RUNNING
 
+    # Acceleration variables
     Accel = 60
     AirDeaccel     = 10
     PassiveDeaccel = 200
     ActiveDeaccel  = 400
 
+    # Speed variables
     CurSpeed = 0
     MaxSpeed = 100
     CurStrafeSpeed = 0
     MaxStrafeSpeed = 40
 
-    ReadyToDoubleJump = False
-
+    # Jump variables
     CurJumpMomentum = 0
     MaxJumpMomentum = 3 # Higher value results in higher jumps
     JumpMultiplier  = 7 # Higher value will cause player to rise and fall faster
+    ReadyToDoubleJump = False
 
+    # Fall variables
     FallHeight          = 0
     FallHeightThreshold = 2.5 # Falling from a height greater than this without rolling will cause a bad landing
+
+    # Camera variables
+    MouseSensitivity = 0.2 # Higher value means faster camera movement
+    CameraFOV      = 80
+    PitchMax       = 90    # Camera can't look up or down past this value
+
+    # For camera shaking when the player runs
+    CameraCurShake = 0
+    CameraMaxShake = 0.025 # Higher value results in wider shakes
+    CameraShakeDt  = 0.18  # Higher value results in faster shakes
+
+    # For camera effects when the player rolls
+    RollDegrees   = 0
+    RollCamDt     = 800  # Higher values mean faster rolls (360 degrees)
+    RollCurHeight = 0
+    RollMaxHeight = 0.09 # Higher value means the camera will descend more
+    RollPosDt     = 0.28 # Higher values mean faster rolls (up & down)
+
+    # For camera effects when the player lands badly
     LandingCurHeight = 0
     LandingMaxHeight = 0.17
     LandingFastDt    = 0.60  # How fast the player falls in a bad landing
     LandingSlowDt    = -0.01 # How fast the player gets back up from a bad landing
     LandingCurDt     = 0
 
-    MouseSensitivity = 0.2 # Higher value means faster camera movement
-    CameraFOV      = 80
-    CameraCurShake = 0
-    CameraMaxShake = 0.025 # Higher value results in wider shakes
-    CameraShakeDt  = 0.18  # Higher value results in faster shakes
-    PitchMax       = 90    # Camera can't look up or down past this value
+    # For camera effects when the player is stunned
+    StunnedCount     = 0
+    StunnedCurHeight = 0
+    StunnedMaxHeight = 5 # Higher value means the camera will descend more
+    StunnedDt        = 10.00 # Higher values mean faster shakes
 
-    RollDegrees   = 0
-    RollCurHeight = 0
-    RollMaxHeight = 0.09 # Higher value means the camera will descend more
-    RollCamDt     = 800  # Higher values mean faster rolls (360 degrees)
-    RollPosDt     = 0.28 # Higher values mean faster rolls (up & down)
 
     def __init__( self ):
         """ inits the player """
@@ -169,11 +187,11 @@ class Player( object ):
         if self.CurState != State.ROLLING:
 
             self.CurState = State.ROLLING
-            if self.CurSpeed >= 0: self.CurSpeed = 10
-            elif self.CurSpeed < 0: self.CurSpeed = -5
+            if  ( self.CurSpeed >= 0 ): self.CurSpeed = 10
+            elif( self.CurSpeed <  0 ): self.CurSpeed = -5
             self.CurStrafeSpeed = 0
-            self.RollDegrees = -base.camera.getP()
-            self.RollCurHeight = 0
+            self.RollDegrees    = -base.camera.getP()
+            self.RollCurHeight  = 0
             base.camera.setZ(0)
 
 
@@ -182,10 +200,22 @@ class Player( object ):
         if self.CurState != State.BAD_LANDING:
 
             self.CurState = State.BAD_LANDING
-            self.CurSpeed = 0
-            self.CurStrafeSpeed = 0
+            self.CurSpeed         = 0
+            self.CurStrafeSpeed   = 0
             self.LandingCurHeight = 0
-            self.LandingCurDt = self.LandingFastDt
+            self.LandingCurDt     = self.LandingFastDt
+            base.camera.setZ(0)
+
+
+    def stunned( self ):
+
+        if self.CurState != State.STUNNED:
+
+            self.CurState = State.STUNNED
+            self.CurSpeed         = -5
+            self.CurStrafeSpeed   = 0
+            self.StunnedCount     = 0
+            self.StunnedCurHeight = 0
             base.camera.setZ(0)
 
 
@@ -245,6 +275,9 @@ class Player( object ):
 
                     if self.CurSpeed > self.MaxSpeed:
                         self.CurSpeed = self.MaxSpeed
+
+                elif self.CurSpeed > 30:
+                    self.stunned()
 
                 else:
                     self.CurSpeed = 0
@@ -402,7 +435,26 @@ class Player( object ):
                 base.camera.setZ(0)
                 base.camera.setR(0)
 
-        #elif self.CurState == State.STUNNED:
+        elif self.CurState == State.STUNNED:
+
+            base.camera.setP( base.camera.getP() - self.StunnedCurHeight )
+            self.StunnedCurHeight += self.StunnedDt * globalClock.getDt()
+
+            increment = False
+            if base.camera.getP() > self.StunnedMaxHeight:
+                base.camera.setP( self.StunnedMaxHeight )
+                increment = True
+            elif base.camera.getP() < -self.StunnedMaxHeight:
+                base.camera.setP( -self.StunnedMaxHeight )
+                increment = True
+
+            if increment == True:
+                self.StunnedCount += 1
+                self.StunnedCurHeight = 0
+                self.StunnedDt *= -1
+
+            if self.StunnedCount > 3:
+                self.CurState = State.RUNNING
 
 
     def applyJump( self ):
