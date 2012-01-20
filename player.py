@@ -1,8 +1,28 @@
 from pandac.PandaModules import *
 import math
 
+
 class State( object ):
     RUNNING, FALLING, JUMPING, DOUBLE_JUMPING, ROLLING, RATTLED = range(6)
+
+    @staticmethod
+    def canMoveCamera( state ):
+        if state == State.ROLLING or state == State.RATTLED:
+            return False
+        return True
+
+    @staticmethod
+    def canAccelerate( state ):
+        if state == State.RUNNING:
+            return True
+        return False
+
+    @staticmethod
+    def inMidAir( state ):
+        if state == State.FALLING or state == State.JUMPING or state == State.DOUBLE_JUMPING:
+            return True
+        return False
+
 
 class Player( object ):
 
@@ -113,18 +133,17 @@ class Player( object ):
 
     def attachControls( self ):
         """ attach key events """
-        base.accept( "space",    self.setKey, [ "space", 1  ] )
-        base.accept( "space-up", self.setKey, [ "space", 0  ] )
-        base.accept( "w",    self.setKey, [ "w", 1  ] )
-        base.accept( "w-up", self.setKey, [ "w", 0  ] )
-        base.accept( "s",    self.setKey, [ "s", 1  ] )
-        base.accept( "s-up", self.setKey, [ "s", 0  ] )
-        base.accept( "a",    self.setKey, [ "a", 1  ] )
-        base.accept( "a-up", self.setKey, [ "a", 0  ] )
-        base.accept( "d",    self.setKey, [ "d", 1  ] )
-        base.accept( "d-up", self.setKey, [ "d", 0  ] )
-
-        base.accept( "r", self.setKey, [ "r", 1 ] )
+        base.accept( "space",    self.setKey, [ "space", 1 ] )
+        base.accept( "space-up", self.setKey, [ "space", 0 ] )
+        base.accept( "w",    self.setKey, [ "w", 1 ] )
+        base.accept( "w-up", self.setKey, [ "w", 0 ] )
+        base.accept( "s",    self.setKey, [ "s", 1 ] )
+        base.accept( "s-up", self.setKey, [ "s", 0 ] )
+        base.accept( "a",    self.setKey, [ "a", 1 ] )
+        base.accept( "a-up", self.setKey, [ "a", 0 ] )
+        base.accept( "d",    self.setKey, [ "d", 1 ] )
+        base.accept( "d-up", self.setKey, [ "d", 0 ] )
+        base.accept( "r",    self.setKey, [ "r", 1 ] )
         base.accept( "r-up", self.setKey, [ "r", 0 ] )
 
 
@@ -190,7 +209,7 @@ class Player( object ):
         lowestDist = self.verifyForwardCollisions()
 
         # Only let player alter his course if not jumping (he can still alter it by moving the camera, though)
-        if self.CurState == State.RUNNING:
+        if State.canAccelerate( self.CurState ) == True:
 
             # Accelerate forward
             if self.KeyMap["w"] == 1:
@@ -269,9 +288,7 @@ class Player( object ):
                         self.CurStrafeSpeed = 0
 
         # Slowly deaccelerate all speeds while in mid-air
-        elif( self.CurState == State.JUMPING or 
-            self.CurState == State.DOUBLE_JUMPING or
-            self.CurState == State.FALLING ):
+        elif State.inMidAir( self.CurState ) == True:
 
             if self.CurSpeed > 0:
                 self.CurSpeed -= self.AirDeaccel * globalClock.getDt()
@@ -299,7 +316,6 @@ class Player( object ):
         if self.CurState == State.RUNNING:
 
             # Shake camera when player is running
-            # Don't shake camera when player has stopped or is in mid-air
             if self.CurSpeed != 0:
 
                 # The camera will shake most when MaxSpeed is reached
@@ -307,7 +323,8 @@ class Player( object ):
 
                 base.camera.setX( base.camera.getX() + self.CameraCurShake )
                 base.camera.setR( base.camera.getR() + self.CameraCurShake )
-                self.CameraCurShake += relSpeed * self.CameraShakeDt * globalClock.getDt()
+
+                self.CameraCurShake += self.CameraShakeDt * relSpeed * globalClock.getDt()
 
                 if self.CameraCurShake > self.CameraMaxShake * relSpeed:
                     self.CameraCurShake = self.CameraMaxShake * relSpeed
@@ -316,9 +333,8 @@ class Player( object ):
                     self.CameraCurShake = -self.CameraMaxShake * relSpeed
                     self.CameraShakeDt *= -1
 
-        elif( self.CurState == State.JUMPING or 
-            self.CurState == State.DOUBLE_JUMPING or
-            self.CurState == State.FALLING ):
+        # Don't shake camera when player is in mid-air
+        elif State.inMidAir( self.CurState ) == True:
 
             self.CameraCurShake = 0
             base.camera.setX(0)
@@ -327,8 +343,10 @@ class Player( object ):
         elif self.CurState == State.ROLLING:
 
             if self.RollDegrees < 360:
+
                 self.RollDegrees += self.RollCamDt * globalClock.getDt()
                 if self.RollDegrees > 360: self.RollDegrees = 360
+
                 if self.CurSpeed >= 0:
                     base.camera.setP( -self.RollDegrees )
                 else:
@@ -396,7 +414,7 @@ class Player( object ):
 
         if base.win.movePointer( 0, base.win.getXSize()/2, base.win.getYSize()/2 ):
 
-            if self.CurState != State.ROLLING:
+            if State.canMoveCamera( self.CurState ) == True:
 
                 self.player.setH( self.player.getH() - ( x - base.win.getXSize() / 2 ) * self.MouseSensitivity )
 
@@ -443,9 +461,7 @@ class Player( object ):
             self.player.setZ( highestZ + 0.3 )
             self.CurJumpMomentum = 0
 
-            if( self.CurState == State.JUMPING or 
-                self.CurState == State.DOUBLE_JUMPING or
-                self.CurState == State.FALLING ):
+            if State.inMidAir( self.CurState ) == True:
 
                 if self.KeyMap["r"] == 1:
                     self.roll()
@@ -454,7 +470,7 @@ class Player( object ):
 
                 self.ReadyToDoubleJump = False
 
-        # Apply jumps
+        # If the player wants to jump and meets the requirements, apply it
         self.applyJump()
 
         return task.cont
