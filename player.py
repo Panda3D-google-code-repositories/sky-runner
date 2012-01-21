@@ -101,7 +101,7 @@ class Player( object ):
         """ make the nodepath for player """
         self.player = NodePath( 'player' )
         self.player.reparentTo( render )
-        self.player.setPos( 0, 0, 2 )
+        self.player.setPos( 0, 0, 10 )
         self.player.setScale( .05 )
 
 

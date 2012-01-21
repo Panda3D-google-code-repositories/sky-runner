@@ -63,7 +63,7 @@ class Game( object ):
               <Collide> { Polyset keep descend } 
             in the egg file
         """
-        self.level = loader.loadModel('level.egg')
+        self.level = loader.loadModel('platform-L.egg')
         self.level.reparentTo(render)
         self.level.setTwoSided(True)
 
