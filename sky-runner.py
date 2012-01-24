@@ -1,5 +1,6 @@
 import direct.directbase.DirectStart
 import sys
+import datetime
 from pandac.PandaModules import *
 from direct.gui.OnscreenText import OnscreenText
 from player import Player
@@ -49,6 +50,11 @@ class Game( object ):
 
         taskMgr.add( self.messageUpdate, 'MessageTask' )
 
+        # timer
+        self.clock = OnscreenText(scale = .15, mayChange = True, pos= (-0.5,0.87), fg= (0,1,0,1))
+        self.startTime = datetime.datetime.today()
+    
+        self.timerTask = taskMgr.add( self.timer, 'Timer' )
 
     def initCollision( self ):
         """ create the collision system """
@@ -88,6 +94,18 @@ class Game( object ):
                             pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
 
         return task.cont
+        
+    def timer( self, task ): 
+      nowTime = datetime.datetime.today()
+      t = nowTime - self.startTime
+      s = str(t).split(':')
+      
+      s2 = s[2].split('.')
+      if len(s2) == 1:
+       s2.append('00')
+      self.clock.setText(':'.join(s[:2])+':'+s2[0]+'\''+s2[1][:1])
+      
+      return task.cont
 
 Game()
 run()
