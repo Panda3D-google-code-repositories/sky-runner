@@ -53,8 +53,24 @@ class Game( object ):
         # timer
         self.clock = OnscreenText(scale = .15, mayChange = True, pos= (-0.5,0.87), fg= (0,1,0,1))
         self.startTime = datetime.datetime.today()
-    
         self.timerTask = taskMgr.add( self.timer, 'Timer' )
+        
+            
+        self.solarBeam = render.attachNewNode(DirectionalLight('sun'))
+        self.solarBeam.node().setColor(Vec4(0.7, 0.7, 0.7, 1))
+        self.solarBeam.setHpr(0, 100, 100)
+        
+        self.ambientLight = render.attachNewNode(AmbientLight('ambient light'))
+        self.ambientLight.node().setColor(Vec4(0.3, 0.3, 0.3, 1))
+        
+        self.solarBeam = base.cam.attachNewNode(DirectionalLight("Light"))
+        self.solarBeam.node().setLens(base.cam.node().getLens())
+        #base.cam.node().showFrustum()
+        
+        render.setShaderAuto()
+        render.setLight(self.solarBeam)
+        render.setLight(self.ambientLight)
+        render.setAntialias(AntialiasAttrib.MAuto)
 
     def initCollision( self ):
         """ create the collision system """
@@ -69,14 +85,17 @@ class Game( object ):
               <Collide> { Polyset keep descend } 
             in the egg file
         """
-        self.level = loader.loadModel('platform-L.egg')
+        self.level = loader.loadModel('level.Sources/levelDesign-01.egg')
         self.level.reparentTo(render)
         self.level.setTwoSided(True)
+        self.level.setPos(0.0,0.0,0.0)
+        self.level.setShaderAuto()
 
 
     def initPlayer( self ):
         """ loads the player and creates all the controls for him"""
         self.player = Player()
+        self.player.player.setPos(-34.0,30.0,3.0)
 
 
     def messageUpdate( self, task ):

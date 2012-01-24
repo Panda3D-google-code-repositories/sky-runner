@@ -47,7 +47,7 @@ class Player( object ):
 
     # Jump variables
     CurJumpMomentum = 0
-    MaxJumpMomentum = 3 # Higher value results in higher jumps
+    MaxJumpMomentum = 7 # Higher value results in higher jumps
     JumpMultiplier  = 7 # Higher value will cause player to rise and fall faster
     ReadyToDoubleJump = False
 
@@ -220,15 +220,16 @@ class Player( object ):
 
 
     def verifyGroundCollisions( self ):
+        print self.player.getPos()    
 
         # Get the highest Z from the down casting ray
         highestZ = -1000
         for i in range( self.groundHandler.getNumEntries() ):
             entry = self.groundHandler.getEntry( i )
             z = entry.getSurfacePoint( render ).getZ()
-            if z > highestZ and entry.getIntoNode().getName() == "Cube":
+            if z > highestZ and "platform" in entry.getIntoNode().getName():
                 highestZ = z
-
+                           
         return highestZ
 
 
@@ -242,7 +243,7 @@ class Player( object ):
         for i in range( self.forwardHandler.getNumEntries() ):
 
             entry = self.forwardHandler.getEntry( i )
-            if entry.getIntoNode().getName() == "Cube":
+            if "platform" in entry.getIntoNode().getName():
 
                 point = entry.getSurfacePoint( render )
                 x = point.getX()
@@ -251,6 +252,7 @@ class Player( object ):
 
                 if dist < lowestDist:
                     lowestDist = dist
+                                                        
 
         return lowestDist
 
