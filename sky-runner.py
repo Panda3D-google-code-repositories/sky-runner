@@ -58,14 +58,17 @@ class Game( object ):
             
         self.solarBeam = render.attachNewNode(DirectionalLight('sun'))
         self.solarBeam.node().setColor(Vec4(0.7, 0.7, 0.7, 1))
-        self.solarBeam.setHpr(0, 100, 100)
+        self.solarBeam.setHpr(0,-60,0)
+        self.solarBeam.setPos(0,-450,340)
         
         self.ambientLight = render.attachNewNode(AmbientLight('ambient light'))
         self.ambientLight.node().setColor(Vec4(0.3, 0.3, 0.3, 1))
         
-        self.solarBeam = base.cam.attachNewNode(DirectionalLight("Light"))
         self.solarBeam.node().setLens(base.cam.node().getLens())
-        #base.cam.node().showFrustum()
+        self.solarBeam.node().setShadowCaster(True, 4096, 4096)
+        #self.solarBeam.node().showFrustum()
+        self.solarBeam.node().getLens().setFilmSize(4096, 4096)
+        
         
         render.setShaderAuto()
         render.setLight(self.solarBeam)
