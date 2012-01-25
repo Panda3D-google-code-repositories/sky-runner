@@ -95,6 +95,12 @@ class Player( object ):
         
         self.currentCheckPoint = 0;
         
+        self.myMaterial = Material()
+        self.myMaterial.setShininess(12.5) #Make this material shiny
+        self.myMaterial.setAmbient(VBase4(0,0,0.800000011921,1)) #Make this material blue
+        self.myMaterial.setDiffuse(VBase4(0,0,0.800000011921,1))
+        self.myMaterial.setSpecular(VBase4(.25,.25,.25,1))
+        
         self.savedCheckPoint = -1
         self.savedPos = ( 0, 0, 10 )
         self.savedTime = datetime.timedelta(seconds=0)
@@ -258,6 +264,10 @@ class Player( object ):
                         if self.savedCheckPoint != self.currentCheckPoint:
                             self.saveCheckPoint()
                             self.currentCheckPoint+= 1
+                            obj = render.find("**/waypoint"+str(self.currentCheckPoint))
+                            print obj.getMaterial()
+                            obj.setMaterial(self.myMaterial)
+                            print obj.getMaterial()
                     
                            
         return highestZ
