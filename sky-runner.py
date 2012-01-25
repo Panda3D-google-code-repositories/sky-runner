@@ -48,11 +48,16 @@ class Game( object ):
         self.fallHeightText = OnscreenText(text = "FallHeight = 0", style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
 
+        self.currCheckPointText = OnscreenText(text = "Current CheckPoint: " + str( self.player.currentCheckPoint ), style = 1, fg = ( 1, 0, 0, 1 ),
+                            pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
+                            
         taskMgr.add( self.messageUpdate, 'MessageTask' )
 
         # timer
         self.clock = OnscreenText(scale = .15, mayChange = True, pos= (-0.5,0.87), fg= (0,1,0,1))
         self.startTime = datetime.datetime.today()
+        self.lastTimeStop = datetime.timedelta(seconds=0)
+        self.displayTime = datetime.timedelta(seconds=0)
         self.timerTask = taskMgr.add( self.timer, 'Timer' )
         
             
@@ -65,7 +70,7 @@ class Game( object ):
         self.ambientLight.node().setColor(Vec4(0.3, 0.3, 0.3, 1))
         
         self.solarBeam.node().setLens(base.cam.node().getLens())
-        self.solarBeam.node().setShadowCaster(True, 4096, 4096)
+        #self.solarBeam.node().setShadowCaster(True, 4096, 4096)
         #self.solarBeam.node().showFrustum()
         self.solarBeam.node().getLens().setFilmSize(4096, 4096)
         
@@ -97,7 +102,7 @@ class Game( object ):
 
     def initPlayer( self ):
         """ loads the player and creates all the controls for him"""
-        self.player = Player()
+        self.player = Player( self )
         self.player.player.setPos(-34.0,30.0,3.0)
 
 
@@ -114,12 +119,18 @@ class Game( object ):
         self.fallHeightText.destroy()
         self.fallHeightText = OnscreenText(text = "FallHeight = " + str( self.player.FallHeight ), style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
+                            
+        self.currCheckPointText.destroy()
+        self.currCheckPointText = OnscreenText(text = "Current CheckPoint: " + str( self.player.currentCheckPoint ), style = 1, fg = ( 1, 0, 0, 1 ),
+                            pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
 
         return task.cont
         
     def timer( self, task ): 
       nowTime = datetime.datetime.today()
-      t = nowTime - self.startTime
+      t = self.lastTimeStop + nowTime - self.startTime
+      self.displayTime = t
+      
       s = str(t).split(':')
       
       s2 = s[2].split('.')

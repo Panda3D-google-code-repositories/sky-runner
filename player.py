@@ -1,5 +1,7 @@
 from pandac.PandaModules import *
 import math
+import datetime
+from direct.gui.OnscreenText import OnscreenText
 
 
 class State( object ):
@@ -23,7 +25,6 @@ class State( object ):
         if state == State.FALLING or state == State.JUMPING or state == State.DOUBLE_JUMPING:
             return True
         return False
-
 
 class Player( object ):
 
@@ -84,14 +85,25 @@ class Player( object ):
     StunnedCurHeight = 0
     StunnedMaxHeight = 5 # Higher value means the camera will descend more
     StunnedDt        = 10.00 # Higher values mean faster shakes
+    
+    # For checkPoint control
 
-
-    def __init__( self ):
+    def __init__( self, gameContext ):
         """ inits the player """
+        self.game = gameContext
+        self.lastCheckPoint = len(render.findAllMatches("**/waypoint*")) - 1
+        
+        self.currentCheckPoint = 0;
+        
+        self.savedCheckPoint = -1
+        self.savedPos = ( 0, 0, 10 )
+        self.savedTime = datetime.timedelta(seconds=0)
+        
         self.loadModel()
         self.setUpCamera()
         self.createCollisions()
         self.attachControls()
+        
         taskMgr.add( self.mouseUpdate, 'MouseTask' )
         taskMgr.add( self.moveUpdate,  'MoveTask'  )
         taskMgr.add( self.jumpUpdate,  'JumpTask'  )
@@ -172,6 +184,7 @@ class Player( object ):
         base.accept( "d-up", self.setKey, [ "d", 0 ] )
         base.accept( "r",    self.setKey, [ "r", 1 ] )
         base.accept( "r-up", self.setKey, [ "r", 0 ] )
+        base.accept( "l" , self.reloadLastCheckPoint)
 
 
     def setKey( self, key, value ):
@@ -220,15 +233,32 @@ class Player( object ):
 
 
     def verifyGroundCollisions( self ):
-        print self.player.getPos()    
+        #print self.player.getPos()    
 
         # Get the highest Z from the down casting ray
         highestZ = -1000
         for i in range( self.groundHandler.getNumEntries() ):
             entry = self.groundHandler.getEntry( i )
             z = entry.getSurfacePoint( render ).getZ()
-            if z > highestZ and "platform" in entry.getIntoNode().getName():
+            if z > highestZ and ("platform" in entry.getIntoNode().getName() or "waypoint" in entry.getIntoNode().getName()):
                 highestZ = z
+                
+                # cehck if the player have touched the last checkpoint in game
+                if self.currentCheckPoint == self.lastCheckPoint:
+                    OnscreenText(text = "WIN", style = 1, fg = ( 0, 1, 0, 1 ),
+                                pos = ( -1.33, .25 ), align = TextNode.ALeft, scale = .8 )
+                                
+                
+                if "waypoint"+str(self.currentCheckPoint) in entry.getIntoNode().getName():
+                    #print "z " + str(z)
+                    #print "player " + str(self.player.getZ())
+                    dz = abs(z - self.player.getZ())
+                    #print "dz " + str(dz)
+                    if dz < 0.3:
+                        if self.savedCheckPoint != self.currentCheckPoint:
+                            self.saveCheckPoint()
+                            self.currentCheckPoint+= 1
+                    
                            
         return highestZ
 
@@ -574,3 +604,32 @@ class Player( object ):
         self.applyJump()
 
         return task.cont
+    
+    def saveCheckPoint( self ):
+        self.savedCheckPoint = self.currentCheckPoint
+        self.savedPos = self.player.getPos()
+        self.savedTime = self.game.displayTime
+        
+    def reloadLastCheckPoint( self ): 
+        if self.savedCheckPoint == -1:
+            return
+        
+        self.currentCheckPoint = self.savedCheckPoint+1
+        self.player.setPos(self.savedPos)
+        self.game.startTime = datetime.datetime.today()
+        self.game.lastTimeStop = self.savedTime
+        self.resetPlayerVariables()
+        
+    def resetPlayerVariables( self ):
+        self.CurSpeed = 0
+        self.CurStrafeSpeed = 0
+        self.CurJumpMomentum = 0
+        self.FallHeight  = 0
+        self.CameraCurShake = 0
+        self.RollDegrees   = 0
+        self.RollCurHeight = 0
+        self.LandingCurHeight = 0
+        self.LandingCurDt     = 0
+        self.StunnedCount     = 0
+        self.StunnedCurHeight = 0
+        self.CurState = State.RUNNING
