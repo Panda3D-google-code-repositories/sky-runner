@@ -5,6 +5,10 @@ from pandac.PandaModules import *
 from direct.gui.OnscreenText import OnscreenText
 from player import Player
 
+
+loadPrcFileData("", "framebuffer-multisample 1")
+loadPrcFileData("", "multisamples 2")
+
 class Game( object ):
 
     def __init__( self ):
@@ -75,10 +79,10 @@ class Game( object ):
         self.solarBeam.node().getLens().setFilmSize(4096, 4096)
         
         
-        render.setShaderAuto()
+        #render.setShaderAuto()
         render.setLight(self.solarBeam)
         render.setLight(self.ambientLight)
-        render.setAntialias(AntialiasAttrib.MAuto)
+        render.setAntialias(AntialiasAttrib.MMultisample)
 
     def initCollision( self ):
         """ create the collision system """
@@ -97,7 +101,9 @@ class Game( object ):
         self.level.reparentTo(render)
         self.level.setTwoSided(True)
         self.level.setPos(0.0,0.0,0.0)
-        self.level.setShaderAuto()
+        self.level.setAntialias(AntialiasAttrib.MMultisample)
+
+        #self.level.setShaderAuto()
 
 
     def initPlayer( self ):

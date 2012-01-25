@@ -91,7 +91,7 @@ class Player( object ):
     def __init__( self, gameContext ):
         """ inits the player """
         self.game = gameContext
-        self.lastCheckPoint = len(render.findAllMatches("**/waypoint*")) - 1
+        self.lastCheckPoint = len(render.findAllMatches("**/waypoint*"))
         
         self.currentCheckPoint = 0;
         
