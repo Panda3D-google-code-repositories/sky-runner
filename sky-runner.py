@@ -17,7 +17,8 @@ class Game( object ):
         self.loadLevel()
         self.initPlayer()
 
-        base.accept( "escape" , sys.exit)
+        base.accept( "escape" , sys.exit )
+        base.accept( "p" , self.togglePause )
 
         # Make the mouse invisible, turn off normal mouse controls
         base.disableMouse()
@@ -25,6 +26,11 @@ class Game( object ):
         props.setCursorHidden( True )
         base.win.requestProperties( props )
 
+        self.paused = False
+        self.pausedTime = datetime.timedelta(seconds=0)
+        self.pausedX = 0
+        self.pausedY = 0
+        
         self.title = OnscreenText(text = "Sky-Runner: Mirror's Edge-like Game", style = 1, fg = ( 1, 0, 0, 1 ),
                                 pos = ( 1.32, -0.98 ), align=TextNode.ARight, scale = .07 )
 
@@ -62,7 +68,7 @@ class Game( object ):
         self.startTime = datetime.datetime.today()
         self.lastTimeStop = datetime.timedelta(seconds=0)
         self.displayTime = datetime.timedelta(seconds=0)
-        self.timerTask = taskMgr.add( self.timer, 'Timer' )
+        self.timerTask = taskMgr.add( self.timer, 'TimerTask' )
         
             
         self.solarBeam = render.attachNewNode(DirectionalLight('sun'))
@@ -146,5 +152,35 @@ class Game( object ):
       
       return task.cont
 
+    def togglePause( self ):
+        if self.paused == False:
+            print "b"
+            taskMgr.remove( 'MessageTask' )
+            taskMgr.remove( 'TimerTask' )
+            taskMgr.remove( 'MouseTask' )
+            taskMgr.remove( 'MoveTask'  )
+            taskMgr.remove( 'JumpTask'  )
+            self.pausedTime = self.displayTime
+            
+            md = base.win.getPointer(0)
+            self.pausedX = md.getX()
+            self.pausedY = md.getY()
+
+            self.paused = True
+        else:
+            print "c"
+            taskMgr.add( self.messageUpdate, 'MessageTask' )
+            self.timerTask = taskMgr.add( self.timer, 'TimerTask' )
+            taskMgr.add( self.player.mouseUpdate, 'MouseTask' )
+            taskMgr.add( self.player.moveUpdate,  'MoveTask'  )
+            taskMgr.add( self.player.jumpUpdate,  'JumpTask'  )
+            self.startTime = datetime.datetime.today()
+            self.lastTimeStop = self.pausedTime
+            md = base.win.getPointer(0)
+            base.win.movePointer(0, self.pausedX , self.pausedY)
+        
+            self.paused = False
+        
+        
 Game()
 run()
