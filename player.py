@@ -264,10 +264,10 @@ class Player( object ):
                         if self.savedCheckPoint != self.currentCheckPoint:
                             self.saveCheckPoint()
                             self.currentCheckPoint+= 1
-                            obj = render.find("**/waypoint"+str(self.currentCheckPoint))
-                            print obj.getMaterial()
-                            obj.setMaterial(self.myMaterial)
-                            print obj.getMaterial()
+                            #obj = render.find("**/waypoint"+str(self.currentCheckPoint))
+                            #print obj.getMaterial()
+                            #obj.setMaterial(self.myMaterial)
+                            #print obj.getMaterial()
                     
                            
         return highestZ
