@@ -92,7 +92,7 @@ class Player( object ):
         """ inits the player """
         self.game = gameContext
         self.lastCheckPoint = len(render.findAllMatches("**/waypoint*"))
-        
+                
         self.currentCheckPoint = 0;
         
         self.savedCheckPoint = -1
