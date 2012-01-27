@@ -90,7 +90,10 @@ class Player( object ):
         self.createCollisions()
         self.attachControls()
         
-        self.soundRunning = base.loader.loadSfx("sounds.Sources/running.ogg")
+        self.soundRunning = base.loader.loadSfx("sounds.Sources/runningCrop.wav")
+        self.soundRunning.setLoop(True)
+        self.soundRunning.setPlayRate(1.0)  
+        self.soundRunning.play()
                 
         taskMgr.add( self.mouseUpdate, 'MouseTask' )
         taskMgr.add( self.moveUpdate,  'MoveTask'  )
@@ -389,8 +392,9 @@ class Player( object ):
                 self.CurStrafeSpeed += self.AirDeaccel * globalClock.getDt()
                 if self.CurStrafeSpeed > 0:
                     self.CurStrafeSpeed = 0
-
-
+        self.soundRunning.setPlayRate(0.0+(self.CurSpeed/100))    
+        base.sfxManagerList[0].update()          
+                    
     def cameraEffects( self ):
 
         if self.CurState == pState.RUNNING:
@@ -600,8 +604,8 @@ class Player( object ):
         return task.cont
     
     def soundUpdate(self, task):
-        if self.CurState == pState.RUNNING:
-            self.soundRunning.play()
+        if pState.canMoveCamera( self.CurState ) == False:
+            pass
         
         return task.cont
     
