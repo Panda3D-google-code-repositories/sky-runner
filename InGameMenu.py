@@ -23,31 +23,40 @@ class InGameMenu(DirectObject.DirectObject):
 
         self.creditsButton = DirectButton(parent=self.frame, text="Credits", command=self.showCredits, pos=(0,0,0), text_scale=
         0.07, text_fg=(0,0,0,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), frameColor=(0.8,0.8,0.8,0))
+
         self.resumeButton = DirectButton(parent=self.frame, text="Resume", command=self.resumeGame, pos=(0,0,-0.1), text_scale=
+        0.07, text_fg=(0,0,0,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+        
+        self.resumeButton = DirectButton(parent=self.frame, text="Exit Game", command=self.endGame, pos=(0,0,-0.2), text_scale=
         0.07, text_fg=(0,0,0,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), frameColor=(0.8,0.8,0.8,0))
 
         self.show()
         
         self.credits = None
-    def show(self): #Function that show menu
+    def show(self): 
         self.frame.show()        
         
-    def hide(self): #Function that hide menu
+    def hide(self): 
         self.frame.hide()
         
-    def showMainMenu(self): #Function that show graphic settings
-        self.hide()
-        self.skyRunnerInstance.game.clearScreenTexts()
-        render.node().removeAllChildren()
-        print "--------------------"
-        self.skyRunnerInstance.__init__()
+    def showMainMenu(self): 
+        if self.skyRunnerInstance.gameState == State.INGAMEMENU:
+            self.hide()
+            self.skyRunnerInstance.game.clearScreenTexts()
+            self.skyRunnerInstance.__init__()
         
-    def showCredits(self): #Function that show credits
-        self.skyRunnerInstance.gameState = State.INGAMECREDITSMENU
-        if not self.credits:
-            self.credits = Credits()
-        else:
-            self.credits.show()
+    def showCredits(self): 
+        if self.skyRunnerInstance.gameState == State.INGAMEMENU:
+            self.skyRunnerInstance.gameState = State.INGAMECREDITSMENU
+            if not self.credits:
+                self.credits = Credits(self.skyRunnerInstance)
+            else:
+                self.credits.show()
             
     def resumeGame( self ):
-        self.skyRunnerInstance.escPressed()
+        if self.skyRunnerInstance.gameState == State.INGAMEMENU:
+            self.skyRunnerInstance.escPressed()
+            
+    def endGame( self ):
+        if self.skyRunnerInstance.gameState == State.INGAMEMENU:
+            sys.exit()  
