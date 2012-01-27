@@ -12,7 +12,7 @@ from panda3d.core import Point3
 
  
 
-loadPrcFileData("", "prefer-parasite-buffer #f")
+#loadPrcFileData("", "prefer-parasite-buffer #f")
 loadPrcFileData("", "framebuffer-multisample 1")
 loadPrcFileData("", "multisamples 2")
 
@@ -20,20 +20,43 @@ class TestApp(ShowBase):
     def __init__(self): 
         ShowBase.__init__(self) 
 
+
         render.setAntialias(AntialiasAttrib.MMultisample,1)        
         self.accept("escape", sys.exit) 
         
-                #node = self.loader.loadModel('../blender/sky/box-2.49.egg') 
-        self.torus = self.loader.loadModel('torus.egg')
+                 
+        self.torus = self.loader.loadModel('../blender/level.Sources/levelDesign-01.egg')
         self.torus.reparentTo(self.render)
         self.torus.setTwoSided(True)
          
         self.torus.setPos(0.0,0.0,5.0)
-        self.torus.setShaderAuto()
-#        shader = Shader.load(Shader.SLGLSL, 'toonMeshLab.vert', 'toonMeshLab.frag')
-#        self.torus.setTransparency(TransparencyAttrib.MAlpha)
+        #shader = Shader.load(Shader.SLGLSL, 'simple.vert', 'simple.frag')
+        self.torus.setTransparency(TransparencyAttrib.MAlpha)
+         
 #        self.torus.setSmoothShading() 
-#        self.torus.setShader(shader);
+        #self.torus.setShader(shader);
+        
+        
+        
+#        #frag
+
+ #       self.torus.setShaderInput("Edge", 0.25)
+#        self.torus.setShaderInput("Phong", 0.1)
+#        self.torus.setShaderInput("Fuzz", 0.1)
+#        self.torus.setShaderInput("PhongColor", Vec3(0.0, 0.0, 1.0))
+#        self.torus.setShaderInput("DiffuseColor", Vec3( 0.0, 0.0, 1.0))
+        
+
+        self.torus1= self.loader.loadModel('torus.egg')
+        self.torus1.reparentTo(self.render)
+        self.torus1.setTwoSided(True)
+         
+        self.torus1.setPos(0.0,0.0,10.0)
+        self.torus1.setShaderAuto()
+        shader = Shader.load(Shader.SLGLSL, 'simple.vert', 'simple.frag')
+        self.torus1.setTransparency(TransparencyAttrib.MAlpha)
+#        self.torus.setSmoothShading() 
+        self.torus1.setShader(shader);
         
         
         
@@ -44,8 +67,7 @@ class TestApp(ShowBase):
 #        self.torus.setShaderInput("Fuzz", 0.1)
 #        self.torus.setShaderInput("PhongColor", Vec3(0.0, 0.0, 1.0))
 #        self.torus.setShaderInput("DiffuseColor", Vec3( 0.0, 0.0, 1.0))
-        
-        
+                
  
         # Create the four lerp intervals needed for the panda to
         # walk back and forth.
@@ -67,22 +89,19 @@ class TestApp(ShowBase):
         self.torusPace.loop()
             
         #node = self.loader.loadModel('../blender/sky/box-2.49.egg') 
-        self.cube = self.loader.loadModel('platform-L.egg')
+        self.cube = self.loader.loadModel('platform-tex1.egg')
         self.cube.reparentTo(render)
-        
+        #self.cube.setTwoSided(True)
 
-
-        
-        self.cube.setTransparency(TransparencyAttrib.MAlpha) 
         self.cube.setPos(0.0,0.0,0.0)
         self.cube.setShaderAuto()
         #shader = Shader.load(Shader.SLGLSL, 'toon.vert', 'toon.frag')
         #self.cube.setShader(shader);
         #self.cube.setShaderInput("LightPosition", Vec3(0, 0, 0)) 
                 
-        self.sky = loader.loadModel('../blender/sky/skydomeblendSmooth.egg')
-        self.sky.reparentTo(render)
-        self.sky.setLightOff()
+#        self.sky = loader.loadModel('../blender/sky.Sources/skydomeblendSmooth.egg')
+#        self.sky.reparentTo(render)
+#        self.sky.setLightOff()
                        
               
         #self.cube.setShader(shader) 
@@ -114,23 +133,24 @@ class TestApp(ShowBase):
         
         self.solarBeam = base.cam.attachNewNode(DirectionalLight("Light"))
         self.solarBeam.node().setLens(base.cam.node().getLens())
-        base.cam.node().showFrustum()
+        #base.cam.node().showFrustum()
         
   
-        dLight = Spotlight('dLight')
-        dLight.setColor(Vec4(0.8,0.8,0.75,1))
-        dLightNP = render.attachNewNode(dLight)
-        dLightNP.setHpr(0,-90,0)
-        dLightNP.setPos(0, 0, 10)
-        #dLight.setPoint(Point3(0,0,20))
-        dLight.setShadowCaster(True, 256, 256)
-        dLight.showFrustum()
-        dLight.getLens().setFilmSize(4096, 4096)
-        dLight.getLens().setNearFar(1, 1500.0)
-        render.setLight(dLightNP)
+#        dLight = DirectionalLight('dLight')
+#        dLight.setLens(base.cam.node().getLens())
+##        dLight.setColor(Vec4(0.8,0.8,0.75,1))
+#        dLightNP = render.attachNewNode(dLight)
+#        dLightNP.setHpr(0,-90,0)
+#        dLightNP.setPos(0, 0, 60)
+#        #dLight.setPoint(Point3(0,0,20))
+#        dLight.setShadowCaster(True, 4096, 4096)
+#        dLight.showFrustum()
+#        dLight.getLens().setFilmSize(4096, 4096)
+#        dLight.getLens().setNearFar(10, 750)
+#        render.setLight(dLightNP)
         
         # Enable the shader generator for the receiving nodes
-        render.setShaderAuto()
+        #render.setShaderAuto()
         render.setLight(self.solarBeam)
         render.setLight(self.ambientLight)
         render.setAntialias(AntialiasAttrib.MAuto)
