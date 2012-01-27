@@ -4,7 +4,7 @@ import datetime
 from pandac.PandaModules import *
 from direct.gui.OnscreenText import OnscreenText
 
-from Player import Player
+from player import Player
 from GameStates import State
 
 loadPrcFileData("", "framebuffer-multisample 1")
