@@ -3,28 +3,8 @@ import math
 import datetime
 from direct.gui.OnscreenText import OnscreenText
 
-
-class State( object ):
-    RUNNING, FALLING, JUMPING, DOUBLE_JUMPING, ROLLING, BAD_LANDING, STUNNED = range(7)
-
-    @staticmethod
-    def canMoveCamera( state ):
-        if( state == State.RUNNING or state == State.FALLING or
-            state == State.JUMPING or state == State.DOUBLE_JUMPING ):
-            return True
-        return False
-
-    @staticmethod
-    def canAccelerate( state ):
-        if state == State.RUNNING:
-            return True
-        return False
-
-    @staticmethod
-    def inMidAir( state ):
-        if state == State.FALLING or state == State.JUMPING or state == State.DOUBLE_JUMPING:
-            return True
-        return False
+from PlayerStates import State as pState
+from GameStates import State as gState
 
 class Player( object ):
 
@@ -32,7 +12,7 @@ class Player( object ):
     KeyMap = { "w":0, "a":0, "s":0, "d":0, "space":0, "r":0 }
 
     # Player state
-    CurState = State.RUNNING
+    CurState = pState.RUNNING
 
     # Acceleration variables
     Accel = 60
@@ -195,7 +175,7 @@ class Player( object ):
 
     def setKey( self, key, value ):
 
-        if key == "space" and value == 0 and self.CurState == State.JUMPING:
+        if key == "space" and value == 0 and self.CurState == pState.JUMPING:
             self.ReadyToDoubleJump = True
 
         self.KeyMap[ key ] = value
@@ -203,9 +183,9 @@ class Player( object ):
 
     def roll( self ):
 
-        if self.CurState != State.ROLLING:
+        if self.CurState != pState.ROLLING:
 
-            self.CurState = State.ROLLING
+            self.CurState = pState.ROLLING
             if  ( self.CurSpeed >= 0 ): self.CurSpeed = 10
             elif( self.CurSpeed <  0 ): self.CurSpeed = -5
             self.CurStrafeSpeed = 0
@@ -216,9 +196,9 @@ class Player( object ):
 
     def bad_landing( self ):
 
-        if self.CurState != State.BAD_LANDING:
+        if self.CurState != pState.BAD_LANDING:
 
-            self.CurState = State.BAD_LANDING
+            self.CurState = pState.BAD_LANDING
             self.CurSpeed         = 0
             self.CurStrafeSpeed   = 0
             self.LandingCurHeight = 0
@@ -228,9 +208,9 @@ class Player( object ):
 
     def stunned( self ):
 
-        if self.CurState != State.STUNNED:
+        if self.CurState != pState.STUNNED:
 
-            self.CurState = State.STUNNED
+            self.CurState = pState.STUNNED
             self.CurSpeed         = -5
             self.CurStrafeSpeed   = 0
             self.StunnedCount     = 0
@@ -251,6 +231,7 @@ class Player( object ):
                 
                 # cehck if the player have touched the last checkpoint in game
                 if self.currentCheckPoint == self.lastCheckPoint:
+                    
                     OnscreenText(text = "WIN", style = 1, fg = ( 0, 1, 0, 1 ),
                                 pos = ( -1.33, .25 ), align = TextNode.ALeft, scale = .8 )
                                 
@@ -302,7 +283,7 @@ class Player( object ):
         lowestDist = self.verifyForwardCollisions()
 
         # Only let player alter his course if not jumping (he can still alter it by moving the camera, though)
-        if State.canAccelerate( self.CurState ) == True:
+        if pState.canAccelerate( self.CurState ) == True:
 
             # Accelerate forward
             if self.KeyMap["w"] == 1:
@@ -384,7 +365,7 @@ class Player( object ):
                         self.CurStrafeSpeed = 0
 
         # Slowly deaccelerate all speeds while in mid-air
-        elif State.inMidAir( self.CurState ) == True:
+        elif pState.inMidAir( self.CurState ) == True:
 
             if self.CurSpeed > 0:
                 self.CurSpeed -= self.AirDeaccel * globalClock.getDt()
@@ -409,7 +390,7 @@ class Player( object ):
 
     def cameraEffects( self ):
 
-        if self.CurState == State.RUNNING:
+        if self.CurState == pState.RUNNING:
 
             # Shake camera when player is running
             if self.CurSpeed != 0:
@@ -430,13 +411,13 @@ class Player( object ):
                     self.CameraShakeDt *= -1
 
         # Don't shake camera when player is in mid-air
-        elif State.inMidAir( self.CurState ) == True:
+        elif pState.inMidAir( self.CurState ) == True:
 
             self.CameraCurShake = 0
             base.camera.setX(0)
             base.camera.setR(0)
 
-        elif self.CurState == State.ROLLING:
+        elif self.CurState == pState.ROLLING:
 
             if self.RollDegrees < 360:
 
@@ -457,11 +438,11 @@ class Player( object ):
                     self.RollCurHeight = -self.RollMaxHeight
 
                 if base.camera.getZ() > 0:
-                    self.CurState = State.RUNNING
+                    self.CurState = pState.RUNNING
                     base.camera.setP(0)
                     base.camera.setZ(0)
 
-        elif self.CurState == State.BAD_LANDING:
+        elif self.CurState == pState.BAD_LANDING:
 
             base.camera.setZ( base.camera.getZ() - self.LandingCurHeight )
             base.camera.setR( base.camera.getR() - self.LandingCurHeight )
@@ -473,11 +454,11 @@ class Player( object ):
                 self.LandingCurDt = self.LandingSlowDt
 
             if base.camera.getZ() > 0:
-                self.CurState = State.RUNNING
+                self.CurState = pState.RUNNING
                 base.camera.setZ(0)
                 base.camera.setR(0)
 
-        elif self.CurState == State.STUNNED:
+        elif self.CurState == pState.STUNNED:
 
             base.camera.setP( base.camera.getP() - self.StunnedCurHeight )
             self.StunnedCurHeight += self.StunnedDt * globalClock.getDt()
@@ -496,7 +477,7 @@ class Player( object ):
                 self.StunnedDt *= -1
 
             if self.StunnedCount > 3:
-                self.CurState = State.RUNNING
+                self.CurState = pState.RUNNING
 
 
     def applyJump( self ):
@@ -504,10 +485,10 @@ class Player( object ):
         # Player wants to jump
         if self.KeyMap["space"] == 1:
 
-            if self.CurState == State.RUNNING:
+            if self.CurState == pState.RUNNING:
 
                 self.CurJumpMomentum = self.MaxJumpMomentum
-                self.CurState = State.JUMPING
+                self.CurState = pState.JUMPING
 
                 # Jumping in a certain direction can give you horizontal momentum, at the price of vertical momentum
                 if self.KeyMap["w"] == 0:
@@ -536,7 +517,7 @@ class Player( object ):
 
                 self.ReadyToDoubleJump = False
                 self.CurJumpMomentum = self.MaxJumpMomentum
-                self.CurState = State.DOUBLE_JUMPING
+                self.CurState = pState.DOUBLE_JUMPING
                 self.FallHeight = 0
 
 
@@ -548,7 +529,7 @@ class Player( object ):
 
         if base.win.movePointer( 0, base.win.getXSize()/2, base.win.getYSize()/2 ):
 
-            if State.canMoveCamera( self.CurState ) == True:
+            if pState.canMoveCamera( self.CurState ) == True:
 
                 self.player.setH( self.player.getH() - ( x - base.win.getXSize() / 2 ) * self.MouseSensitivity )
 
@@ -588,24 +569,24 @@ class Player( object ):
         zdif = self.player.getZ() - highestZ
 
         # Detecting a fall
-        if zdif >= 0.333 and self.CurState == State.RUNNING:
+        if zdif >= 0.333 and self.CurState == pState.RUNNING:
 
-            self.CurState = State.FALLING
+            self.CurState = pState.FALLING
 
         # Detecting the end of a fall/jump, or preventing a really small one
-        elif zdif < 0.3 or ( zdif < 0.333 and self.CurState == State.RUNNING ):
+        elif zdif < 0.3 or ( zdif < 0.333 and self.CurState == pState.RUNNING ):
 
             self.player.setZ( highestZ + 0.3 )
             self.CurJumpMomentum = 0
 
-            if State.inMidAir( self.CurState ) == True:
+            if pState.inMidAir( self.CurState ) == True:
 
                 if self.KeyMap["r"] == 1:
                     self.roll()
                 elif self.FallHeight > self.FallHeightThreshold:
                     self.bad_landing()
                 else:
-                    self.CurState = State.RUNNING
+                    self.CurState = pState.RUNNING
 
                 self.ReadyToDoubleJump = False
                 self.FallHeight = 0
@@ -642,4 +623,4 @@ class Player( object ):
         self.LandingCurDt     = 0
         self.StunnedCount     = 0
         self.StunnedCurHeight = 0
-        self.CurState = State.RUNNING
+        self.CurState = pState.RUNNING
