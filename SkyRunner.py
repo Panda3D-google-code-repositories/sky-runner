@@ -35,6 +35,7 @@ class SkyRunner(DirectObject.DirectObject): #Class for main menu
         self.game = None
         self.inGameMenu = None
         
+        
     def show(self): #Function that show menu
         self.gameState = State.MAINMENU
         self.frame.show()

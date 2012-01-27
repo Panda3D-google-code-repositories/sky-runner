@@ -90,9 +90,12 @@ class Player( object ):
         self.createCollisions()
         self.attachControls()
         
+        self.soundRunning = base.loader.loadSfx("sounds.Sources/running.ogg")
+                
         taskMgr.add( self.mouseUpdate, 'MouseTask' )
         taskMgr.add( self.moveUpdate,  'MoveTask'  )
         taskMgr.add( self.jumpUpdate,  'JumpTask'  )
+        taskMgr.add( self.soundUpdate, 'SoundTask'  )
 
 
     def loadModel( self ):
@@ -486,7 +489,7 @@ class Player( object ):
         if self.KeyMap["space"] == 1:
 
             if self.CurState == pState.RUNNING:
-
+                
                 self.CurJumpMomentum = self.MaxJumpMomentum
                 self.CurState = pState.JUMPING
 
@@ -594,6 +597,12 @@ class Player( object ):
         # If the player wants to jump and meets the requirements, apply it
         self.applyJump()
 
+        return task.cont
+    
+    def soundUpdate(self, task):
+        if self.CurState == pState.RUNNING:
+            self.soundRunning.play()
+        
         return task.cont
     
     def saveCheckPoint( self ):
