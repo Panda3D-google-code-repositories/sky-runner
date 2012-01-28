@@ -398,7 +398,12 @@ class Player( object ):
                 if self.CurStrafeSpeed > 0:
                     self.CurStrafeSpeed = 0
                                         
-
+        if self.CurSpeed > 0 and self.CurState == pState.RUNNING: 
+            self.soundWalking.setVolume(1)
+        else:
+            self.soundWalking.setVolume(0)
+			
+        self.soundWalking.setPlayRate(self.CurSpeed*0.025)
                     
     def cameraEffects( self ):
 
@@ -501,6 +506,7 @@ class Player( object ):
                 
                 self.CurJumpMomentum = self.MaxJumpMomentum
                 self.CurState = pState.JUMPING
+                self.soundWalking.setVolume(0.0)
 
                 # Jumping in a certain direction can give you horizontal momentum, at the price of vertical momentum
                 if self.KeyMap["w"] == 0:
@@ -599,6 +605,7 @@ class Player( object ):
                     self.bad_landing()
                 else:
                     self.CurState = pState.RUNNING
+                    self.soundWalking.setVolume(1) 
 
                 self.ReadyToDoubleJump = False
                 self.FallHeight = 0
@@ -610,15 +617,15 @@ class Player( object ):
     
     def soundUpdate(self, task):
         
-        if pState.running(self.CurState) == True:
-            self.soundWalking.setLoop(True)
-            if self.CurSpeed > 10 :
-                self.soundWalking.setPlayRate(self.CurSpeed*0.025)
-            else:
-                self.soundWalking.setPlayRate(0)
-                
-        elif pState.running(self.CurState) == False:
-            self.soundWalking.setLoop(False)
+        #if pState.running(self.CurState) == True:
+        #    self.soundWalking.setLoop(True)
+        #    if self.CurSpeed > 10 :
+        #        self.soundWalking.setPlayRate(self.CurSpeed*0.025)
+        #    else:
+        #        self.soundWalking.setPlayRate(0)
+        #        
+        #elif pState.running(self.CurState) == False:
+        #    self.soundWalking.setLoop(False)
         
                             
         return task.cont
