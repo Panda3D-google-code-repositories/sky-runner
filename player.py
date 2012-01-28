@@ -512,12 +512,12 @@ class Player( object ):
         # Player wants to jump
         if self.KeyMap["space"] == 1:
 
-            self.soundJump.play()    
             if self.CurState == pState.RUNNING:
                 
                 self.CurJumpMomentum = self.MaxJumpMomentum
                 self.CurState = pState.JUMPING
                 self.soundWalking.setVolume(0.0)
+                self.soundJump.play()
 
                 # Jumping in a certain direction can give you horizontal momentum, at the price of vertical momentum
                 if self.KeyMap["w"] == 0:
@@ -543,7 +543,7 @@ class Player( object ):
                         self.CurStrafeSpeed = -self.MaxStrafeSpeed * 1.5
 
             elif self.ReadyToDoubleJump == True:
-
+                self.soundJump.play()
                 self.ReadyToDoubleJump = False
                 self.CurJumpMomentum = self.MaxJumpMomentum
                 self.CurState = pState.DOUBLE_JUMPING
