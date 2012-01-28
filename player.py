@@ -71,8 +71,9 @@ class Player( object ):
     def __init__( self, gameContext ):
         """ inits the player """
         self.game = gameContext
+        self.vidas = 3
+        
         self.lastCheckPoint = len(render.findAllMatches("**/waypoint*"))
-                
         self.currentCheckPoint = 0;
         
         self.myMaterial = Material()
@@ -628,6 +629,7 @@ class Player( object ):
         
         if self.player.getZ() < 1 and self.screamSound.status() == AudioSound.READY:
             self.screamSound.play()
+            taskMgr.doMethodLater(4, self.taskRespawn, 'Respawn')
         
         #if pState.running(self.CurState) == True:
         #    self.soundWalking.setLoop(True)
@@ -656,7 +658,16 @@ class Player( object ):
         self.game.startTime = datetime.datetime.today()
         self.game.lastTimeStop = self.savedTime
         self.resetPlayerVariables()
-        
+    
+    def taskRespawn( self, task ):
+        self.screamSound.stop()
+        if self.vidas > 0:
+            self.vidas = self.vidas - 1
+            self.reloadLastCheckPoint()
+        else:
+            OnscreenText(text = "GME OVER", style = 1, fg = ( 1, 0, 0, 1 ),
+                                pos = ( -1.33, .25 ), align = TextNode.ALeft, scale = .8 )
+    
     def resetPlayerVariables( self ):
         self.CurSpeed = 0
         self.CurStrafeSpeed = 0
