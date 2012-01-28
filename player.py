@@ -90,10 +90,6 @@ class Player( object ):
         self.createCollisions()
         self.attachControls()
         
-#        self.soundRunning = base.loader.loadSfx("sounds.Sources/runningCropLessNoise.wav")
-#        self.soundRunning.setLoop(True)
-#        self.soundRunning.setPlayRate(1.0)  
-#        self.soundRunning.play()
         
         self.soundWalking = base.loader.loadSfx("sounds.Sources/walkingNoiseFree.wav")
         self.soundWalking.setLoop(True)
@@ -109,6 +105,8 @@ class Player( object ):
         self.soundAmbient.setVolume(1.0) 
         self.soundAmbient.play()
         
+        self.screamSound = base.loader.loadSfx("sounds.Sources/screamFalling.wav")
+        self.screamSound.setVolume(2.0) 
                 
         taskMgr.add( self.mouseUpdate, 'MouseTask' )
         taskMgr.add( self.moveUpdate,  'MoveTask'  )
@@ -627,6 +625,9 @@ class Player( object ):
         return task.cont
     
     def soundUpdate(self, task):
+        
+        if self.player.getZ() < 1 and self.screamSound.status() == AudioSound.READY:
+            self.screamSound.play()
         
         #if pState.running(self.CurState) == True:
         #    self.soundWalking.setLoop(True)
