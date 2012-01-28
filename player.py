@@ -99,6 +99,16 @@ class Player( object ):
         self.soundWalking.setLoop(True)
         self.soundWalking.setVolume(1.0)  
         self.soundWalking.play()
+        
+        self.soundJump    = base.loader.loadSfx("sounds.Sources/jump.wav")
+        self.soundJump.setLoop(False)
+        self.soundJump.setVolume(1.0)
+          
+        self.soundAmbient = base.loader.loadSfx("sounds.Sources/ambient.wav")
+        self.soundAmbient.setLoop(True)
+        self.soundAmbient.setVolume(1.0) 
+        self.soundAmbient.play()
+        
                 
         taskMgr.add( self.mouseUpdate, 'MouseTask' )
         taskMgr.add( self.moveUpdate,  'MoveTask'  )
@@ -502,6 +512,7 @@ class Player( object ):
         # Player wants to jump
         if self.KeyMap["space"] == 1:
 
+            self.soundJump.play()    
             if self.CurState == pState.RUNNING:
                 
                 self.CurJumpMomentum = self.MaxJumpMomentum
