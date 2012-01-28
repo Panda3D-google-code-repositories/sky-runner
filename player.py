@@ -28,7 +28,7 @@ class Player( object ):
 
     # Jump variables
     CurJumpMomentum = 0
-    MaxJumpMomentum = 7 # Higher value results in higher jumps
+    MaxJumpMomentum = 5 # Higher value results in higher jumps
     JumpMultiplier  = 7 # Higher value will cause player to rise and fall faster
     ReadyToDoubleJump = False
 
@@ -90,10 +90,10 @@ class Player( object ):
         self.createCollisions()
         self.attachControls()
         
-        self.soundRunning = base.loader.loadSfx("sounds.Sources/runningCropLessNoise.wav")
-        self.soundRunning.setLoop(True)
-        self.soundRunning.setPlayRate(1.0)  
-        self.soundRunning.play()
+#        self.soundRunning = base.loader.loadSfx("sounds.Sources/runningCropLessNoise.wav")
+#        self.soundRunning.setLoop(True)
+#        self.soundRunning.setPlayRate(1.0)  
+#        self.soundRunning.play()
         
         self.soundWalking = base.loader.loadSfx("sounds.Sources/walkingNoiseFree.wav")
         self.soundWalking.setLoop(True)
@@ -397,13 +397,8 @@ class Player( object ):
                 self.CurStrafeSpeed += self.AirDeaccel * globalClock.getDt()
                 if self.CurStrafeSpeed > 0:
                     self.CurStrafeSpeed = 0
-        if self.CurSpeed > 10 :        
-            self.soundWalking.setPlayRate(self.CurSpeed*0.025)
-            #self.soundWalking.setPlayRate(0)
-        else:        
-            self.soundRunning.setPlayRate(0)
-            self.soundWalking.setPlayRate(0)    
-        base.sfxManagerList[0].update()          
+                                        
+
                     
     def cameraEffects( self ):
 
@@ -614,9 +609,18 @@ class Player( object ):
         return task.cont
     
     def soundUpdate(self, task):
-        if pState.canMoveCamera( self.CurState ) == False:
-            pass
         
+        if pState.running(self.CurState) == True:
+            self.soundWalking.setLoop(True)
+            if self.CurSpeed > 10 :
+                self.soundWalking.setPlayRate(self.CurSpeed*0.025)
+            else:
+                self.soundWalking.setPlayRate(0)
+                
+        elif pState.running(self.CurState) == False:
+            self.soundWalking.setLoop(False)
+        
+                            
         return task.cont
     
     def saveCheckPoint( self ):
