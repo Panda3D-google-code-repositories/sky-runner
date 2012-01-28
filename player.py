@@ -95,9 +95,9 @@ class Player( object ):
         self.soundRunning.setPlayRate(1.0)  
         self.soundRunning.play()
         
-        self.soundWalking = base.loader.loadSfx("sounds.Sources/walking.wav")
+        self.soundWalking = base.loader.loadSfx("sounds.Sources/walkingNoiseFree.wav")
         self.soundWalking.setLoop(True)
-        self.soundWalking.setVolume(0.0)  
+        self.soundWalking.setVolume(1.0)  
         self.soundWalking.play()
                 
         taskMgr.add( self.mouseUpdate, 'MouseTask' )
@@ -397,12 +397,12 @@ class Player( object ):
                 self.CurStrafeSpeed += self.AirDeaccel * globalClock.getDt()
                 if self.CurStrafeSpeed > 0:
                     self.CurStrafeSpeed = 0
-        if self.CurSpeed > 60 :        
-            self.soundRunning.setPlayRate(self.CurSpeed*0.0125)
-            self.soundWalking.setVolume(0)
+        if self.CurSpeed > 10 :        
+            self.soundWalking.setPlayRate(self.CurSpeed*0.025)
+            #self.soundWalking.setPlayRate(0)
         else:        
             self.soundRunning.setPlayRate(0)
-            self.soundWalking.setVolume(1.0)    
+            self.soundWalking.setPlayRate(0)    
         base.sfxManagerList[0].update()          
                     
     def cameraEffects( self ):
