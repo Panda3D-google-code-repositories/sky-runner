@@ -76,21 +76,14 @@ class Player( object ):
         self.lastCheckPoint = len(render.findAllMatches("**/waypoint*"))
         self.currentCheckPoint = 0;
         
-        self.myMaterial = Material()
-        self.myMaterial.setShininess(12.5) #Make this material shiny
-        self.myMaterial.setAmbient(VBase4(0,0,0.800000011921,1)) #Make this material blue
-        self.myMaterial.setDiffuse(VBase4(0,0,0.800000011921,1))
-        self.myMaterial.setSpecular(VBase4(.25,.25,.25,1))
-        
-        self.savedCheckPoint = -1
-        self.savedPos = ( 0, 0, 10 )
-        self.savedTime = datetime.timedelta(seconds=0)
-        
         self.loadModel()
         self.setUpCamera()
         self.createCollisions()
         self.attachControls()
         
+        self.savedCheckPoint = -1
+        self.savedPos = ( -34, 30, 3 )
+        self.savedTime = datetime.timedelta(seconds=0)
         
         self.soundWalking = base.loader.loadSfx("sounds.Sources/walkingNoiseFree.wav")
         self.soundWalking.setLoop(True)
@@ -570,7 +563,7 @@ class Player( object ):
 
 
     def moveUpdate( self, task ):
-
+        print self.player.getPos()
         # Update player speed
         self.applyAcceleration()
 
@@ -630,6 +623,7 @@ class Player( object ):
         if self.player.getZ() < 1 and self.screamSound.status() == AudioSound.READY:
             self.screamSound.play()
             taskMgr.doMethodLater(4, self.taskRespawn, 'Respawn')
+            
         
         #if pState.running(self.CurState) == True:
         #    self.soundWalking.setLoop(True)
@@ -650,8 +644,8 @@ class Player( object ):
         self.savedTime = self.game.displayTime
         
     def reloadLastCheckPoint( self ): 
-        if self.savedCheckPoint == -1:
-            return
+        #if self.savedCheckPoint == -1:
+            #return
         
         self.currentCheckPoint = self.savedCheckPoint+1
         self.player.setPos(self.savedPos)
@@ -663,6 +657,7 @@ class Player( object ):
         self.screamSound.stop()
         if self.vidas > 0:
             self.vidas = self.vidas - 1
+            self.game.vVidas[self.vidas].hide()
             self.reloadLastCheckPoint()
         else:
             OnscreenText(text = "GME OVER", style = 1, fg = ( 1, 0, 0, 1 ),

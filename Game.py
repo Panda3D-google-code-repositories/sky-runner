@@ -3,6 +3,7 @@ import sys
 import datetime
 from pandac.PandaModules import *
 from direct.gui.OnscreenText import OnscreenText
+from direct.gui.DirectGui import *
 
 from player import Player
 from GameStates import State
@@ -17,7 +18,22 @@ class Game( object ):
         self.initCollision()
         self.loadLevel()
         self.initPlayer()
+        
+        self.fVidas1 = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/wingLetters.png",image_pos=(0.9,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+        self.fVidas1.setTransparency(TransparencyAttrib.MAlpha)
+        self.fVidas2 = DirectFrame(frameSize=(0.7,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/wingLetters.png",image_pos=(0.75,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+        self.fVidas2.setTransparency(TransparencyAttrib.MAlpha)
+        self.fVidas3 = DirectFrame(frameSize=(0.5,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/wingLetters.png",image_pos=(0.55,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+        self.fVidas3.setTransparency(TransparencyAttrib.MAlpha)
+        
+        self.vVidas = [self.fVidas1,self.fVidas2,self.fVidas3]
+        
+        #self.fVidas2 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))self.fVidas1 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))
+        #self.fVidas3 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))self.fVidas1 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))
 
+        self.fVidas1.show()
+        self.fVidas2.show()
+        self.fVidas3.show()
         # Make the mouse invisible, turn off normal mouse controls
         self.toggleMouseControls(False)
         
