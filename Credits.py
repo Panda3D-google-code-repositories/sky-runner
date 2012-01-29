@@ -10,23 +10,12 @@ from GameStates import State
 class Credits(DirectObject.DirectObject):  
     def __init__( self, skyRunner ): 
         self.skyRunnerInstance = skyRunner
-        self.frame = DirectFrame(frameSize=(-0.5, 0.5, -0.5, 0.5), frameColor=(0.8,0.8,0.8,.8), pos=(0,0,0))
-        self.headline = DirectLabel(parent=self.frame, text="Credits", scale=0.085, frameColor=(0,0,0,0), pos=(0,0,0.4))
+        #self.frame2 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/TitleScreen.jpg", sortOrder=(-1))
+        self.frame = DirectFrame(frameSize=(-0.5, 0.5, -0.5, 0.5), frameColor=(0.8,0.8,0.8,0), pos=(0,0,0),image="hud.Sources/credits.png")
+        self.frame.setTransparency(TransparencyAttrib.MAlpha)
         
-        self.Text = DirectFrame(
-                                      parent=self.frame, 
-                                      text="Sky Runner\n\nUniversidade Federal do Rio de Janeiro (UFRJ)\n\n\nAuthors: \nFelipe, Marcos, Renato.", 
-                                      scale=0.045, 
-                                      frameColor=(0,0,0,0), 
-                                      pos=(-0.48,0,0.35),
-                                      text_align=TextNode.ALeft)
-        
-        #self.backButton = DirectButton(parent=self.frame, text="back", command=self.hide, 
-        #                    pos=(0,0,-0.4), text_scale=0.08, text_fg=(0,0,0,1), text_align=TextNode.ACenter, 
-        #                    borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), 
-        #                    frameColor=(0.8,0.8,0.8,0), rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
         mapsCredits = loader.loadModel('hud.Sources/mainMenu/buttons_back_maps.egg')
-        self.backButton = DirectButton(parent=self.frame,pos=(0,0,-0.4),image = (mapsCredits.find('**/backready'),
+        self.backButton = DirectButton(parent=self.frame,pos=(0.4,0,-0.73),image = (mapsCredits.find('**/backready'),
                          mapsCredits.find('**/backclicked'),
                          mapsCredits.find('**/backrollover'),
                          mapsCredits.find('**/backdisable')),command=self.hide, scale=0.2,

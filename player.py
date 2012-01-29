@@ -639,9 +639,12 @@ class Player( object ):
         self.game.skyRunnerInstance.soundManager.screamSound.stop()
         if self.vidas > 1:
             self.vidas = self.vidas - 1
-            self.game.vVidas[self.vidas].hide()
+            self.game.vVidasOn[self.vidas].hide()
+            self.game.vVidasOff[self.vidas].show()
             self.reloadLastCheckPoint()
         else:
+            self.game.vVidasOn[self.vidas-1].hide()
+            self.game.vVidasOff[self.vidas-1].show()
             OnscreenText(text = "GAME OVER", style = 1, fg = ( 1, 0, 0, 1 ),
                                 pos = ( -1.33, .25 ), align = TextNode.ALeft, scale = .8 )
     

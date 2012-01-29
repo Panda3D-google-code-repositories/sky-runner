@@ -20,21 +20,31 @@ class Game( object ):
         self.initPlayer()
         self.initSounds()
         
-        self.fVidas1 = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/wingLetters.png",image_pos=(0.9,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
-        self.fVidas1.setTransparency(TransparencyAttrib.MAlpha)
-        self.fVidas2 = DirectFrame(frameSize=(0.7,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/wingLetters.png",image_pos=(0.75,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
-        self.fVidas2.setTransparency(TransparencyAttrib.MAlpha)
-        self.fVidas3 = DirectFrame(frameSize=(0.5,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/wingLetters.png",image_pos=(0.55,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
-        self.fVidas3.setTransparency(TransparencyAttrib.MAlpha)
+        self.fVidas1On = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.9,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+        self.fVidas1Off = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.9,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+        self.fVidas1On.setTransparency(TransparencyAttrib.MAlpha)
+        self.fVidas1Off.setTransparency(TransparencyAttrib.MAlpha)
+        self.fVidas2On = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.7,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+        self.fVidas2Off = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.7,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+        self.fVidas2On.setTransparency(TransparencyAttrib.MAlpha)
+        self.fVidas2Off.setTransparency(TransparencyAttrib.MAlpha)
+        self.fVidas3On = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.5,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+        self.fVidas3Off = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.5,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+        self.fVidas3On.setTransparency(TransparencyAttrib.MAlpha)
+        self.fVidas3Off.setTransparency(TransparencyAttrib.MAlpha)
         
-        self.vVidas = [self.fVidas1,self.fVidas2,self.fVidas3]
+        self.vVidasOn = [self.fVidas1On,self.fVidas2On,self.fVidas3On]
+        self.vVidasOff = [self.fVidas1Off,self.fVidas2Off,self.fVidas3Off]
         
         #self.fVidas2 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))self.fVidas1 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))
         #self.fVidas3 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))self.fVidas1 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))
 
-        self.fVidas1.show()
-        self.fVidas2.show()
-        self.fVidas3.show()
+        self.fVidas1On.show()
+        self.fVidas2On.show()
+        self.fVidas3On.show()
+        self.fVidas1Off.hide()
+        self.fVidas2Off.hide()
+        self.fVidas3Off.hide()
         # Make the mouse invisible, turn off normal mouse controls
         self.toggleMouseControls(False)
         
