@@ -3,7 +3,9 @@ import sys
 import datetime
 from pandac.PandaModules import *
 from direct.gui.OnscreenText import OnscreenText
+from direct.gui.OnscreenImage import OnscreenImage
 from direct.gui.DirectGui import *
+from pandac.PandaModules import TransparencyAttrib
 
 from player import Player
 from GameStates import State
@@ -20,16 +22,36 @@ class Game( object ):
         self.initPlayer()
         self.initSounds()
         
-        self.fVidas1On = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.9,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
-        self.fVidas1Off = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.9,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+#        self.text = TextNode('node name')
+#        self.text.setText("Every day in every way I'm getting better and better.")
+#        self.text.setShadow(0.05, 0.05)
+#        self.text.setShadowColor(0, 0, 0, 1)
+#        self.textNodePath = aspect2d.attachNewNode(self.text)
+#        self.textNodePath.setScale(0.07)
+#        self.textNodePath.setPos(0,-4,0)
+#        
+        self.textTimer = TextNode('Time')       
+        self.textTimer.setShadow(0.05, 0.05)
+        self.textTimer.setShadowColor(0, 0, 0, 1) 
+        self.textTimerNodePath = aspect2d.attachNewNode(self.textTimer) 
+        self.textTimerNodePath.setScale(0.05) 
+        self.textTimerNodePath.reparentTo(base.a2dTopRight) 
+        self.textTimerNodePath.setPos(-0.6, 0, -0.15) 
+        self.textTimer.setText("00:00:00")
+        
+        
+        self.fVidas1On = OnscreenImage(image = "hud.Sources/lifeOn.png",pos=(1.1,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas1Off = OnscreenImage(image = "hud.Sources/lifeOff.png",pos=(1.1,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas1On.setTransparency(TransparencyAttrib.MAlpha)
         self.fVidas1Off.setTransparency(TransparencyAttrib.MAlpha)
-        self.fVidas2On = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.7,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
-        self.fVidas2Off = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.7,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+        
+        self.fVidas2On = OnscreenImage(image = "hud.Sources/lifeOn.png",pos=(0.9,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas2Off = OnscreenImage(image = "hud.Sources/lifeOff.png",pos=(0.9,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas2On.setTransparency(TransparencyAttrib.MAlpha)
         self.fVidas2Off.setTransparency(TransparencyAttrib.MAlpha)
-        self.fVidas3On = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.5,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
-        self.fVidas3Off = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.5,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
+        
+        self.fVidas3On = OnscreenImage(image = "hud.Sources/lifeOn.png",pos=(0.7,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas3Off = OnscreenImage(image = "hud.Sources/lifeOff.png",pos=(0.7,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas3On.setTransparency(TransparencyAttrib.MAlpha)
         self.fVidas3Off.setTransparency(TransparencyAttrib.MAlpha)
         
@@ -56,29 +78,29 @@ class Game( object ):
         self.title = OnscreenText(text = "Sky-Runner: Mirror's Edge-like Game", style = 1, fg = ( 1, 0, 0, 1 ),
                                 pos = ( 1.32, -0.98 ), align=TextNode.ARight, scale = .07 )
 
-        self.inst1 = OnscreenText(text = "[ESC]: Quit", style = 1, fg = ( 1, 0, 0, 1 ),
-                                pos = ( -1.33, 0.95 ), align = TextNode.ALeft, scale = .05 )
-        self.inst2 = OnscreenText(text = "[mouse]: Move Camera", style = 1, fg = ( 1, 0, 0, 1 ),
-                                pos = ( -1.33, 0.90 ), align = TextNode.ALeft, scale = .05 )
-        self.inst3 = OnscreenText(text = "[W]: Move Forward", style = 1, fg = ( 1, 0, 0, 1 ),
-                                pos = ( -1.33, 0.85 ), align = TextNode.ALeft, scale = .05 )
-        self.inst4 = OnscreenText(text = "[S]: Move Backward", style = 1, fg = ( 1, 0, 0, 1 ),
-                                pos = ( -1.33, 0.80 ), align = TextNode.ALeft, scale = .05 )
-        self.inst5 = OnscreenText(text = "[A]: Strafe Left", style = 1, fg = ( 1, 0, 0, 1 ),
-                                pos = ( -1.33, 0.75 ), align = TextNode.ALeft, scale = .05 )
-        self.inst6 = OnscreenText(text = "[D]: Strafe Right", style = 1, fg = ( 1, 0, 0, 1 ),
-                                pos = ( -1.33, 0.70 ), align = TextNode.ALeft, scale = .05 )
-        self.inst7 = OnscreenText(text = "[space]: Jump", style = 1, fg = ( 1, 0, 0, 1 ),
-                                pos = ( -1.33, 0.65 ), align = TextNode.ALeft, scale = .05 )
-        self.inst8 = OnscreenText(text = "[R]: Roll", style = 1, fg = ( 1, 0, 0, 1 ),
-                                pos = ( -1.33, 0.60 ), align = TextNode.ALeft, scale = .05 )
+#        self.inst1 = OnscreenText(text = "[ESC]: Quit", style = 1, fg = ( 1, 0, 0, 1 ),
+#                                pos = ( -1.33, 0.95 ), align = TextNode.ALeft, scale = .05 )
+#        self.inst2 = OnscreenText(text = "[mouse]: Move Camera", style = 1, fg = ( 1, 0, 0, 1 ),
+#                                pos = ( -1.33, 0.90 ), align = TextNode.ALeft, scale = .05 )
+#        self.inst3 = OnscreenText(text = "[W]: Move Forward", style = 1, fg = ( 1, 0, 0, 1 ),
+#                                pos = ( -1.33, 0.85 ), align = TextNode.ALeft, scale = .05 )
+#        self.inst4 = OnscreenText(text = "[S]: Move Backward", style = 1, fg = ( 1, 0, 0, 1 ),
+#                                pos = ( -1.33, 0.80 ), align = TextNode.ALeft, scale = .05 )
+#        self.inst5 = OnscreenText(text = "[A]: Strafe Left", style = 1, fg = ( 1, 0, 0, 1 ),
+#                                pos = ( -1.33, 0.75 ), align = TextNode.ALeft, scale = .05 )
+#        self.inst6 = OnscreenText(text = "[D]: Strafe Right", style = 1, fg = ( 1, 0, 0, 1 ),
+#                                pos = ( -1.33, 0.70 ), align = TextNode.ALeft, scale = .05 )
+#        self.inst7 = OnscreenText(text = "[space]: Jump", style = 1, fg = ( 1, 0, 0, 1 ),
+#                                pos = ( -1.33, 0.65 ), align = TextNode.ALeft, scale = .05 )
+#        self.inst8 = OnscreenText(text = "[R]: Roll", style = 1, fg = ( 1, 0, 0, 1 ),
+#                                pos = ( -1.33, 0.60 ), align = TextNode.ALeft, scale = .05 )
 
-        self.curSpeedText = OnscreenText(text = "CurSpeed = 0", style = 1, fg = ( 1, 0, 0, 1 ),
-                            pos = ( 0.65, 0.95 ), align = TextNode.ALeft, scale = .05 )
-        self.curStrafeSpeedText = OnscreenText(text = "CurStrafeSpeed = 0", style = 1, fg = ( 1, 0, 0, 1 ),
-                            pos = ( 0.65, 0.90 ), align = TextNode.ALeft, scale = .05 )
-        self.fallHeightText = OnscreenText(text = "FallHeight = 0", style = 1, fg = ( 1, 0, 0, 1 ),
-                            pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
+#        self.curSpeedText = OnscreenText(text = "CurSpeed = 0", style = 1, fg = ( 1, 0, 0, 1 ),
+#                            pos = ( 0.65, 0.95 ), align = TextNode.ALeft, scale = .05 )
+#        self.curStrafeSpeedText = OnscreenText(text = "CurStrafeSpeed = 0", style = 1, fg = ( 1, 0, 0, 1 ),
+#                            pos = ( 0.65, 0.90 ), align = TextNode.ALeft, scale = .05 )
+#        self.fallHeightText = OnscreenText(text = "FallHeight = 0", style = 1, fg = ( 1, 0, 0, 1 ),
+#                            pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
 
         self.currCheckPointText = OnscreenText(text = "Current CheckPoint: " + str( self.player.currentCheckPoint ), style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
@@ -152,21 +174,21 @@ class Game( object ):
 
 
     def messageUpdate( self, task ):
-        self.curSpeedText.destroy()
-        self.curSpeedText = OnscreenText(text = "CurSpeed = " + str( self.player.CurSpeed ), style = 1, fg = ( 1, 0, 0, 1 ),
-                            pos = ( 0.65, 0.95 ), align = TextNode.ALeft, scale = .05 )
-
-        self.curStrafeSpeedText.destroy()
-        self.curStrafeSpeedText = OnscreenText(text = "CurStrafeSpeed = " + str( self.player.CurStrafeSpeed ), style = 1, fg = ( 1, 0, 0, 1 ),
-                            pos = ( 0.65, 0.90 ), align = TextNode.ALeft, scale = .05 )
-
-        self.fallHeightText.destroy()
-        self.fallHeightText = OnscreenText(text = "FallHeight = " + str( self.player.FallHeight ), style = 1, fg = ( 1, 0, 0, 1 ),
-                            pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
-                            
-        self.currCheckPointText.destroy()
-        self.currCheckPointText = OnscreenText(text = "Current CheckPoint: " + str( self.player.currentCheckPoint ), style = 1, fg = ( 1, 0, 0, 1 ),
-                            pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
+#        self.curSpeedText.destroy()
+#        self.curSpeedText = OnscreenText(text = "CurSpeed = " + str( self.player.CurSpeed ), style = 1, fg = ( 1, 0, 0, 1 ),
+#                            pos = ( 0.65, 0.95 ), align = TextNode.ALeft, scale = .05 )
+#
+#        self.curStrafeSpeedText.destroy()
+#        self.curStrafeSpeedText = OnscreenText(text = "CurStrafeSpeed = " + str( self.player.CurStrafeSpeed ), style = 1, fg = ( 1, 0, 0, 1 ),
+#                            pos = ( 0.65, 0.90 ), align = TextNode.ALeft, scale = .05 )
+#
+#        self.fallHeightText.destroy()
+#        self.fallHeightText = OnscreenText(text = "FallHeight = " + str( self.player.FallHeight ), style = 1, fg = ( 1, 0, 0, 1 ),
+#                            pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
+#                            
+#        self.currCheckPointText.destroy()
+#        self.currCheckPointText = OnscreenText(text = "Current CheckPoint: " + str( self.player.currentCheckPoint ), style = 1, fg = ( 1, 0, 0, 1 ),
+#                            pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
 
         return task.cont
         
@@ -181,6 +203,7 @@ class Game( object ):
       if len(s2) == 1:
        s2.append('00')
       self.clock.setText(':'.join(s[:2])+':'+s2[0]+'\''+s2[1][:1])
+      self.textTimer.setText(':'.join(s[:2])+':'+s2[0]+'\''+s2[1][:1])
       
       return task.cont
 
