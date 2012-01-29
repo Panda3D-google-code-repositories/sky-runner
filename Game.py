@@ -73,6 +73,8 @@ class Game( object ):
                             pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
                             
         taskMgr.add( self.messageUpdate, 'MessageTask' )
+        taskMgr.add( self.taskFade, 'fadeTask' )
+        
 
         # timer
         self.clock = OnscreenText(scale = .15, mayChange = True, pos= (-0.5,0.87), fg= (0,1,0,1))
@@ -135,7 +137,6 @@ class Game( object ):
 
 
     def messageUpdate( self, task ):
-
         self.curSpeedText.destroy()
         self.curSpeedText = OnscreenText(text = "CurSpeed = " + str( self.player.CurSpeed ), style = 1, fg = ( 1, 0, 0, 1 ),
                             pos = ( 0.65, 0.95 ), align = TextNode.ALeft, scale = .05 )
@@ -168,14 +169,24 @@ class Game( object ):
       
       return task.cont
 
+    def addTasks( self ):
+        taskMgr.add( self.messageUpdate, 'MessageTask' )
+        self.timerTask = taskMgr.add( self.timer, 'TimerTask' )
+        taskMgr.add( self.player.mouseUpdate, 'MouseTask' )
+        taskMgr.add( self.player.moveUpdate,  'MoveTask'  )
+        taskMgr.add( self.player.jumpUpdate,  'JumpTask'  )
+        
+    def removeTasks( self ):
+        taskMgr.remove( 'MessageTask' )
+        taskMgr.remove( 'TimerTask' )
+        taskMgr.remove( 'MouseTask' )
+        taskMgr.remove( 'MoveTask'  )
+        taskMgr.remove( 'JumpTask'  )
+        
     def pauseGame( self ):
-    
+        
         if self.paused == False:
-            taskMgr.remove( 'MessageTask' )
-            taskMgr.remove( 'TimerTask' )
-            taskMgr.remove( 'MouseTask' )
-            taskMgr.remove( 'MoveTask'  )
-            taskMgr.remove( 'JumpTask'  )
+            self.removeTasks()
             self.pausedTime = self.displayTime
             
             md = base.win.getPointer(0)
@@ -184,11 +195,7 @@ class Game( object ):
 
             self.paused = True
         else:
-            taskMgr.add( self.messageUpdate, 'MessageTask' )
-            self.timerTask = taskMgr.add( self.timer, 'TimerTask' )
-            taskMgr.add( self.player.mouseUpdate, 'MouseTask' )
-            taskMgr.add( self.player.moveUpdate,  'MoveTask'  )
-            taskMgr.add( self.player.jumpUpdate,  'JumpTask'  )
+            self.addTasks()
             self.startTime = datetime.datetime.today()
             self.lastTimeStop = self.pausedTime
             md = base.win.getPointer(0)
@@ -222,6 +229,20 @@ class Game( object ):
         self.fallHeightText.destroy()
         self.currCheckPointText.destroy()
         self.clock.destroy()
+        
+    def taskFade( self, task ):
+        if self.paused == True:
+            if self.myFog.getExpDensity() < 0.4:
+
+                self.myFog.setExpDensity(self.myFog.getExpDensity()+0.001) 
+        else:
+            if self.myFog.getExpDensity() >0.000001:
+                tmp = self.myFog.getExpDensity()-0.01
+                if tmp < 0:
+                    tmp = 0
+                self.myFog.setExpDensity(tmp) 
+            
+        return task.cont
         
 #Game()
 #run()

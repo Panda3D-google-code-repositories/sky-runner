@@ -27,14 +27,14 @@ class SkyRunner(DirectObject.DirectObject):
         self.startButton = DirectButton(parent=self.frame,pos=(1,0,-0.5),image = (mapsStart.find('**/startready'),
                          mapsStart.find('**/startclicked'),
                          mapsStart.find('**/startrollover'),
-                         mapsStart.find('**/startdisable')),command=self.doStartGame, scale=0.16,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+                         mapsStart.find('**/startdisable')),command=self.doStartGame, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
         
         #self.creditsButton = DirectButton(parent=self.frame, text="Credits", command=self.showCredits, pos=(1.075,0,-0.6), text_scale=0.08, text_fg=(1,1,1,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), frameColor=(0.8,0.8,0.8,0))
         mapsCredits = loader.loadModel('hud.Sources/mainMenu/buttons_credits_maps.egg')
         self.creditsButton = DirectButton(parent=self.frame,pos=(1.075,0,-0.6),image = (mapsCredits.find('**/creditsready'),
                          mapsCredits.find('**/creditsclicked'),
                          mapsCredits.find('**/creditsrollover'),
-                         mapsCredits.find('**/creditsdisable')),command=self.showCredits, scale=0.16,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+                         mapsCredits.find('**/creditsdisable')),command=self.showCredits, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
         
 
         #self.quitButton = DirectButton(parent=self.frame, text="Quit", command=self.endGame, pos=(1.13,0,-0.7), text_scale=0.08, text_fg=(1,1,1,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), frameColor=(0.8,0.8,0.8,0))
@@ -42,7 +42,7 @@ class SkyRunner(DirectObject.DirectObject):
         self.quitButton = DirectButton(parent=self.frame,pos=(1.13,0,-0.7),image = (mapsQuit.find('**/quitready'),
                          mapsQuit.find('**/quitclicked'),
                          mapsQuit.find('**/quitrollover'),
-                         mapsQuit.find('**/quitdisable')),command=self.endGame, scale=0.16,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+                         mapsQuit.find('**/quitdisable')),command=self.endGame, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
         
         self.show()
         self.credits = None    
@@ -94,13 +94,13 @@ class SkyRunner(DirectObject.DirectObject):
         if self.gameState == State.INGAME:
             self.game.pauseGame()
             self.game.toggleMouseControls(True)
-            self.game.myFog.setExpDensity(0.8)
+            #self.game.myFog.setExpDensity(0.8)
             self.showInGameMenu()
             return
         
         if self.gameState == State.INGAMEMENU:
             self.game.pauseGame()
-            self.game.myFog.setExpDensity(0.0)
+            #self.game.myFog.setExpDensity(0.0)
             self.game.toggleMouseControls(False)
             self.inGameMenu.hide()
             self.gameState = State.INGAME
