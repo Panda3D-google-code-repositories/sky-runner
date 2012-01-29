@@ -21,10 +21,17 @@ class Credits(DirectObject.DirectObject):
                                       pos=(-0.48,0,0.35),
                                       text_align=TextNode.ALeft)
         
-        self.backButton = DirectButton(parent=self.frame, text="back", command=self.hide, 
-                            pos=(0,0,-0.4), text_scale=0.08, text_fg=(0,0,0,1), text_align=TextNode.ACenter, 
-                            borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), 
-                            frameColor=(0.8,0.8,0.8,0), rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
+        #self.backButton = DirectButton(parent=self.frame, text="back", command=self.hide, 
+        #                    pos=(0,0,-0.4), text_scale=0.08, text_fg=(0,0,0,1), text_align=TextNode.ACenter, 
+        #                    borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), 
+        #                    frameColor=(0.8,0.8,0.8,0), rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
+        mapsCredits = loader.loadModel('hud.Sources/mainMenu/buttons_back_maps.egg')
+        self.backButton = DirectButton(parent=self.frame,pos=(0,0,-0.4),image = (mapsCredits.find('**/backready'),
+                         mapsCredits.find('**/backclicked'),
+                         mapsCredits.find('**/backrollover'),
+                         mapsCredits.find('**/backdisable')),command=self.hide, scale=0.2,
+                         borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  
+                         frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
 
         self.show()   
     def show(self): #Function that display the window

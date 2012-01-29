@@ -28,7 +28,7 @@ class InGameMenu(DirectObject.DirectObject):
                          frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
 
         mapsCredits = loader.loadModel('hud.Sources/mainMenu/buttons_credits_maps.egg')
-        self.b = DirectButton(parent=self.frame,pos=(0,0,0),image = (mapsCredits.find('**/creditsready'),
+        self.creditsButton = DirectButton(parent=self.frame,pos=(0,0,0),image = (mapsCredits.find('**/creditsready'),
                          mapsCredits.find('**/creditsclicked'),
                          mapsCredits.find('**/creditsrollover'),
                          mapsCredits.find('**/creditsdisable')),command=self.showCredits, scale=0.2,
@@ -36,7 +36,7 @@ class InGameMenu(DirectObject.DirectObject):
                          frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
         
         mapsResume = loader.loadModel('hud.Sources/mainMenu/buttons_resume_maps.egg')
-        self.b = DirectButton(parent=self.frame,pos=(0,0,-0.1),image = (mapsResume.find('**/resumeready'),
+        self.resumeButton = DirectButton(parent=self.frame,pos=(0,0,-0.1),image = (mapsResume.find('**/resumeready'),
                          mapsResume.find('**/resumeclicked'),
                          mapsResume.find('**/resumerollover'),
                          mapsResume.find('**/resumedisable')),command=self.resumeGame, scale=0.2,

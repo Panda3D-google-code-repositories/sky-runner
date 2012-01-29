@@ -97,6 +97,7 @@ class SkyRunner(DirectObject.DirectObject):
         
         if self.gameState == State.CREDITSMENU:
             self.credits.hide()
+            self.soundManager.click.play()
             self.gameState = State.MAINMENU
             return
         
@@ -108,6 +109,7 @@ class SkyRunner(DirectObject.DirectObject):
             return
         
         if self.gameState == State.INGAMEMENU:
+            self.soundManager.click.play()
             self.game.pauseGame()
             #self.game.myFog.setExpDensity(0.0)
             self.game.toggleMouseControls(False)
@@ -116,6 +118,7 @@ class SkyRunner(DirectObject.DirectObject):
             return
         
         if self.gameState == State.INGAMECREDITSMENU:
+            self.soundManager.click.play()
             self.inGameMenu.credits.hide()
             self.gameState = State.INGAMEMENU
     
