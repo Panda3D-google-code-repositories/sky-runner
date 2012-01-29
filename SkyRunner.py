@@ -10,6 +10,7 @@ from InGameMenu import InGameMenu
 from Credits import Credits
 from Game import Game
 from GameStates import State
+from SoundManager import SoundManager
 
 import direct.directbase.DirectStart
     
@@ -19,6 +20,15 @@ class SkyRunner(DirectObject.DirectObject):
         
         base.accept( "escape" , self.escPressed )
         
+        self.soundManager = SoundManager()
+        self.draw() 
+        self.show()
+        self.credits = None    
+        self.game = None
+        self.inGameMenu = None
+        
+
+    def draw( self ): 
         self.frame = DirectFrame(frameSize=(-0.5, 0.5, -0.5, 0.5), frameColor=(0.8,0.8,0.8,0), pos=(0,0,0))
         self.frame2 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/TitleScreen.jpg", sortOrder=(-1))
                 
@@ -27,14 +37,18 @@ class SkyRunner(DirectObject.DirectObject):
         self.startButton = DirectButton(parent=self.frame,pos=(1,0,-0.5),image = (mapsStart.find('**/startready'),
                          mapsStart.find('**/startclicked'),
                          mapsStart.find('**/startrollover'),
-                         mapsStart.find('**/startdisable')),command=self.doStartGame, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+                         mapsStart.find('**/startdisable')),command=self.doStartGame, scale=0.2,
+                         borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  
+                         frameColor=(0.8,0.8,0.8,0), rolloverSound=self.soundManager.over,clickSound=self.soundManager.click)
         
         #self.creditsButton = DirectButton(parent=self.frame, text="Credits", command=self.showCredits, pos=(1.075,0,-0.6), text_scale=0.08, text_fg=(1,1,1,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), frameColor=(0.8,0.8,0.8,0))
         mapsCredits = loader.loadModel('hud.Sources/mainMenu/buttons_credits_maps.egg')
         self.creditsButton = DirectButton(parent=self.frame,pos=(1.075,0,-0.6),image = (mapsCredits.find('**/creditsready'),
                          mapsCredits.find('**/creditsclicked'),
                          mapsCredits.find('**/creditsrollover'),
-                         mapsCredits.find('**/creditsdisable')),command=self.showCredits, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+                         mapsCredits.find('**/creditsdisable')),command=self.showCredits, scale=0.2,
+                         borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  
+                         frameColor=(0.8,0.8,0.8,0),rolloverSound=self.soundManager.over,clickSound=self.soundManager.click)
         
 
         #self.quitButton = DirectButton(parent=self.frame, text="Quit", command=self.endGame, pos=(1.13,0,-0.7), text_scale=0.08, text_fg=(1,1,1,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), frameColor=(0.8,0.8,0.8,0))
@@ -42,15 +56,10 @@ class SkyRunner(DirectObject.DirectObject):
         self.quitButton = DirectButton(parent=self.frame,pos=(1.13,0,-0.7),image = (mapsQuit.find('**/quitready'),
                          mapsQuit.find('**/quitclicked'),
                          mapsQuit.find('**/quitrollover'),
-                         mapsQuit.find('**/quitdisable')),command=self.endGame, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
-        
-        self.show()
-        self.credits = None    
-        self.game = None
-        self.inGameMenu = None
-        
-
-    def show(self):
+                         mapsQuit.find('**/quitdisable')),command=self.endGame, scale=0.2,borderWidth=(0.005,0.005),
+                         frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0),rolloverSound=self.soundManager.over,clickSound=self.soundManager.click)
+                         
+    def show( self ):
         self.gameState = State.MAINMENU
         self.frame.show()
         self.frame2.show()

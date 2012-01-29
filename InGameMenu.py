@@ -19,23 +19,29 @@ class InGameMenu(DirectObject.DirectObject):
 
         self.headline = DirectLabel(parent=self.frame, text="Sky Runner", scale=0.085, frameColor=(0,0,0,0), pos=(0,0,0.3))
         
-        self.mainMenuButton = DirectButton(parent=self.frame, text="Main Menu", command=self.showMainMenu, pos=(0,0,0.1), text_scale=0.07, text_fg=(0,0,0,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), frameColor=(0.8,0.8,0.8,0))
+        mapsMainMenu = loader.loadModel('hud.Sources/mainMenu/buttons_mainmenu_maps.egg')        
+        self.startButton = DirectButton(parent=self.frame,pos=(0,0,0.1),image = (mapsMainMenu.find('**/mainmenuready'),
+                         mapsMainMenu.find('**/mainmenuclicked'),
+                         mapsMainMenu.find('**/mainmenurollover'),
+                         mapsMainMenu.find('**/mainmenudisable')),command=self.showMainMenu, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
 
-        #self.creditsButton = DirectButton(parent=self.frame, text="Credits", command=self.showCredits, pos=(0,0,0), text_scale=
-        #0.07, text_fg=(0,0,0,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), frameColor=(0.8,0.8,0.8,0))
-
-        maps = loader.loadModel('hud.Sources/mainMenu/buttons_credits_maps.egg')
-        self.b = DirectButton(parent=self.frame,pos=(0,0,0),image = (maps.find('**/creditsready'),
-                         maps.find('**/creditsclicked'),
-                         maps.find('**/creditsrollover'),
-                         maps.find('**/creditsdisable')),command=self.showCredits, scale=0.16,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
-
-
-        self.resumeButton = DirectButton(parent=self.frame, text="Resume", command=self.resumeGame, pos=(0,0,-0.1), text_scale=
-        0.07, text_fg=(0,0,0,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+        mapsCredits = loader.loadModel('hud.Sources/mainMenu/buttons_credits_maps.egg')
+        self.b = DirectButton(parent=self.frame,pos=(0,0,0),image = (mapsCredits.find('**/creditsready'),
+                         mapsCredits.find('**/creditsclicked'),
+                         mapsCredits.find('**/creditsrollover'),
+                         mapsCredits.find('**/creditsdisable')),command=self.showCredits, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
         
-        self.resumeButton = DirectButton(parent=self.frame, text="Exit Game", command=self.endGame, pos=(0,0,-0.2), text_scale=
-        0.07, text_fg=(0,0,0,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), frameColor=(0.8,0.8,0.8,0))
+        mapsResume = loader.loadModel('hud.Sources/mainMenu/buttons_resume_maps.egg')
+        self.b = DirectButton(parent=self.frame,pos=(0,0,-0.1),image = (mapsResume.find('**/resumeready'),
+                         mapsResume.find('**/resumeclicked'),
+                         mapsResume.find('**/resumerollover'),
+                         mapsResume.find('**/resumedisable')),command=self.resumeGame, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+
+        mapsQuit = loader.loadModel('hud.Sources/mainMenu/buttons_quit_maps.egg')
+        self.quitButton = DirectButton(parent=self.frame,pos=(0,0,-0.2),image = (mapsQuit.find('**/quitready'),
+                         mapsQuit.find('**/quitclicked'),
+                         mapsQuit.find('**/quitrollover'),
+                         mapsQuit.find('**/quitdisable')),command=self.endGame, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
 
         self.show()
         

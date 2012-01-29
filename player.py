@@ -84,23 +84,6 @@ class Player( object ):
         self.savedCheckPoint = -1
         self.savedPos = ( -34, 30, 3 )
         self.savedTime = datetime.timedelta(seconds=0)
-        
-        self.soundWalking = base.loader.loadSfx("sounds.Sources/walkingNoiseFree.wav")
-        self.soundWalking.setLoop(True)
-        self.soundWalking.setVolume(1.0)  
-        self.soundWalking.play()
-        
-        self.soundJump    = base.loader.loadSfx("sounds.Sources/jump.wav")
-        self.soundJump.setLoop(False)
-        self.soundJump.setVolume(1.0)
-          
-        self.soundAmbient = base.loader.loadSfx("sounds.Sources/ambient.wav")
-        self.soundAmbient.setLoop(True)
-        self.soundAmbient.setVolume(1.0) 
-        self.soundAmbient.play()
-        
-        self.screamSound = base.loader.loadSfx("sounds.Sources/screamFalling.wav")
-        self.screamSound.setVolume(2.0) 
                 
         taskMgr.add( self.mouseUpdate, 'MouseTask' )
         taskMgr.add( self.moveUpdate,  'MoveTask'  )
@@ -401,11 +384,11 @@ class Player( object ):
                     self.CurStrafeSpeed = 0
                                         
         if self.CurSpeed > 0 and self.CurState == pState.RUNNING: 
-            self.soundWalking.setVolume(1)
+            self.game.skyRunnerInstance.soundManager.soundWalking.setVolume(1)
         else:
-            self.soundWalking.setVolume(0)
+            self.game.skyRunnerInstance.soundManager.soundWalking.setVolume(0)
 			
-        self.soundWalking.setPlayRate(self.CurSpeed*0.025)
+        self.game.skyRunnerInstance.soundManager.soundWalking.setPlayRate(self.CurSpeed*0.025)
                     
     def cameraEffects( self ):
 
@@ -508,8 +491,8 @@ class Player( object ):
                 
                 self.CurJumpMomentum = self.MaxJumpMomentum
                 self.CurState = pState.JUMPING
-                self.soundWalking.setVolume(0.0)
-                self.soundJump.play()
+                self.game.skyRunnerInstance.soundManager.soundWalking.setVolume(0.0)
+                self.game.skyRunnerInstance.soundManager.soundJump.play()
 
                 # Jumping in a certain direction can give you horizontal momentum, at the price of vertical momentum
                 if self.KeyMap["w"] == 0:
@@ -535,7 +518,7 @@ class Player( object ):
                         self.CurStrafeSpeed = -self.MaxStrafeSpeed * 1.5
 
             elif self.ReadyToDoubleJump == True:
-                self.soundJump.play()
+                self.game.skyRunnerInstance.soundManager.soundJump.play()
                 self.ReadyToDoubleJump = False
                 self.CurJumpMomentum = self.MaxJumpMomentum
                 self.CurState = pState.DOUBLE_JUMPING
@@ -607,7 +590,7 @@ class Player( object ):
                     self.bad_landing()
                 else:
                     self.CurState = pState.RUNNING
-                    self.soundWalking.setVolume(1) 
+                    self.game.skyRunnerInstance.soundManager.soundWalking.setVolume(1) 
 
                 self.ReadyToDoubleJump = False
                 self.FallHeight = 0
@@ -619,8 +602,8 @@ class Player( object ):
     
     def soundUpdate(self, task):
         
-        if self.player.getZ() < -2 and self.screamSound.status() == AudioSound.READY:
-            self.screamSound.play()
+        if self.player.getZ() < -2 and self.game.skyRunnerInstance.soundManager.screamSound.status() == AudioSound.READY:
+            self.game.skyRunnerInstance.soundManager.screamSound.play()
             taskMgr.doMethodLater(4, self.taskRespawn, 'Respawn')
             
         
@@ -653,7 +636,7 @@ class Player( object ):
         self.resetPlayerVariables()
     
     def taskRespawn( self, task ):
-        self.screamSound.stop()
+        self.game.skyRunnerInstance.soundManager.screamSound.stop()
         if self.vidas > 1:
             self.vidas = self.vidas - 1
             self.game.vVidas[self.vidas].hide()

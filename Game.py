@@ -18,6 +18,7 @@ class Game( object ):
         self.initCollision()
         self.loadLevel()
         self.initPlayer()
+        self.initSounds()
         
         self.fVidas1 = DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/wingLetters.png",image_pos=(0.9,-0.8,0.9),image_scale=(0.1,0.1,0.1), sortOrder=(-1))
         self.fVidas1.setTransparency(TransparencyAttrib.MAlpha)
@@ -103,6 +104,10 @@ class Game( object ):
         render.setLight(self.ambientLight)
         render.setAntialias(AntialiasAttrib.MMultisample)
 
+    def initSounds( self ):
+        self.skyRunnerInstance.soundManager.soundWalking.play()
+        self.skyRunnerInstance.soundManager.soundAmbient.play()
+        
     def initCollision( self ):
         """ create the collision system """
         base.cTrav = CollisionTraverser()
