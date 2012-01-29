@@ -183,7 +183,7 @@ class Player( object ):
         base.accept( "d-up", self.setKey, [ "d", 0 ] )
         base.accept( "r",    self.setKey, [ "r", 1 ] )
         base.accept( "r-up", self.setKey, [ "r", 0 ] )
-        base.accept( "l" , self.reloadLastCheckPoint)
+        #base.accept( "l" , self.reloadLastCheckPoint)
 
 
     def setKey( self, key, value ):
@@ -563,7 +563,6 @@ class Player( object ):
 
 
     def moveUpdate( self, task ):
-        print self.player.getPos()
         # Update player speed
         self.applyAcceleration()
 
@@ -620,7 +619,7 @@ class Player( object ):
     
     def soundUpdate(self, task):
         
-        if self.player.getZ() < 1 and self.screamSound.status() == AudioSound.READY:
+        if self.player.getZ() < -2 and self.screamSound.status() == AudioSound.READY:
             self.screamSound.play()
             taskMgr.doMethodLater(4, self.taskRespawn, 'Respawn')
             
@@ -655,12 +654,12 @@ class Player( object ):
     
     def taskRespawn( self, task ):
         self.screamSound.stop()
-        if self.vidas > 0:
+        if self.vidas > 1:
             self.vidas = self.vidas - 1
             self.game.vVidas[self.vidas].hide()
             self.reloadLastCheckPoint()
         else:
-            OnscreenText(text = "GME OVER", style = 1, fg = ( 1, 0, 0, 1 ),
+            OnscreenText(text = "GAME OVER", style = 1, fg = ( 1, 0, 0, 1 ),
                                 pos = ( -1.33, .25 ), align = TextNode.ALeft, scale = .8 )
     
     def resetPlayerVariables( self ):
