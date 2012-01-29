@@ -18,7 +18,7 @@ class SoundManager( object ):
         self.screamSound.setVolume(1.0) 
         
         self.click = base.loader.loadSfx("sounds.Sources/buttonClick.wav")
-        self.click.setVolume(1.0)
+        self.click.setVolume(0.1)
         
         self.over = base.loader.loadSfx("sounds.Sources/buttonOver.wav")
-        self.over.setVolume(1.0)
+        self.over.setVolume(0.1)
