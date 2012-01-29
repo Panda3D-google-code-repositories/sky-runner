@@ -15,9 +15,21 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="menuStart.svg">
   <defs
      id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient7364">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop7366" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop7368" />
+    </linearGradient>
     <filter
        id="filter4235-2-6-6-2-8"
        inkscape:label="Drop shadow"
@@ -99,7 +111,7 @@
       </feSpecularLighting>
       <feComposite
          id="feComposite3847"
-         in2="result91"
+         in2="result1"
          k3="1"
          k2="1"
          operator="arithmetic"
@@ -107,6 +119,547 @@
          in="SourceGraphic" />
       <feComposite
          id="feComposite3849"
+         in2="SourceAlpha"
+         operator="in"
+         result="result2"
+         in="result4" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient7364"
+       id="linearGradient7370"
+       x1="-343.99374"
+       y1="-318.09088"
+       x2="-79.618744"
+       y2="-318.09088"
+       gradientUnits="userSpaceOnUse" />
+    <filter
+       id="filter3839-2"
+       inkscape:label="Specular light"
+       inkscape:menu="ABCs"
+       inkscape:menu-tooltip="Basic specular bevel to use for building textures"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3841-6"
+         result="result0"
+         in="SourceAlpha"
+         stdDeviation="6" />
+      <feSpecularLighting
+         id="feSpecularLighting3843-0"
+         specularExponent="25"
+         specularConstant="1"
+         surfaceScale="10"
+         lighting-color="#ffffff"
+         result="result1"
+         in="result0">
+        <feDistantLight
+           id="feDistantLight3845-4"
+           azimuth="235"
+           elevation="45" />
+      </feSpecularLighting>
+      <feComposite
+         k4="0"
+         k1="0"
+         id="feComposite3847-9"
+         in2="result1"
+         k3="1"
+         k2="1"
+         operator="arithmetic"
+         result="result4"
+         in="SourceGraphic" />
+      <feComposite
+         id="feComposite3849-4"
+         in2="SourceAlpha"
+         operator="in"
+         result="result2"
+         in="result4" />
+    </filter>
+    <filter
+       id="filter4235-2-6-6-2-8-6"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-0.25"
+       y="-0.25"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur4237-13-0-0-1-7-0"
+         in="SourceAlpha"
+         stdDeviation="2"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix4239-4-6-2-8-4-3"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0 " />
+      <feOffset
+         id="feOffset4241-9-9-2-11-4-6"
+         in="bluralpha"
+         dx="4"
+         dy="4"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge4243-4-6-2-5-3-2">
+        <feMergeNode
+           id="feMergeNode4245-1-8-2-5-4-4"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode4247-9-0-7-8-5-5"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter11364"
+       inkscape:label="Specular light"
+       inkscape:menu="ABCs"
+       inkscape:menu-tooltip="Basic specular bevel to use for building textures"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur11366"
+         result="result0"
+         in="SourceAlpha"
+         stdDeviation="6" />
+      <feSpecularLighting
+         id="feSpecularLighting11368"
+         specularExponent="25"
+         specularConstant="1"
+         surfaceScale="10"
+         lighting-color="#ffffff"
+         result="result1"
+         in="result0">
+        <feDistantLight
+           id="feDistantLight11370"
+           azimuth="235"
+           elevation="45" />
+      </feSpecularLighting>
+      <feComposite
+         k4="0"
+         k1="0"
+         id="feComposite11372"
+         in2="result1"
+         k3="1"
+         k2="1"
+         operator="arithmetic"
+         result="result4"
+         in="SourceGraphic" />
+      <feComposite
+         id="feComposite11374"
+         in2="SourceAlpha"
+         operator="in"
+         result="result2"
+         in="result4" />
+    </filter>
+    <filter
+       id="filter11376"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-0.25"
+       y="-0.25"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur11378"
+         in="SourceAlpha"
+         stdDeviation="2"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix11380"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0 " />
+      <feOffset
+         id="feOffset11382"
+         in="bluralpha"
+         dx="4"
+         dy="4"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge11384">
+        <feMergeNode
+           id="feMergeNode11386"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode11388"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter11390"
+       inkscape:label="Specular light"
+       inkscape:menu="ABCs"
+       inkscape:menu-tooltip="Basic specular bevel to use for building textures"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur11392"
+         result="result0"
+         in="SourceAlpha"
+         stdDeviation="6" />
+      <feSpecularLighting
+         id="feSpecularLighting11394"
+         specularExponent="25"
+         specularConstant="1"
+         surfaceScale="10"
+         lighting-color="#ffffff"
+         result="result1"
+         in="result0">
+        <feDistantLight
+           id="feDistantLight11396"
+           azimuth="235"
+           elevation="45" />
+      </feSpecularLighting>
+      <feComposite
+         k4="0"
+         k1="0"
+         id="feComposite11398"
+         in2="result1"
+         k3="1"
+         k2="1"
+         operator="arithmetic"
+         result="result4"
+         in="SourceGraphic" />
+      <feComposite
+         id="feComposite11400"
+         in2="SourceAlpha"
+         operator="in"
+         result="result2"
+         in="result4" />
+    </filter>
+    <filter
+       id="filter11402"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-0.25"
+       y="-0.25"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur11404"
+         in="SourceAlpha"
+         stdDeviation="2"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix11406"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0 " />
+      <feOffset
+         id="feOffset11408"
+         in="bluralpha"
+         dx="4"
+         dy="4"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge11410">
+        <feMergeNode
+           id="feMergeNode11412"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode11414"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter11416"
+       inkscape:label="Specular light"
+       inkscape:menu="ABCs"
+       inkscape:menu-tooltip="Basic specular bevel to use for building textures"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur11418"
+         result="result0"
+         in="SourceAlpha"
+         stdDeviation="6" />
+      <feSpecularLighting
+         id="feSpecularLighting11420"
+         specularExponent="25"
+         specularConstant="1"
+         surfaceScale="10"
+         lighting-color="#ffffff"
+         result="result1"
+         in="result0">
+        <feDistantLight
+           id="feDistantLight11422"
+           azimuth="235"
+           elevation="45" />
+      </feSpecularLighting>
+      <feComposite
+         k4="0"
+         k1="0"
+         id="feComposite11424"
+         in2="result1"
+         k3="1"
+         k2="1"
+         operator="arithmetic"
+         result="result4"
+         in="SourceGraphic" />
+      <feComposite
+         id="feComposite11426"
+         in2="SourceAlpha"
+         operator="in"
+         result="result2"
+         in="result4" />
+    </filter>
+    <filter
+       id="filter3839-2-9"
+       inkscape:label="Specular light"
+       inkscape:menu="ABCs"
+       inkscape:menu-tooltip="Basic specular bevel to use for building textures"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3841-6-8"
+         result="result0"
+         in="SourceAlpha"
+         stdDeviation="6" />
+      <feSpecularLighting
+         id="feSpecularLighting3843-0-6"
+         specularExponent="25"
+         specularConstant="1"
+         surfaceScale="10"
+         lighting-color="#ffffff"
+         result="result1"
+         in="result0">
+        <feDistantLight
+           id="feDistantLight3845-4-6"
+           azimuth="235"
+           elevation="45" />
+      </feSpecularLighting>
+      <feComposite
+         k4="0"
+         k1="0"
+         id="feComposite3847-9-2"
+         in2="result1"
+         k3="1"
+         k2="1"
+         operator="arithmetic"
+         result="result4"
+         in="SourceGraphic" />
+      <feComposite
+         id="feComposite3849-4-3"
+         in2="SourceAlpha"
+         operator="in"
+         result="result2"
+         in="result4" />
+    </filter>
+    <filter
+       id="filter4235-2-6-6-2-8-6-8"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-0.25"
+       y="-0.25"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur4237-13-0-0-1-7-0-2"
+         in="SourceAlpha"
+         stdDeviation="2"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix4239-4-6-2-8-4-3-6"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0 " />
+      <feOffset
+         id="feOffset4241-9-9-2-11-4-6-2"
+         in="bluralpha"
+         dx="4"
+         dy="4"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge4243-4-6-2-5-3-2-7">
+        <feMergeNode
+           id="feMergeNode4245-1-8-2-5-4-4-5"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode4247-9-0-7-8-5-5-7"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter11614"
+       inkscape:label="Specular light"
+       inkscape:menu="ABCs"
+       inkscape:menu-tooltip="Basic specular bevel to use for building textures"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur11616"
+         result="result0"
+         in="SourceAlpha"
+         stdDeviation="6" />
+      <feSpecularLighting
+         id="feSpecularLighting11618"
+         specularExponent="25"
+         specularConstant="1"
+         surfaceScale="10"
+         lighting-color="#ffffff"
+         result="result1"
+         in="result0">
+        <feDistantLight
+           id="feDistantLight11620"
+           azimuth="235"
+           elevation="45" />
+      </feSpecularLighting>
+      <feComposite
+         k4="0"
+         k1="0"
+         id="feComposite11622"
+         in2="result1"
+         k3="1"
+         k2="1"
+         operator="arithmetic"
+         result="result4"
+         in="SourceGraphic" />
+      <feComposite
+         id="feComposite11624"
+         in2="SourceAlpha"
+         operator="in"
+         result="result2"
+         in="result4" />
+    </filter>
+    <filter
+       id="filter11626"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-0.25"
+       y="-0.25"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur11628"
+         in="SourceAlpha"
+         stdDeviation="2"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix11630"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0 " />
+      <feOffset
+         id="feOffset11632"
+         in="bluralpha"
+         dx="4"
+         dy="4"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge11634">
+        <feMergeNode
+           id="feMergeNode11636"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode11638"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter11640"
+       inkscape:label="Specular light"
+       inkscape:menu="ABCs"
+       inkscape:menu-tooltip="Basic specular bevel to use for building textures"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur11642"
+         result="result0"
+         in="SourceAlpha"
+         stdDeviation="6" />
+      <feSpecularLighting
+         id="feSpecularLighting11644"
+         specularExponent="25"
+         specularConstant="1"
+         surfaceScale="10"
+         lighting-color="#ffffff"
+         result="result1"
+         in="result0">
+        <feDistantLight
+           id="feDistantLight11646"
+           azimuth="235"
+           elevation="45" />
+      </feSpecularLighting>
+      <feComposite
+         k4="0"
+         k1="0"
+         id="feComposite11648"
+         in2="result1"
+         k3="1"
+         k2="1"
+         operator="arithmetic"
+         result="result4"
+         in="SourceGraphic" />
+      <feComposite
+         id="feComposite11650"
+         in2="SourceAlpha"
+         operator="in"
+         result="result2"
+         in="result4" />
+    </filter>
+    <filter
+       id="filter11652"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-0.25"
+       y="-0.25"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur11654"
+         in="SourceAlpha"
+         stdDeviation="2"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix11656"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0 " />
+      <feOffset
+         id="feOffset11658"
+         in="bluralpha"
+         dx="4"
+         dy="4"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge11660">
+        <feMergeNode
+           id="feMergeNode11662"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode11664"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter11666"
+       inkscape:label="Specular light"
+       inkscape:menu="ABCs"
+       inkscape:menu-tooltip="Basic specular bevel to use for building textures"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur11668"
+         result="result0"
+         in="SourceAlpha"
+         stdDeviation="6" />
+      <feSpecularLighting
+         id="feSpecularLighting11670"
+         specularExponent="25"
+         specularConstant="1"
+         surfaceScale="10"
+         lighting-color="#ffffff"
+         result="result1"
+         in="result0">
+        <feDistantLight
+           id="feDistantLight11672"
+           azimuth="235"
+           elevation="45" />
+      </feSpecularLighting>
+      <feComposite
+         k4="0"
+         k1="0"
+         id="feComposite11674"
+         in2="result1"
+         k3="1"
+         k2="1"
+         operator="arithmetic"
+         result="result4"
+         in="SourceGraphic" />
+      <feComposite
+         id="feComposite11676"
          in2="SourceAlpha"
          operator="in"
          result="result2"
@@ -120,9 +673,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="531.04714"
-     inkscape:cy="1134.6021"
+     inkscape:zoom="0.24748737"
+     inkscape:cx="385.36885"
+     inkscape:cy="1007.5635"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -155,7 +708,7 @@
        x="-861.17358"
        y="65.806961"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/quitdisable.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\quitdisable.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
@@ -166,7 +719,7 @@
        x="64.457825"
        y="-124.01326"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsclicked.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\creditsclicked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -174,30 +727,30 @@
        id="text3012-1-0-1"
        y="-106.40909"
        x="164.07465"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:#000000;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsclicked.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\creditsclicked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-106.40909"
          x="164.07465"
          id="tspan3014-2-5-0"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-46.409092"
          x="164.07465"
          sodipodi:role="line"
          id="tspan4633-0">Credits</tspan></text>
     <rect
-       style="fill:#ebebeb;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
+       style="fill:#0a4eb4;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
        id="rect4562-6-8"
        width="351.92896"
        height="120.84896"
        x="50.172108"
        y="-388.16501"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsready.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\creditsready.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -205,17 +758,17 @@
        id="text3012-1-0-1-5"
        y="-370.56085"
        x="149.78893"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;display:inline;font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;filter:url(#filter4235-2-6-6-2-8)"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsready.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\creditsready.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-370.56085"
          x="149.78893"
          id="tspan3014-2-5-0-4"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-310.56085"
          x="149.78893"
          sodipodi:role="line"
@@ -228,7 +781,7 @@
        x="-869.25476"
        y="-159.44588"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/quitclicked.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\quitclicked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -236,30 +789,30 @@
        id="text3012-1-0-1-1"
        y="-142.87296"
        x="-738.1731"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:#000000;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/quitclicked.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\quitclicked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-142.87296"
          x="-738.1731"
          id="tspan3014-2-5-0-9"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-82.872955"
          x="-738.1731"
          sodipodi:role="line"
          id="tspan4633-0-4">Quit</tspan></text>
     <rect
-       style="fill:#ebebeb;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
+       style="fill:#0044aa;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
        id="rect4562-6-8-0"
        width="351.92896"
        height="120.84896"
        x="-859.52148"
        y="-398.21262"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/quitready.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\quitready.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -267,17 +820,17 @@
        id="text3012-1-0-1-5-3"
        y="-381.63971"
        x="-728.43982"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;display:inline;font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic;filter:url(#filter4235-2-6-6-2-8);stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/quitready.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\quitready.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-381.63971"
          x="-728.43982"
          id="tspan3014-2-5-0-4-05"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-321.63971"
          x="-728.43982"
          sodipodi:role="line"
@@ -287,63 +840,70 @@
        id="rect4562-6-0-0"
        width="351.92896"
        height="120.84896"
-       x="485.22687"
+       x="528.54218"
        y="-110.81601"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/startclicked.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startclicked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
        sodipodi:linespacing="125%"
        id="text3012-1-0-1-1-2"
        y="-93.211838"
-       x="609.55853"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       x="581.67072"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/startclicked.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startclicked.png"
        inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+       inkscape:export-ydpi="90"
+       transform="translate(0,-3.8146973e-6)"><tspan
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          y="-93.211838"
-         x="609.55853"
+         x="581.67072"
          id="tspan3014-2-5-0-9-3"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
-         y="-33.211842"
-         x="609.55853"
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="-33.211838"
+         x="581.67072"
          sodipodi:role="line"
-         id="tspan4633-0-4-9">Start</tspan></text>
+         id="tspan4633-0-4-9">Start Game</tspan><tspan
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="26.788162"
+         x="581.67072"
+         sodipodi:role="line"
+         id="tspan11339" /></text>
     <rect
-       style="fill:#ebebeb;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
+       style="fill:#0a4eb4;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
        id="rect4562-6-8-0-1"
        width="351.92896"
        height="120.84896"
-       x="485.22687"
+       x="528.54218"
        y="-343.53915"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/startready.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startready.png"
        inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       inkscape:export-ydpi="90"
+       transform="translate(0,5.7220459e-6)" />
     <text
        sodipodi:linespacing="125%"
        id="text3012-1-0-1-5-3-9"
-       y="-325.935"
-       x="609.55853"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       y="-325.93497"
+       x="581.67072"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/startready.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startready.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
-         y="-325.935"
-         x="609.55853"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="-325.93497"
+         x="581.67072"
          id="tspan3014-2-5-0-4-05-9"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
-         y="-265.935"
-         x="609.55853"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="-265.93497"
+         x="581.67072"
          sodipodi:role="line"
-         id="tspan4633-0-2-73-8">Start</tspan></text>
+         id="tspan4633-0-2-73-8">Start Game</tspan></text>
     <rect
        style="fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
        id="rect4562-6-0-0-1"
@@ -352,7 +912,7 @@
        x="-387.77072"
        y="-145.79224"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/recordsclicked.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\recordsclicked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -360,30 +920,30 @@
        id="text3012-1-0-1-1-2-9"
        y="-128.46931"
        x="-302.20468"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:#000000;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/recordsclicked.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\recordsclicked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-128.46931"
          x="-302.20468"
          id="tspan3014-2-5-0-9-3-2"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-68.469315"
          x="-302.20468"
          sodipodi:role="line"
          id="tspan4633-0-4-9-5">Records</tspan></text>
     <rect
-       style="fill:#ebebeb;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
+       style="fill:#0549af;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
        id="rect4562-6-8-0-1-9"
        width="351.92896"
        height="120.84896"
        x="-387.77072"
        y="-378.51535"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/recordsready.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\recordsready.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -391,17 +951,17 @@
        id="text3012-1-0-1-5-3-9-4"
        y="-361.19244"
        x="-302.20468"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/recordsready.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\recordsready.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-361.19244"
          x="-302.20468"
          id="tspan3014-2-5-0-4-05-9-2"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
          y="-301.19244"
          x="-302.20468"
          sodipodi:role="line"
@@ -413,7 +973,7 @@
        x="-730.09192"
        style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/quitdisable.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\quitdisable.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
          style="font-size:48px;fill:#c8c8c8;fill-opacity:1"
@@ -434,7 +994,7 @@
        x="-369.58798"
        y="65.170258"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/recordsdisable.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\recordsdisable.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -444,7 +1004,7 @@
        x="-284.02194"
        style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/recordsdisable.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\recordsdisable.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
          style="font-size:48px;fill:#c8c8c8;fill-opacity:1"
@@ -462,32 +1022,33 @@
        id="rect4562-6-0-0-2"
        width="351.92896"
        height="120.84896"
-       x="485.22687"
+       x="528.54218"
        y="68.18438"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/startdisable.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startdisable.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
        sodipodi:linespacing="125%"
        id="text3012-1-0-1-1-2-1"
        y="85.788544"
-       x="609.55853"
+       x="581.67072"
        style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/startdisable.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startdisable.png"
        inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"><tspan
+       inkscape:export-ydpi="90"
+       transform="translate(0,3.8146973e-6)"><tspan
          style="font-size:48px;fill:#c8c8c8;fill-opacity:1"
          y="85.788544"
-         x="609.55853"
+         x="581.67072"
          id="tspan3014-2-5-0-9-3-9"
          sodipodi:role="line" /><tspan
          style="font-size:48px;fill:#c8c8c8;fill-opacity:1"
          y="145.78854"
-         x="609.55853"
+         x="581.67072"
          sodipodi:role="line"
-         id="tspan4633-0-4-9-9">Start</tspan></text>
+         id="tspan4633-0-4-9-9">Start Game</tspan></text>
     <path
        transform="matrix(0.57497506,0,0,6.8095875e-8,458.91283,133.95638)"
        d="m -360,26.728699 a 20,20 0 1 1 -40,0 20,20 0 1 1 40,0 z"
@@ -498,7 +1059,7 @@
        id="path3879-2"
        style="fill:#ff0000;stroke:#000000;stroke-width:5.03999996;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        sodipodi:type="arc"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsdisable.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\creditsdisable.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
@@ -509,7 +1070,7 @@
        x="64.457825"
        y="73.531906"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsdisable.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\creditsdisable.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -519,7 +1080,7 @@
        x="164.07465"
        style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsdisable.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\creditsdisable.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
          style="font-size:48px;fill:#c8c8c8;fill-opacity:1"
@@ -533,14 +1094,14 @@
          sodipodi:role="line"
          id="tspan4633-0-3">Credits</tspan></text>
     <rect
-       style="fill:#ebebeb;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
+       style="fill:#5fbcd3;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
        id="rect4562-6-8-0-7"
        width="351.92896"
        height="120.84896"
        x="-866.31921"
        y="267.54642"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/quitrollover.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\quitrollover.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -548,17 +1109,17 @@
        id="text3012-1-0-1-5-3-8"
        y="284.11932"
        x="-735.23755"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic;"
        xml:space="preserve"
        inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/quitrollover.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          y="284.11932"
          x="-735.23755"
          id="tspan3014-2-5-0-4-05-1"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          y="344.11932"
          x="-735.23755"
          sodipodi:role="line"
@@ -573,18 +1134,18 @@
        id="path3879-8-7-0-8-5"
        style="fill:#ff0000;stroke:#000000;stroke-width:5.03999996;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        sodipodi:type="arc"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/recordsrollover.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\recordsrollover.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
-       style="fill:#ebebeb;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
+       style="fill:#64c1d8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
        id="rect4562-6-8-0-1-9-2"
        width="351.92896"
        height="120.84896"
        x="-386.66583"
        y="258.74728"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/recordsrollover.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\recordsrollover.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -592,17 +1153,17 @@
        id="text3012-1-0-1-5-3-9-4-3"
        y="276.07022"
        x="-301.09979"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9fafa;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/recordsrollover.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\recordsrollover.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="font-size:48px;fill:#f9fafa;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          y="276.07022"
          x="-301.09979"
          id="tspan3014-2-5-0-4-05-9-2-1"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="font-size:48px;fill:#f9fafa;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          y="336.07022"
          x="-301.09979"
          sodipodi:role="line"
@@ -617,62 +1178,49 @@
        id="path3879-3-8-4-0-2-4-6-9-6-0"
        style="fill:#ff0000;stroke:#000000;stroke-width:5.03999996;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        sodipodi:type="arc"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/recordsrollover.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\recordsrollover.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
-       style="fill:#ebebeb;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
+       style="fill:#64c1d8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
        id="rect4562-6-8-0-1-0"
        width="351.92896"
        height="120.84896"
-       x="520.45117"
+       x="528.54218"
        y="262.78793"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/startclicked.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startrollover.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
        sodipodi:linespacing="125%"
        id="text3012-1-0-1-5-3-9-2"
        y="280.39209"
-       x="644.78284"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter4235-2-6-6-2-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       x="581.67072"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/startclicked.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startrollover.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          y="280.39209"
-         x="644.78284"
+         x="581.67072"
          id="tspan3014-2-5-0-4-05-9-4"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          y="340.39209"
-         x="644.78284"
+         x="581.67072"
          sodipodi:role="line"
-         id="tspan4633-0-2-73-8-4">Start</tspan></text>
-    <path
-       transform="matrix(0.57497506,0,0,6.8095875e-8,419.93143,307.04995)"
-       d="m -360,26.728699 a 20,20 0 1 1 -40,0 20,20 0 1 1 40,0 z"
-       sodipodi:ry="20"
-       sodipodi:rx="20"
-       sodipodi:cy="26.728699"
-       sodipodi:cx="-380"
-       id="path3879-8-8"
-       style="fill:#ff0000;stroke:#000000;stroke-width:5.03999996;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       sodipodi:type="arc"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsrollover.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+         id="tspan4633-0-2-73-8-4">Start Game</tspan></text>
     <rect
-       style="fill:#ebebeb;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
+       style="fill:#64c1d8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839)"
        id="rect4562-6-8-1"
        width="351.92896"
        height="120.84896"
        x="25.476427"
        y="246.62547"
        ry="60.424477"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsrollover.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\creditsrollover.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -680,46 +1228,288 @@
        id="text3012-1-0-1-5-1"
        y="264.22964"
        x="125.09325"
-       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic;filter:url(#filter4235-2-6-6-2-8)"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9fafa;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic;"
        xml:space="preserve"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsrollover.png"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\creditsrollover.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="font-size:48px;fill:#f9fafa;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          y="264.22964"
          x="125.09325"
          id="tspan3014-2-5-0-4-7"
          sodipodi:role="line" /><tspan
-         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="font-size:48px;fill:#f9fafa;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          y="324.22964"
          x="125.09325"
          sodipodi:role="line"
          id="tspan4633-0-2-3">Credits</tspan></text>
-    <path
-       transform="matrix(0.57497506,0,0,6.8095875e-8,419.93143,307.04995)"
-       d="m -360,26.728699 a 20,20 0 1 1 -40,0 20,20 0 1 1 40,0 z"
-       sodipodi:ry="20"
-       sodipodi:rx="20"
-       sodipodi:cy="26.728699"
-       sodipodi:cx="-380"
-       id="path3879-3-4-6-9-0-9"
-       style="fill:#ff0000;stroke:#000000;stroke-width:5.03999996;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       sodipodi:type="arc"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsrollover.png"
+    <g
+       id="layer1-7"
+       inkscape:label="feet"
+       style="display:inline"
+       transform="translate(1028.8495,1455.3487)" />
+    <g
+       id="layer2"
+       inkscape:label="Medal"
+       style="display:inline"
+       transform="translate(1028.8495,1455.3487)" />
+    <rect
+       style="fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839-2)"
+       id="rect4562-6-0-0-8"
+       width="351.92896"
+       height="120.84896"
+       x="957.42664"
+       y="-123.00044"
+       ry="60.424477"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startclicked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
-    <path
-       transform="matrix(0.57497506,0,0,6.8095875e-8,419.93143,307.04995)"
-       d="m -360,26.728699 a 20,20 0 1 1 -40,0 20,20 0 1 1 40,0 z"
-       sodipodi:ry="20"
-       sodipodi:rx="20"
-       sodipodi:cy="26.728699"
-       sodipodi:cx="-380"
-       id="path3879-3-8-7-5-2"
-       style="fill:#ff0000;stroke:#000000;stroke-width:5.03999996;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       sodipodi:type="arc"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/mainMenu/creditsrollover.png"
+    <text
+       sodipodi:linespacing="125%"
+       id="text3012-1-0-1-1-2-8"
+       y="-105.39626"
+       x="1010.5552"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter4235-2-6-6-2-8-6);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       xml:space="preserve"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startclicked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="-105.39626"
+         x="1010.5552"
+         id="tspan3014-2-5-0-9-3-1"
+         sodipodi:role="line" /><tspan
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="-45.396263"
+         x="1010.5552"
+         sodipodi:role="line"
+         id="tspan4633-0-4-9-2">Main Menu</tspan><tspan
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="14.603737"
+         x="1010.5552"
+         sodipodi:role="line"
+         id="tspan11339-1" /></text>
+    <rect
+       style="fill:#0a4eb4;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839-2)"
+       id="rect4562-6-8-0-1-4"
+       width="351.92896"
+       height="120.84896"
+       x="957.42664"
+       y="-355.72357"
+       ry="60.424477"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startready.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3012-1-0-1-5-3-9-9"
+       y="-338.11938"
+       x="1010.5552"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter4235-2-6-6-2-8-6);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       xml:space="preserve"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startready.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="-338.11938"
+         x="1010.5552"
+         id="tspan3014-2-5-0-4-05-9-8"
+         sodipodi:role="line" /><tspan
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="-278.11938"
+         x="1010.5552"
+         sodipodi:role="line"
+         id="tspan4633-0-2-73-8-24">Main Menu</tspan></text>
+    <rect
+       style="fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839-2)"
+       id="rect4562-6-0-0-2-5"
+       width="351.92896"
+       height="120.84896"
+       x="957.42664"
+       y="55.999954"
+       ry="60.424477"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startdisable.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3012-1-0-1-1-2-1-2"
+       y="73.604141"
+       x="1010.5552"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8-6);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       xml:space="preserve"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startdisable.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         style="font-size:48px;fill:#c8c8c8;fill-opacity:1"
+         y="73.604141"
+         x="1010.5552"
+         id="tspan3014-2-5-0-9-3-9-9"
+         sodipodi:role="line" /><tspan
+         style="font-size:48px;fill:#c8c8c8;fill-opacity:1"
+         y="133.60414"
+         x="1010.5552"
+         sodipodi:role="line"
+         id="tspan11583">Main Menu</tspan></text>
+    <rect
+       style="fill:#64c1d8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839-2)"
+       id="rect4562-6-8-0-1-0-8"
+       width="351.92896"
+       height="120.84896"
+       x="957.42664"
+       y="250.6035"
+       ry="60.424477"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startrollover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3012-1-0-1-5-3-9-2-3"
+       y="268.20761"
+       x="1010.5552"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       xml:space="preserve"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startrollover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="268.20761"
+         x="1010.5552"
+         id="tspan3014-2-5-0-4-05-9-4-8"
+         sodipodi:role="line" /><tspan
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="328.20761"
+         x="1010.5552"
+         sodipodi:role="line"
+         id="tspan4633-0-2-73-8-4-6">Main Menu</tspan><tspan
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="388.20761"
+         x="1010.5552"
+         sodipodi:role="line"
+         id="tspan11589" /></text>
+    <rect
+       style="fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839-2-9)"
+       id="rect4562-6-0-0-8-8"
+       width="351.92896"
+       height="120.84896"
+       x="1375.6299"
+       y="-116.93952"
+       ry="60.424477"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startclicked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3012-1-0-1-1-2-8-2"
+       y="-99.616608"
+       x="1461.278"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#191919;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter4235-2-6-6-2-8-6-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       xml:space="preserve"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startclicked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="-99.616608"
+         x="1461.278"
+         id="tspan3014-2-5-0-9-3-1-7"
+         sodipodi:role="line" /><tspan
+         style="font-size:48px;fill:#191919;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="-39.616604"
+         x="1461.278"
+         sodipodi:role="line"
+         id="tspan11339-1-0">Resume</tspan></text>
+    <rect
+       style="fill:#0a4eb4;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839-2-9)"
+       id="rect4562-6-8-0-1-4-2"
+       width="351.92896"
+       height="120.84896"
+       x="1375.6299"
+       y="-349.66266"
+       ry="60.424477"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startready.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3012-1-0-1-5-3-9-9-0"
+       y="-332.33975"
+       x="1461.278"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter4235-2-6-6-2-8-6-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       xml:space="preserve"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startready.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="-332.33975"
+         x="1461.278"
+         id="tspan3014-2-5-0-4-05-9-8-8"
+         sodipodi:role="line" /><tspan
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="-272.33975"
+         x="1461.278"
+         sodipodi:role="line"
+         id="tspan4633-0-2-73-8-24-9">Resume</tspan></text>
+    <rect
+       style="fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839-2-9)"
+       id="rect4562-6-0-0-2-5-2"
+       width="351.92896"
+       height="120.84896"
+       x="1375.6299"
+       y="62.060875"
+       ry="60.424477"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startdisable.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3012-1-0-1-1-2-1-2-8"
+       y="79.383789"
+       x="1461.278"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter4235-2-6-6-2-8-6-8);font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       xml:space="preserve"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startdisable.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         style="font-size:48px;fill:#c8c8c8;fill-opacity:1"
+         y="79.383789"
+         x="1461.278"
+         id="tspan3014-2-5-0-9-3-9-9-2"
+         sodipodi:role="line" /><tspan
+         style="font-size:48px;fill:#c8c8c8;fill-opacity:1"
+         y="139.3838"
+         x="1461.278"
+         sodipodi:role="line"
+         id="tspan11583-0">Resume</tspan></text>
+    <rect
+       style="fill:#64c1d8;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3839-2-9)"
+       id="rect4562-6-8-0-1-0-8-5"
+       width="351.92896"
+       height="120.84896"
+       x="1375.6299"
+       y="256.66446"
+       ry="60.424477"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startrollover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3012-1-0-1-5-3-9-2-3-5"
+       y="273.98737"
+       x="1461.278"
+       style="font-size:48px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Vemana2000;-inkscape-font-specification:Vemana2000 Bold Italic"
+       xml:space="preserve"
+       inkscape:export-filename="D:\Fmc\Workspace\SkyRunner\master\hud.Sources\mainMenu\startrollover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="273.98737"
+         x="1461.278"
+         id="tspan3014-2-5-0-4-05-9-4-8-2"
+         sodipodi:role="line" /><tspan
+         style="font-size:48px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         y="333.98737"
+         x="1461.278"
+         sodipodi:role="line"
+         id="tspan11589-6">Resume</tspan></text>
   </g>
 </svg>
