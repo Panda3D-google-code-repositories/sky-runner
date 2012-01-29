@@ -25,10 +25,10 @@ class InGameMenu(DirectObject.DirectObject):
         #0.07, text_fg=(0,0,0,1), text_align=TextNode.ACenter, borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06), frameColor=(0.8,0.8,0.8,0))
 
         maps = loader.loadModel('hud.Sources/mainMenu/buttons_credits_maps.egg')
-        self.b = DirectButton(parent=self.frame,pos=(0,0,0),geom = (maps.find('**/creditsready'),
+        self.b = DirectButton(parent=self.frame,pos=(0,0,0),image = (maps.find('**/creditsready'),
                          maps.find('**/creditsclicked'),
                          maps.find('**/creditsrollover'),
-                         maps.find('**/creditsdisable')),command=self.showCredits, scale=0.16)
+                         maps.find('**/creditsdisable')),command=self.showCredits, scale=0.16,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
 
 
         self.resumeButton = DirectButton(parent=self.frame, text="Resume", command=self.resumeGame, pos=(0,0,-0.1), text_scale=
