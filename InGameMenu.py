@@ -23,25 +23,33 @@ class InGameMenu(DirectObject.DirectObject):
         self.startButton = DirectButton(parent=self.frame,pos=(0,0,0.1),image = (mapsMainMenu.find('**/mainmenuready'),
                          mapsMainMenu.find('**/mainmenuclicked'),
                          mapsMainMenu.find('**/mainmenurollover'),
-                         mapsMainMenu.find('**/mainmenudisable')),command=self.showMainMenu, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+                         mapsMainMenu.find('**/mainmenudisable')),command=self.showMainMenu, scale=0.2,
+                         borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  
+                         frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
 
         mapsCredits = loader.loadModel('hud.Sources/mainMenu/buttons_credits_maps.egg')
         self.b = DirectButton(parent=self.frame,pos=(0,0,0),image = (mapsCredits.find('**/creditsready'),
                          mapsCredits.find('**/creditsclicked'),
                          mapsCredits.find('**/creditsrollover'),
-                         mapsCredits.find('**/creditsdisable')),command=self.showCredits, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+                         mapsCredits.find('**/creditsdisable')),command=self.showCredits, scale=0.2,
+                         borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  
+                         frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
         
         mapsResume = loader.loadModel('hud.Sources/mainMenu/buttons_resume_maps.egg')
         self.b = DirectButton(parent=self.frame,pos=(0,0,-0.1),image = (mapsResume.find('**/resumeready'),
                          mapsResume.find('**/resumeclicked'),
                          mapsResume.find('**/resumerollover'),
-                         mapsResume.find('**/resumedisable')),command=self.resumeGame, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+                         mapsResume.find('**/resumedisable')),command=self.resumeGame, scale=0.2,
+                         borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  
+                         frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
 
         mapsQuit = loader.loadModel('hud.Sources/mainMenu/buttons_quit_maps.egg')
         self.quitButton = DirectButton(parent=self.frame,pos=(0,0,-0.2),image = (mapsQuit.find('**/quitready'),
                          mapsQuit.find('**/quitclicked'),
                          mapsQuit.find('**/quitrollover'),
-                         mapsQuit.find('**/quitdisable')),command=self.endGame, scale=0.2,borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0))
+                         mapsQuit.find('**/quitdisable')),command=self.endGame, scale=0.2,borderWidth=(0.005,0.005),
+                         frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0),
+                         rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
 
         self.show()
         
