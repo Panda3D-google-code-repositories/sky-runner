@@ -36,22 +36,23 @@ class Game( object ):
         self.textTimerNodePath = aspect2d.attachNewNode(self.textTimer) 
         self.textTimerNodePath.setScale(0.05) 
         self.textTimerNodePath.reparentTo(base.a2dTopRight) 
-        self.textTimerNodePath.setPos(-0.6, 0, -0.15) 
-        self.textTimer.setText("00:00:00")
+        self.textTimerNodePath.setPos(-0.5, 0, -0.15) 
         
+        self.lifes = NodePath('Lifes')
+        self.lifes.reparentTo(base.a2dTopRight)
         
-        self.fVidas1On = OnscreenImage(image = "hud.Sources/lifeOn.png",pos=(1.1,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas1Off = OnscreenImage(image = "hud.Sources/lifeOff.png",pos=(1.1,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas1On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.1, 0, -0.1) , scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas1Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.1, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas1On.setTransparency(TransparencyAttrib.MAlpha)
         self.fVidas1Off.setTransparency(TransparencyAttrib.MAlpha)
         
-        self.fVidas2On = OnscreenImage(image = "hud.Sources/lifeOn.png",pos=(0.9,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas2Off = OnscreenImage(image = "hud.Sources/lifeOff.png",pos=(0.9,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas2On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas2Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas2On.setTransparency(TransparencyAttrib.MAlpha)
         self.fVidas2Off.setTransparency(TransparencyAttrib.MAlpha)
         
-        self.fVidas3On = OnscreenImage(image = "hud.Sources/lifeOn.png",pos=(0.7,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas3Off = OnscreenImage(image = "hud.Sources/lifeOff.png",pos=(0.7,-0.8,0.9), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas3On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas3Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas3On.setTransparency(TransparencyAttrib.MAlpha)
         self.fVidas3Off.setTransparency(TransparencyAttrib.MAlpha)
         
