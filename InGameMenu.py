@@ -12,9 +12,6 @@ from pandac.PandaModules import AntialiasAttrib
 from Credits import Credits
 from GameStates import State
 
-#loadPrcFileData("", "framebuffer-multisample 1")
-#loadPrcFileData("", "multisamples 2")
-
 
 class InGameMenu(DirectObject.DirectObject):
     def __init__( self, skyRunner ):
@@ -23,19 +20,10 @@ class InGameMenu(DirectObject.DirectObject):
         self.frame['frameColor']=(0.8,0.8,0.8,0)
         self.frame['image'] = "hud.Sources/menuInGame.png"
         self.frame['image_scale'] = 0.7
-        self.frame['pos'] = (-.3,0,-.6)
         self.frame.setTransparency(TransparencyAttrib.MAlpha)
-        #self.wingsL = OnscreenImage(parent=self.frame,image = "hud.Sources/wingLettersL.png",pos=(-0.3, 0.3, 0.5) , scale = (0.2,0.2,0.2))
-        #self.wingsL.setTransparency(TransparencyAttrib.MAlpha)
-        #self.wingsL.show()
-        #self.wingsR = OnscreenImage(parent=self.frame,image = "hud.Sources/wingLetters.png",pos=(0.3, 0.3, 0.5) , scale = (0.2,0.2,0.2))
-        #self.wingsR.setTransparency(TransparencyAttrib.MAlpha)
-        #self.wingsR.show()
-
-        #self.headline = DirectLabel(parent=self.frame, text="Sky Runner", scale=0.085, frameColor=(0,0,0,0), pos=(0,0,0.3))
         
         mapsMainMenu = loader.loadModel('hud.Sources/mainMenu/buttons_mainmenu_maps.egg')   
-#        mapsMainMenu.setAntialias(AntialiasAttrib.MMultisample)
+
         self.startButton = DirectButton(parent=self.frame,pos=(0,0,0),image = (mapsMainMenu.find('**/mainmenuready'),
                          mapsMainMenu.find('**/mainmenuclicked'),
                          mapsMainMenu.find('**/mainmenurollover'),
@@ -79,8 +67,12 @@ class InGameMenu(DirectObject.DirectObject):
     def showMainMenu(self): 
         if self.skyRunnerInstance.gameState == State.INGAMEMENU:
             self.hide()
-            self.skyRunnerInstance.game.clearScreenTexts()
-            self.skyRunnerInstance.__init__()
+            for i in render.getChildren():
+                i.removeNode()
+            
+            self.skyRunnerInstance.soundManager.stopAllSounds()
+            self.skyRunnerInstance.game = None
+            self.skyRunnerInstance.start()
         
     def showCredits(self): 
         if self.skyRunnerInstance.gameState == State.INGAMEMENU:

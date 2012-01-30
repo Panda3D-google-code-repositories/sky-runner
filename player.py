@@ -72,6 +72,7 @@ class Player( object ):
         """ inits the player """
         self.game = gameContext
         self.vidas = 3
+        self.falling = False
         
         self.lastCheckPoint = len(render.findAllMatches("**/waypoint*"))
         self.currentCheckPoint = 0;
@@ -88,7 +89,7 @@ class Player( object ):
         taskMgr.add( self.mouseUpdate, 'MouseTask' )
         taskMgr.add( self.moveUpdate,  'MoveTask'  )
         taskMgr.add( self.jumpUpdate,  'JumpTask'  )
-        taskMgr.add( self.soundUpdate, 'SoundTask'  )
+        taskMgr.add( self.fallingUpdate, 'FallingTask'  )
 
 
     def loadModel( self ):
@@ -166,6 +167,7 @@ class Player( object ):
         base.accept( "d-up", self.setKey, [ "d", 0 ] )
         base.accept( "r",    self.setKey, [ "r", 1 ] )
         base.accept( "r-up", self.setKey, [ "r", 0 ] )
+        base.accept( "l", self.game.checkForRecord )
         #base.accept( "l" , self.reloadLastCheckPoint)
 
 
@@ -230,6 +232,7 @@ class Player( object ):
                     
                     OnscreenText(text = "WIN", style = 1, fg = ( 0, 1, 0, 1 ),
                                 pos = ( -1.33, .25 ), align = TextNode.ALeft, scale = .8 )
+                    self.game.checkForRecord()
                                 
                 
                 if "waypoint"+str(self.currentCheckPoint) in entry.getIntoNode().getName():
@@ -600,23 +603,20 @@ class Player( object ):
 
         return task.cont
     
-    def soundUpdate(self, task):
+    def fallingUpdate(self, task):
         
-        if self.player.getZ() < -2 and self.game.skyRunnerInstance.soundManager.screamSound.status() == AudioSound.READY:
-            self.game.skyRunnerInstance.soundManager.screamSound.play()
-            taskMgr.doMethodLater(4, self.taskRespawn, 'Respawn')
-            
-        
-        #if pState.running(self.CurState) == True:
-        #    self.soundWalking.setLoop(True)
-        #    if self.CurSpeed > 10 :
-        #        self.soundWalking.setPlayRate(self.CurSpeed*0.025)
-        #    else:
-        #        self.soundWalking.setPlayRate(0)
-        #        
-        #elif pState.running(self.CurState) == False:
-        #    self.soundWalking.setLoop(False)
-        
+        if self.player.getZ() < -2:
+            print "a"
+            if self.falling == False:
+                print "b"
+                self.falling = True 
+                self.game.skyRunnerInstance.soundManager.screamSound.play()
+            else:
+                print "c"
+                if self.game.skyRunnerInstance.soundManager.screamSound.status() == AudioSound.READY:
+                    print "d"
+                    self.falling = False
+                    self.respawn()
                             
         return task.cont
     
@@ -626,16 +626,13 @@ class Player( object ):
         self.savedTime = self.game.displayTime
         
     def reloadLastCheckPoint( self ): 
-        #if self.savedCheckPoint == -1:
-            #return
-        
         self.currentCheckPoint = self.savedCheckPoint+1
         self.player.setPos(self.savedPos)
         self.game.startTime = datetime.datetime.today()
         self.game.lastTimeStop = self.savedTime
         self.resetPlayerVariables()
     
-    def taskRespawn( self, task ):
+    def respawn( self ):
         self.game.skyRunnerInstance.soundManager.screamSound.stop()
         if self.vidas > 1:
             self.vidas = self.vidas - 1

@@ -23,71 +23,8 @@ class Game( object ):
         self.initPlayer()
         self.initSounds()
         
-#        self.text = TextNode('node name')
-#        self.text.setText("Every day in every way I'm getting better and better.")
-#        self.text.setShadow(0.05, 0.05)
-#        self.text.setShadowColor(0, 0, 0, 1)
-#        self.textNodePath = aspect2d.attachNewNode(self.text)
-#        self.textNodePath.setScale(0.07)
-#        self.textNodePath.setPos(0,-4,0)
-#        
-        self.timeFont = loader.loadFont('hud.Sources/fonts/moderna.ttf')
-        self.textTimer = TextNode('Time')    
-        self.textTimer.setFont(self.timeFont)   
-        self.textTimer.setShadow(0.05, 0.05)
-        self.textTimer.setShadowColor(0, 0, 0, 1) 
-        self.textTimerNodePath = aspect2d.attachNewNode(self.textTimer) 
-        self.textTimerNodePath.setScale(0.05) 
-        self.textTimerNodePath.reparentTo(base.a2dTopRight) 
-        self.textTimerNodePath.setPos(-0.5, 0, -0.17) 
-        
+        self.initHud()
 
-        self.textRecord = TextNode('Record')    
-        self.textRecord.setFont(self.timeFont)   
-        self.textRecord.setShadow(0.05, 0.05)
-        self.textRecord.setShadowColor(0, 0, 0, 1) 
-        self.textRecordNodePath = aspect2d.attachNewNode(self.textRecord) 
-        self.textRecordNodePath.setScale(0.035) 
-        self.textRecordNodePath.reparentTo(base.a2dTopRight) 
-        self.textRecordNodePath.setPos(-0.415, 0, -0.21) 
-        
-        
-        self.lifes = NodePath('Lifes')
-        self.lifes.reparentTo(base.a2dTopRight)
-        
-        self.fVidas1On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.1, 0, -0.1) , scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas1Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.1, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas1On.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas1On.setAntialias(AntialiasAttrib.MMultisample)
-        self.fVidas1Off.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas1Off.setAntialias(AntialiasAttrib.MMultisample)
-        
-        self.fVidas2On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas2Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas2On.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas2On.setAntialias(AntialiasAttrib.MMultisample)
-        self.fVidas2Off.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas2Off.setAntialias(AntialiasAttrib.MMultisample)
-        
-        self.fVidas3On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas3Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas3On.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas3On.setAntialias(AntialiasAttrib.MMultisample)
-        self.fVidas3Off.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas3Off.setAntialias(AntialiasAttrib.MMultisample)
-        
-        self.vVidasOn = [self.fVidas1On,self.fVidas2On,self.fVidas3On]
-        self.vVidasOff = [self.fVidas1Off,self.fVidas2Off,self.fVidas3Off]
-        
-        #self.fVidas2 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))self.fVidas1 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))
-        #self.fVidas3 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))self.fVidas1 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))
-
-        self.fVidas1On.show()
-        self.fVidas2On.show()
-        self.fVidas3On.show()
-        self.fVidas1Off.hide()
-        self.fVidas2Off.hide()
-        self.fVidas3Off.hide()
         # Make the mouse invisible, turn off normal mouse controls
         self.toggleMouseControls(False)
         
@@ -95,60 +32,15 @@ class Game( object ):
         self.pausedTime = datetime.timedelta(seconds=0)
         self.pausedX = 0
         self.pausedY = 0
-        
-###      OLD Text        
-        
-#        
-#        self.title = OnscreenText(text = "Sky-Runner: Mirror's Edge-like Game", style = 1, fg = ( 1, 0, 0, 1 ),
-#                                pos = ( 1.32, -0.98 ), align=TextNode.ARight, scale = .07 )
-
-#        self.inst1 = OnscreenText(text = "[ESC]: Quit", style = 1, fg = ( 1, 0, 0, 1 ),
-#                                pos = ( -1.33, 0.95 ), align = TextNode.ALeft, scale = .05 )
-#        self.inst2 = OnscreenText(text = "[mouse]: Move Camera", style = 1, fg = ( 1, 0, 0, 1 ),
-#                                pos = ( -1.33, 0.90 ), align = TextNode.ALeft, scale = .05 )
-#        self.inst3 = OnscreenText(text = "[W]: Move Forward", style = 1, fg = ( 1, 0, 0, 1 ),
-#                                pos = ( -1.33, 0.85 ), align = TextNode.ALeft, scale = .05 )
-#        self.inst4 = OnscreenText(text = "[S]: Move Backward", style = 1, fg = ( 1, 0, 0, 1 ),
-#                                pos = ( -1.33, 0.80 ), align = TextNode.ALeft, scale = .05 )
-#        self.inst5 = OnscreenText(text = "[A]: Strafe Left", style = 1, fg = ( 1, 0, 0, 1 ),
-#                                pos = ( -1.33, 0.75 ), align = TextNode.ALeft, scale = .05 )
-#        self.inst6 = OnscreenText(text = "[D]: Strafe Right", style = 1, fg = ( 1, 0, 0, 1 ),
-#                                pos = ( -1.33, 0.70 ), align = TextNode.ALeft, scale = .05 )
-#        self.inst7 = OnscreenText(text = "[space]: Jump", style = 1, fg = ( 1, 0, 0, 1 ),
-#                                pos = ( -1.33, 0.65 ), align = TextNode.ALeft, scale = .05 )
-#        self.inst8 = OnscreenText(text = "[R]: Roll", style = 1, fg = ( 1, 0, 0, 1 ),
-#                                pos = ( -1.33, 0.60 ), align = TextNode.ALeft, scale = .05 )
-
-#        self.curSpeedText = OnscreenText(text = "CurSpeed = 0", style = 1, fg = ( 1, 0, 0, 1 ),
-#                            pos = ( 0.65, 0.95 ), align = TextNode.ALeft, scale = .05 )
-#        self.curStrafeSpeedText = OnscreenText(text = "CurStrafeSpeed = 0", style = 1, fg = ( 1, 0, 0, 1 ),
-#                            pos = ( 0.65, 0.90 ), align = TextNode.ALeft, scale = .05 )
-#        self.fallHeightText = OnscreenText(text = "FallHeight = 0", style = 1, fg = ( 1, 0, 0, 1 ),
-#                            pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
-
-#        self.currCheckPointText = OnscreenText(text = "Current CheckPoint: " + str( self.player.currentCheckPoint ), style = 1, fg = ( 1, 0, 0, 1 ),
-#                            pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
-
-        self.currCheckPointText = TextNode('Time')    
-        self.currCheckPointText.setFont(self.timeFont)   
-        self.currCheckPointText.setShadow(0.05, 0.05)
-        self.currCheckPointText.setShadowColor(0, 0, 0, 1) 
-        self.currCheckPointTextNodePath = aspect2d.attachNewNode(self.currCheckPointText) 
-        self.currCheckPointTextNodePath.setScale(0.05) 
-        self.currCheckPointTextNodePath.reparentTo(base.a2dBottomLeft) 
-        self.currCheckPointTextNodePath.setPos(0.1, 0, 0.1) 
-        self.currCheckPointText.setText("Current CheckPoint: " + str( self.player.currentCheckPoint ))
                             
         taskMgr.add( self.messageUpdate, 'MessageTask' )
         taskMgr.add( self.taskFade, 'fadeTask' )
+        self.timerTask = taskMgr.add( self.timer, 'TimerTask' )
         
-
-        # timer
-        self.clock = OnscreenText(scale = .15, mayChange = True, pos= (-0.5,0.87), fg= (0,1,0,1))
         self.startTime = datetime.datetime.today()
         self.lastTimeStop = datetime.timedelta(seconds=0)
         self.displayTime = datetime.timedelta(seconds=0)
-        self.timerTask = taskMgr.add( self.timer, 'TimerTask' )
+        
         
             
         self.solarBeam = render.attachNewNode(DirectionalLight('sun'))
@@ -165,10 +57,13 @@ class Game( object ):
         self.solarBeam.node().getLens().setFilmSize(4096, 4096)
         
         
-        #render.setShaderAuto()
+        
+        render.setLight(self.solarBeam)
         render.setLight(self.solarBeam)
         render.setLight(self.ambientLight)
         render.setAntialias(AntialiasAttrib.MMultisample)
+        
+        #render.setShaderAuto()
 
     def initSounds( self ):
         self.skyRunnerInstance.soundManager.soundWalking.play()
@@ -206,23 +101,67 @@ class Game( object ):
         self.player = Player( self )
         self.player.player.setPos(-34.0,30.0,3.0)
 
+    def initHud( self ):
+        self.timeFont = loader.loadFont('hud.Sources/fonts/moderna.ttf')
+        self.textTimer = TextNode('Time')    
+        self.textTimer.setFont(self.timeFont)   
+        self.textTimer.setShadow(0.05, 0.05)
+        self.textTimer.setShadowColor(0, 0, 0, 1) 
+        self.textTimerNodePath = aspect2d.attachNewNode(self.textTimer) 
+        self.textTimerNodePath.setScale(0.05) 
+        self.textTimerNodePath.reparentTo(base.a2dTopRight) 
+        self.textTimerNodePath.setPos(-0.5, 0, -0.17) 
+        
+
+        self.textRecord = TextNode('Record')    
+        self.textRecord.setFont(self.timeFont)   
+        self.textRecord.setShadow(0.05, 0.05)
+        self.textRecord.setShadowColor(0, 0, 0, 1) 
+        self.textRecordNodePath = aspect2d.attachNewNode(self.textRecord) 
+        self.textRecordNodePath.setScale(0.035) 
+        self.textRecordNodePath.reparentTo(base.a2dTopRight) 
+        self.textRecordNodePath.setPos(-0.415, 0, -0.21) 
+        
+        
+        self.lifes = NodePath('Lifes')
+        self.lifes.reparentTo(base.a2dTopRight)
+        
+        self.fVidas1On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.1, 0, -0.1) , scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas1Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.1, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas1On.setTransparency(TransparencyAttrib.MAlpha)
+        self.fVidas1Off.setTransparency(TransparencyAttrib.MAlpha)
+        
+        self.fVidas2On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas2Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas2On.setTransparency(TransparencyAttrib.MAlpha)
+        self.fVidas2Off.setTransparency(TransparencyAttrib.MAlpha)
+        
+        self.fVidas3On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas3Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas3On.setTransparency(TransparencyAttrib.MAlpha)
+        self.fVidas3Off.setTransparency(TransparencyAttrib.MAlpha)
+        
+        self.vVidasOn = [self.fVidas1On,self.fVidas2On,self.fVidas3On]
+        self.vVidasOff = [self.fVidas1Off,self.fVidas2Off,self.fVidas3Off]
+
+        self.fVidas1On.show()
+        self.fVidas2On.show()
+        self.fVidas3On.show()
+        self.fVidas1Off.hide()
+        self.fVidas2Off.hide()
+        self.fVidas3Off.hide()
+        
+        self.currCheckPointText = TextNode('Time')    
+        self.currCheckPointText.setFont(self.timeFont)   
+        self.currCheckPointText.setShadow(0.05, 0.05)
+        self.currCheckPointText.setShadowColor(0, 0, 0, 1) 
+        self.currCheckPointTextNodePath = aspect2d.attachNewNode(self.currCheckPointText) 
+        self.currCheckPointTextNodePath.setScale(0.05) 
+        self.currCheckPointTextNodePath.reparentTo(base.a2dBottomLeft) 
+        self.currCheckPointTextNodePath.setPos(0.1, 0, 0.1) 
+        self.currCheckPointText.setText("Current CheckPoint: " + str( self.player.currentCheckPoint ))
 
     def messageUpdate( self, task ):
-#        self.curSpeedText.destroy()
-#        self.curSpeedText = OnscreenText(text = "CurSpeed = " + str( self.player.CurSpeed ), style = 1, fg = ( 1, 0, 0, 1 ),
-#                            pos = ( 0.65, 0.95 ), align = TextNode.ALeft, scale = .05 )
-#
-#        self.curStrafeSpeedText.destroy()
-#        self.curStrafeSpeedText = OnscreenText(text = "CurStrafeSpeed = " + str( self.player.CurStrafeSpeed ), style = 1, fg = ( 1, 0, 0, 1 ),
-#                            pos = ( 0.65, 0.90 ), align = TextNode.ALeft, scale = .05 )
-#
-#        self.fallHeightText.destroy()
-#        self.fallHeightText = OnscreenText(text = "FallHeight = " + str( self.player.FallHeight ), style = 1, fg = ( 1, 0, 0, 1 ),
-#                            pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
-#                            
-#        self.currCheckPointText.destroy()
-#        self.currCheckPointText = OnscreenText(text = "Current CheckPoint: " + str( self.player.currentCheckPoint ), style = 1, fg = ( 1, 0, 0, 1 ),
-#                            pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
         self.currCheckPointText.setText("Current CheckPoint: " + str( self.player.currentCheckPoint ))
         return task.cont
         
@@ -230,14 +169,12 @@ class Game( object ):
         nowTime = datetime.datetime.today()
         t = self.lastTimeStop + nowTime - self.startTime
         self.displayTime = t
-    
       
         s = str(t).split(':')
       
         s2 = s[2].split('.')
         if len(s2) == 1:
             s2.append('00')
-#        self.clock.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:2])
         self.textTimer.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:2])
         self.textRecord.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:2])
       
@@ -249,6 +186,7 @@ class Game( object ):
         taskMgr.add( self.player.mouseUpdate, 'MouseTask' )
         taskMgr.add( self.player.moveUpdate,  'MoveTask'  )
         taskMgr.add( self.player.jumpUpdate,  'JumpTask'  )
+        taskMgr.add( self.player.fallingUpdate,  'FallingTask'  )
         
     def removeTasks( self ):
         taskMgr.remove( 'MessageTask' )
@@ -256,6 +194,7 @@ class Game( object ):
         taskMgr.remove( 'MouseTask' )
         taskMgr.remove( 'MoveTask'  )
         taskMgr.remove( 'JumpTask'  )
+        taskMgr.remove( 'FallingTask'  )
         
     def pauseGame( self ):
         
@@ -289,20 +228,9 @@ class Game( object ):
         base.win.requestProperties( props )
         
     def clearScreenTexts( self ):
-        self.title.destroy()
-        self.inst1.destroy()
-        self.inst2.destroy()
-        self.inst3.destroy()
-        self.inst4.destroy()
-        self.inst5.destroy()
-        self.inst6.destroy()
-        self.inst7.destroy()
-        self.inst8.destroy()
-        self.curSpeedText.destroy()
-        self.curStrafeSpeedText.destroy()
-        self.fallHeightText.destroy()
-        self.currCheckPointText.destroy()
-        self.clock.destroy()
+        self.currCheckPointText.removeNode()
+        self.textTimer.removeNode()
+        self.textRecord.removeNode()
         
     def taskFade( self, task ):
         if self.paused == True:
@@ -317,6 +245,14 @@ class Game( object ):
                 self.myFog.setExpDensity(tmp) 
             
         return task.cont
+    
+    def checkForRecord( self ):
+        currTime = self.displayTime
         
-#Game()
-#run()
+        f = open( 'rec.data', 'rw' )
+        bestTime = f.read()
+        time = datetime.strptime(bestTime.readline(), '%H:%M%:%S.%f')
+        print time
+        f.write(str(currTime))
+        f.close()
+        
