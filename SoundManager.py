@@ -5,7 +5,7 @@ class SoundManager( object ):
         self.soundWalking.setVolume(0.0)  
         #self.soundWalking.play()
         
-        self.soundJump    = base.loader.loadSfx("sounds.Sources/jump.wav")
+        self.soundJump = base.loader.loadSfx("sounds.Sources/jump.wav")
         self.soundJump.setLoop(False)
         self.soundJump.setVolume(1.0)
           
@@ -22,3 +22,9 @@ class SoundManager( object ):
         
         self.over = base.loader.loadSfx("sounds.Sources/buttonOver.wav")
         self.over.setVolume(0.1)
+        
+        self.sounds = [self.soundWalking,self.soundJump,self.soundAmbient,self.screamSound,self.click,self.over]
+        
+    def stopAllSounds( self ):
+        for sound in self.sounds:
+            sound.stop()

@@ -21,12 +21,17 @@ class SkyRunner(DirectObject.DirectObject):
         base.accept( "escape" , self.escPressed )
         
         self.soundManager = SoundManager()
-        self.draw() 
-        self.show()
+        
         self.credits = None    
         self.game = None
         self.inGameMenu = None
         
+        self.start()
+    
+    
+    def start( self ):
+        self.draw() 
+        self.show()
 
     def draw( self ): 
         self.frame = DirectFrame(frameSize=(-0.5, 0.5, -0.5, 0.5), frameColor=(0.8,0.8,0.8,0), pos=(0,0,0))
@@ -72,7 +77,7 @@ class SkyRunner(DirectObject.DirectObject):
         if self.gameState == State.MAINMENU:
             self.gameState = State.INGAME
             self.hide()
-            if not self.game:
+            if self.game is None:
                 self.game = Game(self)     
     def showCredits(self):
         if self.gameState == State.MAINMENU:
