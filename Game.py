@@ -29,7 +29,6 @@ class Game( object ):
         self.frameWin.setTransparency(TransparencyAttrib.MAlpha)
         self.frameWin.show()
         
-
         self.timeFont = loader.loadFont('hud.Sources/fonts/moderna.ttf')
         self.textTimer = TextNode('Time')    
         self.textTimer.setFont(self.timeFont)   
@@ -39,7 +38,6 @@ class Game( object ):
         self.textTimerNodePath.setScale(0.05) 
         self.textTimerNodePath.reparentTo(base.a2dTopRight) 
         self.textTimerNodePath.setPos(-0.5, 0, -0.17) 
-        
 
         self.textRecord = TextNode('Record')    
         self.textRecord.setFont(self.timeFont)   
@@ -50,6 +48,7 @@ class Game( object ):
         self.textRecordNodePath.reparentTo(base.a2dTopRight) 
         self.textRecordNodePath.setPos(-0.415, 0, -0.21) 
         
+                
         
         self.lifes = NodePath('Lifes')
         self.lifes.reparentTo(base.a2dTopRight)
@@ -193,7 +192,7 @@ class Game( object ):
         self.level.setPos(0.0,0.0,0.0)
         self.level.setAntialias(AntialiasAttrib.MMultisample)
         
-        self.SkyDome = loader.loadModel('level.Sources/SkyDome-01.egg')
+        self.SkyDome = loader.loadModel('level.Sources/Sky.egg')
         self.SkyDome.reparentTo(render)
         self.SkyDome.setTwoSided(True)
         self.SkyDome.setPos(0.0,0.0,0.0)
@@ -212,8 +211,8 @@ class Game( object ):
     def initPlayer( self ):
         """ loads the player and creates all the controls for him"""
         self.player = Player( self )
-        #self.player.player.setPos(-34.0,30.0,3.0)
-        self.player.player.setPos(32.0,-31.0,10.0)
+        self.player.player.setPos(-34.0,30.0,3.0)
+        #self.player.player.setPos(32.0,-31.0,10.0)
 
 
     def messageUpdate( self, task ):

@@ -34,7 +34,7 @@ class Player( object ):
 
     # Fall variables
     FallHeight          = 0
-    FallHeightThreshold = 2.5 # Falling from a height greater than this without rolling will cause a bad landing
+    FallHeightThreshold = 5.5 # Falling from a height greater than this without rolling will cause a bad landing
 
     # Camera variables
     MouseSensitivity = 0.2 # Higher value means faster camera movement
@@ -522,7 +522,7 @@ class Player( object ):
                 self.ReadyToDoubleJump = False
                 self.CurJumpMomentum = self.MaxJumpMomentum
                 self.CurState = pState.DOUBLE_JUMPING
-                self.FallHeight = 0
+                #self.FallHeight = 0
 
 
     def mouseUpdate( self, task ):
