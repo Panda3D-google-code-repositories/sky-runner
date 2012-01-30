@@ -77,9 +77,7 @@ class SkyRunner(DirectObject.DirectObject):
         if self.gameState == State.MAINMENU:
             self.gameState = State.INGAME
             self.hide()
-            print self.game
             if self.game is None:
-                print "criando"
                 self.game = Game(self)     
     def showCredits(self):
         if self.gameState == State.MAINMENU:

@@ -22,9 +22,10 @@ class Game( object ):
         self.loadLevel()
         self.initPlayer()
         self.initSounds()
-        
+
         self.initHud()
 
+        self.loadRecord()
         # Make the mouse invisible, turn off normal mouse controls
         self.toggleMouseControls(False)
         
@@ -40,25 +41,21 @@ class Game( object ):
         self.startTime = datetime.datetime.today()
         self.lastTimeStop = datetime.timedelta(seconds=0)
         self.displayTime = datetime.timedelta(seconds=0)
-        
-        
             
-        self.solarBeam = render.attachNewNode(DirectionalLight('sun'))
+        self.solarBeam = render.attachNewNode(DirectionalLight('sun'))#(Spotlight('sun'))
         self.solarBeam.node().setColor(Vec4(0.7, 0.7, 0.7, 1))
-        self.solarBeam.setHpr(0,-60,0)
-        self.solarBeam.setPos(0,-450,340)
+        self.solarBeam.setHpr(0,-90,0)
+        self.solarBeam.setPos(-15,-10,80)
         
         self.ambientLight = render.attachNewNode(AmbientLight('ambient light'))
         self.ambientLight.node().setColor(Vec4(0.3, 0.3, 0.3, 1))
         
-        self.solarBeam.node().setLens(base.cam.node().getLens())
-        self.solarBeam.node().setShadowCaster(True, 4096, 4096)
-        self.solarBeam.node().showFrustum()
-        self.solarBeam.node().getLens().setFilmSize(4096, 4096)
+#        self.solarBeam.node().getLens().setFov(60.0)
+#        self.solarBeam.node().setShadowCaster(True, 4096, 4096)
+#        self.solarBeam.node().showFrustum()
+#        self.solarBeam.node().getLens().setFilmSize(4096, 4096)
+#        self.solarBeam.node().getLens().setNearFar(30, 1000)
         
-        
-        
-        render.setLight(self.solarBeam)
         render.setLight(self.solarBeam)
         render.setLight(self.ambientLight)
         render.setAntialias(AntialiasAttrib.MMultisample)
@@ -82,11 +79,19 @@ class Game( object ):
               <Collide> { Polyset keep descend } 
             in the egg file
         """
-        self.level = loader.loadModel('level.Sources/levelDesign-01.egg')
+        self.level = loader.loadModel('level.Sources/levelDesignSky-01.egg')
         self.level.reparentTo(render)
         self.level.setTwoSided(True)
         self.level.setPos(0.0,0.0,0.0)
         self.level.setAntialias(AntialiasAttrib.MMultisample)
+        
+        self.SkyDome = loader.loadModel('level.Sources/SkyDome-01.egg')
+        self.SkyDome.reparentTo(render)
+        self.SkyDome.setTwoSided(True)
+        self.SkyDome.setPos(0.0,0.0,0.0)
+        self.SkyDome.setAntialias(AntialiasAttrib.MMultisample)
+        self.SkyDome.setLightOff()
+        
 
         self.myFog = Fog("Fog Name")
         self.myFog.setColor(0.2,0.2,0.2)
@@ -99,9 +104,16 @@ class Game( object ):
     def initPlayer( self ):
         """ loads the player and creates all the controls for him"""
         self.player = Player( self )
-        self.player.player.setPos(-34.0,30.0,3.0)
+        #self.player.player.setPos(-34.0,30.0,3.0)
+        self.player.player.setPos(32.0,-31.0,10.0)
 
     def initHud( self ):
+        self.frameWin = DirectFrame(frameSize=(-0.3, 0.3, -0.6, 0.4))
+        self.frameWin['frameColor']=(0.8,0.8,0.8,0)
+        self.frameWin['pos'] = (-.3,0,-.6)
+        self.frameWin.setTransparency(TransparencyAttrib.MAlpha)
+        self.frameWin.show()
+    
         self.timeFont = loader.loadFont('hud.Sources/fonts/moderna.ttf')
         self.textTimer = TextNode('Time')    
         self.textTimer.setFont(self.timeFont)   
@@ -163,6 +175,7 @@ class Game( object ):
 
     def messageUpdate( self, task ):
         self.currCheckPointText.setText("Current CheckPoint: " + str( self.player.currentCheckPoint ))
+        #print "Position" , self.player.player.getPos() 
         return task.cont
         
     def timer( self, task ): 
@@ -176,7 +189,7 @@ class Game( object ):
         if len(s2) == 1:
             s2.append('00')
         self.textTimer.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:2])
-        self.textRecord.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:2])
+        #self.textRecord.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:2])
       
         return task.cont
 
@@ -246,13 +259,65 @@ class Game( object ):
             
         return task.cont
     
+    def loadRecord( self ):
+        hour = 10
+        min = 10
+        seg = 10
+        mic = 10
+        
+        f = open( 'rec.data', 'r' )
+        sTmp = f.readline()
+        if not sTmp == '':
+            hour = sTmp
+            min = f.readline()
+            seg = f.readline()
+            mic = f.readline()
+        
+        f.close()
+        
+        str = hour+":"+min+":"+seg+":"+mic
+        str = str.replace('\n','')
+        self.textRecord.setText(str)
+    
     def checkForRecord( self ):
         currTime = self.displayTime
+        bestTime = currTime
         
-        f = open( 'rec.data', 'rw' )
-        bestTime = f.read()
-        time = datetime.strptime(bestTime.readline(), '%H:%M%:%S.%f')
-        print time
-        f.write(str(currTime))
+        hour = 10
+        min = 10
+        seg = 10
+        mic = 10
+        
+        f = open( 'rec.data', 'r' )
+        sTmp = f.readline()
+        if not sTmp == '':
+            hour = int(sTmp)
+            min = int(f.readline())
+            seg = int(f.readline())
+            mic = int(f.readline())
+                
+        f.close()
+        
+        if not hour == '':
+            bestTime = datetime.timedelta(hours=hour,minutes=min,seconds=seg,milliseconds=mic)
+            
+        f = open( 'rec.data', 'w' )
+        
+        if currTime < bestTime:
+            bestTime = currTime
+        
+        p = str(bestTime).split(':')
+        
+        f.write(str(p[0])+'\n')
+        f.write(str(p[1])+'\n')
+        s2 = p[2].split('.')
+        if len(s2) == 1:
+            s2.append('00')
+            
+        tmp = int(s2[1])
+        tmp = tmp / 1000
+        
+        f.write(str(p[2].split('.')[0])+'\n')
+        f.write(str(tmp)+'\n')
         f.close()
         
