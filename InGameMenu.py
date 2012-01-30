@@ -19,12 +19,14 @@ from GameStates import State
 class InGameMenu(DirectObject.DirectObject):
     def __init__( self, skyRunner ):
         self.skyRunnerInstance = skyRunner
-        self.frame = DirectFrame(frameSize=(-0.3, 0.3, -0.6, 0.4))
+        self.frame = DirectFrame()#(frameSize=(-0.3, 0.3, -0.6, 0.4))
         self.frame['frameColor']=(0.8,0.8,0.8,0)
         self.frame['image'] = "hud.Sources/menuInGame.png"
-        self.frame['image_scale'] = 0.7
+        self.frame['image_scale'] = (1.0,0.7,0.7)
         self.frame['pos'] = (-.3,0,-.6)
         self.frame.setTransparency(TransparencyAttrib.MAlpha)
+       
+        
         #self.wingsL = OnscreenImage(parent=self.frame,image = "hud.Sources/wingLettersL.png",pos=(-0.3, 0.3, 0.5) , scale = (0.2,0.2,0.2))
         #self.wingsL.setTransparency(TransparencyAttrib.MAlpha)
         #self.wingsL.show()
@@ -39,7 +41,7 @@ class InGameMenu(DirectObject.DirectObject):
         self.startButton = DirectButton(parent=self.frame,pos=(0,0,0),image = (mapsMainMenu.find('**/mainmenuready'),
                          mapsMainMenu.find('**/mainmenuclicked'),
                          mapsMainMenu.find('**/mainmenurollover'),
-                         mapsMainMenu.find('**/mainmenudisable')),command=self.showMainMenu, scale=0.2,
+                         mapsMainMenu.find('**/mainmenudisable')),command=self.showMainMenu, scale=0.3,
                          borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  
                          frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
 
@@ -47,7 +49,7 @@ class InGameMenu(DirectObject.DirectObject):
         self.creditsButton = DirectButton(parent=self.frame,pos=(0,0,-0.15),image = (mapsCredits.find('**/creditsready'),
                          mapsCredits.find('**/creditsclicked'),
                          mapsCredits.find('**/creditsrollover'),
-                         mapsCredits.find('**/creditsdisable')),command=self.showCredits, scale=0.2,
+                         mapsCredits.find('**/creditsdisable')),command=self.showCredits, scale=0.3,
                          borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  
                          frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
         
@@ -55,7 +57,7 @@ class InGameMenu(DirectObject.DirectObject):
         self.resumeButton = DirectButton(parent=self.frame,pos=(0,0,-0.3),image = (mapsResume.find('**/resumeready'),
                          mapsResume.find('**/resumeclicked'),
                          mapsResume.find('**/resumerollover'),
-                         mapsResume.find('**/resumedisable')),command=self.resumeGame, scale=0.2,
+                         mapsResume.find('**/resumedisable')),command=self.resumeGame, scale=0.3,
                          borderWidth=(0.005,0.005), frameSize=(-0.25, 0.25, -0.03, 0.06),  
                          frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
 
@@ -63,7 +65,7 @@ class InGameMenu(DirectObject.DirectObject):
         self.quitButton = DirectButton(parent=self.frame,pos=(0,0,-0.45),image = (mapsQuit.find('**/quitready'),
                          mapsQuit.find('**/quitclicked'),
                          mapsQuit.find('**/quitrollover'),
-                         mapsQuit.find('**/quitdisable')),command=self.endGame, scale=0.2,borderWidth=(0.005,0.005),
+                         mapsQuit.find('**/quitdisable')),command=self.endGame, scale=0.3,borderWidth=(0.005,0.005),
                          frameSize=(-0.25, 0.25, -0.03, 0.06),  frameColor=(0.8,0.8,0.8,0),
                          rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
 

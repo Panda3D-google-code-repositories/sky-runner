@@ -23,14 +23,13 @@ class Game( object ):
         self.initPlayer()
         self.initSounds()
         
-#        self.text = TextNode('node name')
-#        self.text.setText("Every day in every way I'm getting better and better.")
-#        self.text.setShadow(0.05, 0.05)
-#        self.text.setShadowColor(0, 0, 0, 1)
-#        self.textNodePath = aspect2d.attachNewNode(self.text)
-#        self.textNodePath.setScale(0.07)
-#        self.textNodePath.setPos(0,-4,0)
-#        
+        self.frameWin = DirectFrame(frameSize=(-0.3, 0.3, -0.6, 0.4))
+        self.frameWin['frameColor']=(0.8,0.8,0.8,0)
+        self.frameWin['pos'] = (-.3,0,-.6)
+        self.frameWin.setTransparency(TransparencyAttrib.MAlpha)
+        self.frameWin.show()
+        
+
         self.timeFont = loader.loadFont('hud.Sources/fonts/moderna.ttf')
         self.textTimer = TextNode('Time')    
         self.textTimer.setFont(self.timeFont)   
@@ -151,21 +150,22 @@ class Game( object ):
         self.timerTask = taskMgr.add( self.timer, 'TimerTask' )
         
             
-        self.solarBeam = render.attachNewNode(DirectionalLight('sun'))
+        self.solarBeam = render.attachNewNode(DirectionalLight('sun'))#(Spotlight('sun'))
         self.solarBeam.node().setColor(Vec4(0.7, 0.7, 0.7, 1))
-        self.solarBeam.setHpr(0,-60,0)
-        self.solarBeam.setPos(0,-450,340)
+        self.solarBeam.setHpr(0,-90,0)
+        self.solarBeam.setPos(-15,-10,80)
         
         self.ambientLight = render.attachNewNode(AmbientLight('ambient light'))
         self.ambientLight.node().setColor(Vec4(0.3, 0.3, 0.3, 1))
         
-        self.solarBeam.node().setLens(base.cam.node().getLens())
-        self.solarBeam.node().setShadowCaster(True, 4096, 4096)
-        self.solarBeam.node().showFrustum()
-        self.solarBeam.node().getLens().setFilmSize(4096, 4096)
+#        self.solarBeam.node().getLens().setFov(60.0)
+#        self.solarBeam.node().setShadowCaster(True, 4096, 4096)
+#        self.solarBeam.node().showFrustum()
+#        self.solarBeam.node().getLens().setFilmSize(4096, 4096)
+#        self.solarBeam.node().getLens().setNearFar(30, 1000)
         
         
-        #render.setShaderAuto()
+        render.setShaderAuto()
         render.setLight(self.solarBeam)
         render.setLight(self.ambientLight)
         render.setAntialias(AntialiasAttrib.MMultisample)
@@ -187,11 +187,19 @@ class Game( object ):
               <Collide> { Polyset keep descend } 
             in the egg file
         """
-        self.level = loader.loadModel('level.Sources/levelDesign-01.egg')
+        self.level = loader.loadModel('level.Sources/levelDesignSky-01.egg')
         self.level.reparentTo(render)
         self.level.setTwoSided(True)
         self.level.setPos(0.0,0.0,0.0)
         self.level.setAntialias(AntialiasAttrib.MMultisample)
+        
+        self.SkyDome = loader.loadModel('level.Sources/SkyDome-01.egg')
+        self.SkyDome.reparentTo(render)
+        self.SkyDome.setTwoSided(True)
+        self.SkyDome.setPos(0.0,0.0,0.0)
+        self.SkyDome.setAntialias(AntialiasAttrib.MMultisample)
+        self.SkyDome.setLightOff()
+        
 
         self.myFog = Fog("Fog Name")
         self.myFog.setColor(0.2,0.2,0.2)
@@ -204,7 +212,8 @@ class Game( object ):
     def initPlayer( self ):
         """ loads the player and creates all the controls for him"""
         self.player = Player( self )
-        self.player.player.setPos(-34.0,30.0,3.0)
+        #self.player.player.setPos(-34.0,30.0,3.0)
+        self.player.player.setPos(32.0,-31.0,10.0)
 
 
     def messageUpdate( self, task ):
@@ -224,6 +233,7 @@ class Game( object ):
 #        self.currCheckPointText = OnscreenText(text = "Current CheckPoint: " + str( self.player.currentCheckPoint ), style = 1, fg = ( 1, 0, 0, 1 ),
 #                            pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
         self.currCheckPointText.setText("Current CheckPoint: " + str( self.player.currentCheckPoint ))
+        print "Position" , self.player.player.getPos() 
         return task.cont
         
     def timer( self, task ): 
