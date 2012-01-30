@@ -19,20 +19,24 @@ from GameStates import State
 class InGameMenu(DirectObject.DirectObject):
     def __init__( self, skyRunner ):
         self.skyRunnerInstance = skyRunner
-        self.frame = DirectFrame(frameSize=(-0.3, 0.3, -0.4, 0.4))
-        self.frame['frameColor']=(0.8,0.8,0.8,0.8)
-        self.wingsL = OnscreenImage(parent=self.frame,image = "hud.Sources/wingLettersL.png",pos=(-0.3, 0.3, 0.5) , scale = (0.2,0.2,0.2))
-        self.wingsL.setTransparency(TransparencyAttrib.MAlpha)
-        self.wingsL.show()
-        self.wingsR = OnscreenImage(parent=self.frame,image = "hud.Sources/wingLetters.png",pos=(0.3, 0.3, 0.5) , scale = (0.2,0.2,0.2))
-        self.wingsR.setTransparency(TransparencyAttrib.MAlpha)
-        self.wingsR.show()
+        self.frame = DirectFrame(frameSize=(-0.3, 0.3, -0.6, 0.4))
+        self.frame['frameColor']=(0.8,0.8,0.8,0)
+        self.frame['image'] = "hud.Sources/menuInGame.png"
+        self.frame['image_scale'] = 0.7
+        self.frame['pos'] = (-.3,0,-.6)
+        self.frame.setTransparency(TransparencyAttrib.MAlpha)
+        #self.wingsL = OnscreenImage(parent=self.frame,image = "hud.Sources/wingLettersL.png",pos=(-0.3, 0.3, 0.5) , scale = (0.2,0.2,0.2))
+        #self.wingsL.setTransparency(TransparencyAttrib.MAlpha)
+        #self.wingsL.show()
+        #self.wingsR = OnscreenImage(parent=self.frame,image = "hud.Sources/wingLetters.png",pos=(0.3, 0.3, 0.5) , scale = (0.2,0.2,0.2))
+        #self.wingsR.setTransparency(TransparencyAttrib.MAlpha)
+        #self.wingsR.show()
 
         #self.headline = DirectLabel(parent=self.frame, text="Sky Runner", scale=0.085, frameColor=(0,0,0,0), pos=(0,0,0.3))
         
         mapsMainMenu = loader.loadModel('hud.Sources/mainMenu/buttons_mainmenu_maps.egg')   
 #        mapsMainMenu.setAntialias(AntialiasAttrib.MMultisample)
-        self.startButton = DirectButton(parent=self.frame,pos=(0,0,0.1),image = (mapsMainMenu.find('**/mainmenuready'),
+        self.startButton = DirectButton(parent=self.frame,pos=(0,0,0),image = (mapsMainMenu.find('**/mainmenuready'),
                          mapsMainMenu.find('**/mainmenuclicked'),
                          mapsMainMenu.find('**/mainmenurollover'),
                          mapsMainMenu.find('**/mainmenudisable')),command=self.showMainMenu, scale=0.2,
@@ -40,7 +44,7 @@ class InGameMenu(DirectObject.DirectObject):
                          frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
 
         mapsCredits = loader.loadModel('hud.Sources/mainMenu/buttons_credits_maps.egg')
-        self.creditsButton = DirectButton(parent=self.frame,pos=(0,0,0),image = (mapsCredits.find('**/creditsready'),
+        self.creditsButton = DirectButton(parent=self.frame,pos=(0,0,-0.15),image = (mapsCredits.find('**/creditsready'),
                          mapsCredits.find('**/creditsclicked'),
                          mapsCredits.find('**/creditsrollover'),
                          mapsCredits.find('**/creditsdisable')),command=self.showCredits, scale=0.2,
@@ -48,7 +52,7 @@ class InGameMenu(DirectObject.DirectObject):
                          frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
         
         mapsResume = loader.loadModel('hud.Sources/mainMenu/buttons_resume_maps.egg')
-        self.resumeButton = DirectButton(parent=self.frame,pos=(0,0,-0.1),image = (mapsResume.find('**/resumeready'),
+        self.resumeButton = DirectButton(parent=self.frame,pos=(0,0,-0.3),image = (mapsResume.find('**/resumeready'),
                          mapsResume.find('**/resumeclicked'),
                          mapsResume.find('**/resumerollover'),
                          mapsResume.find('**/resumedisable')),command=self.resumeGame, scale=0.2,
@@ -56,7 +60,7 @@ class InGameMenu(DirectObject.DirectObject):
                          frameColor=(0.8,0.8,0.8,0),rolloverSound=self.skyRunnerInstance.soundManager.over,clickSound=self.skyRunnerInstance.soundManager.click)
 
         mapsQuit = loader.loadModel('hud.Sources/mainMenu/buttons_quit_maps.egg')
-        self.quitButton = DirectButton(parent=self.frame,pos=(0,0,-0.2),image = (mapsQuit.find('**/quitready'),
+        self.quitButton = DirectButton(parent=self.frame,pos=(0,0,-0.45),image = (mapsQuit.find('**/quitready'),
                          mapsQuit.find('**/quitclicked'),
                          mapsQuit.find('**/quitrollover'),
                          mapsQuit.find('**/quitdisable')),command=self.endGame, scale=0.2,borderWidth=(0.005,0.005),
