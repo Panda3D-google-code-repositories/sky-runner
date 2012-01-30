@@ -30,13 +30,26 @@ class Game( object ):
 #        self.textNodePath.setScale(0.07)
 #        self.textNodePath.setPos(0,-4,0)
 #        
-        self.textTimer = TextNode('Time')       
+        self.timeFont = loader.loadFont('hud.Sources/fonts/moderna.ttf')
+        self.textTimer = TextNode('Time')    
+        self.textTimer.setFont(self.timeFont)   
         self.textTimer.setShadow(0.05, 0.05)
         self.textTimer.setShadowColor(0, 0, 0, 1) 
         self.textTimerNodePath = aspect2d.attachNewNode(self.textTimer) 
         self.textTimerNodePath.setScale(0.05) 
         self.textTimerNodePath.reparentTo(base.a2dTopRight) 
-        self.textTimerNodePath.setPos(-0.5, 0, -0.15) 
+        self.textTimerNodePath.setPos(-0.5, 0, -0.17) 
+        
+
+        self.textRecord = TextNode('Record')    
+        self.textRecord.setFont(self.timeFont)   
+        self.textRecord.setShadow(0.05, 0.05)
+        self.textRecord.setShadowColor(0, 0, 0, 1) 
+        self.textRecordNodePath = aspect2d.attachNewNode(self.textRecord) 
+        self.textRecordNodePath.setScale(0.035) 
+        self.textRecordNodePath.reparentTo(base.a2dTopRight) 
+        self.textRecordNodePath.setPos(-0.415, 0, -0.21) 
+        
         
         self.lifes = NodePath('Lifes')
         self.lifes.reparentTo(base.a2dTopRight)
@@ -76,8 +89,11 @@ class Game( object ):
         self.pausedX = 0
         self.pausedY = 0
         
-        self.title = OnscreenText(text = "Sky-Runner: Mirror's Edge-like Game", style = 1, fg = ( 1, 0, 0, 1 ),
-                                pos = ( 1.32, -0.98 ), align=TextNode.ARight, scale = .07 )
+###      OLD Text        
+        
+#        
+#        self.title = OnscreenText(text = "Sky-Runner: Mirror's Edge-like Game", style = 1, fg = ( 1, 0, 0, 1 ),
+#                                pos = ( 1.32, -0.98 ), align=TextNode.ARight, scale = .07 )
 
 #        self.inst1 = OnscreenText(text = "[ESC]: Quit", style = 1, fg = ( 1, 0, 0, 1 ),
 #                                pos = ( -1.33, 0.95 ), align = TextNode.ALeft, scale = .05 )
@@ -194,19 +210,21 @@ class Game( object ):
         return task.cont
         
     def timer( self, task ): 
-      nowTime = datetime.datetime.today()
-      t = self.lastTimeStop + nowTime - self.startTime
-      self.displayTime = t
+        nowTime = datetime.datetime.today()
+        t = self.lastTimeStop + nowTime - self.startTime
+        self.displayTime = t
+    
       
-      s = str(t).split(':')
+        s = str(t).split(':')
       
-      s2 = s[2].split('.')
-      if len(s2) == 1:
-       s2.append('00')
-      self.clock.setText(':'.join(s[:2])+':'+s2[0]+'\''+s2[1][:1])
-      self.textTimer.setText(':'.join(s[:2])+':'+s2[0]+'\''+s2[1][:1])
+        s2 = s[2].split('.')
+        if len(s2) == 1:
+            s2.append('00')
+#        self.clock.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:2])
+        self.textTimer.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:2])
+        self.textRecord.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:2])
       
-      return task.cont
+        return task.cont
 
     def addTasks( self ):
         taskMgr.add( self.messageUpdate, 'MessageTask' )
