@@ -6,12 +6,13 @@ from direct.gui.OnscreenText import OnscreenText
 from direct.gui.OnscreenImage import OnscreenImage
 from direct.gui.DirectGui import *
 from pandac.PandaModules import TransparencyAttrib
+from pandac.PandaModules import AntialiasAttrib
 
 from player import Player
 from GameStates import State
 
-loadPrcFileData("", "framebuffer-multisample 1")
-loadPrcFileData("", "multisamples 2")
+#loadPrcFileData("", "framebuffer-multisample 1")
+#loadPrcFileData("", "multisamples 2")
 
 class Game( object ):
 
@@ -57,17 +58,23 @@ class Game( object ):
         self.fVidas1On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.1, 0, -0.1) , scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas1Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.1, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas1On.setTransparency(TransparencyAttrib.MAlpha)
+#        self.fVidas1On.setAntialias(AntialiasAttrib.MMultisample)
         self.fVidas1Off.setTransparency(TransparencyAttrib.MAlpha)
+#        self.fVidas1Off.setAntialias(AntialiasAttrib.MMultisample)
         
         self.fVidas2On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas2Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas2On.setTransparency(TransparencyAttrib.MAlpha)
+#        self.fVidas2On.setAntialias(AntialiasAttrib.MMultisample)
         self.fVidas2Off.setTransparency(TransparencyAttrib.MAlpha)
+#        self.fVidas2Off.setAntialias(AntialiasAttrib.MMultisample)
         
         self.fVidas3On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas3Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas3On.setTransparency(TransparencyAttrib.MAlpha)
+#        self.fVidas3On.setAntialias(AntialiasAttrib.MMultisample)
         self.fVidas3Off.setTransparency(TransparencyAttrib.MAlpha)
+#        self.fVidas3Off.setAntialias(AntialiasAttrib.MMultisample)
         
         self.vVidasOn = [self.fVidas1On,self.fVidas2On,self.fVidas3On]
         self.vVidasOff = [self.fVidas1Off,self.fVidas2Off,self.fVidas3Off]
@@ -119,8 +126,18 @@ class Game( object ):
 #        self.fallHeightText = OnscreenText(text = "FallHeight = 0", style = 1, fg = ( 1, 0, 0, 1 ),
 #                            pos = ( 0.65, 0.85 ), align = TextNode.ALeft, scale = .05 )
 
-        self.currCheckPointText = OnscreenText(text = "Current CheckPoint: " + str( self.player.currentCheckPoint ), style = 1, fg = ( 1, 0, 0, 1 ),
-                            pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
+#        self.currCheckPointText = OnscreenText(text = "Current CheckPoint: " + str( self.player.currentCheckPoint ), style = 1, fg = ( 1, 0, 0, 1 ),
+#                            pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
+
+        self.currCheckPointText = TextNode('Time')    
+        self.currCheckPointText.setFont(self.timeFont)   
+        self.currCheckPointText.setShadow(0.05, 0.05)
+        self.currCheckPointText.setShadowColor(0, 0, 0, 1) 
+        self.currCheckPointTextNodePath = aspect2d.attachNewNode(self.currCheckPointText) 
+        self.currCheckPointTextNodePath.setScale(0.05) 
+        self.currCheckPointTextNodePath.reparentTo(base.a2dBottomLeft) 
+        self.currCheckPointTextNodePath.setPos(0.1, 0, 0.1) 
+        self.currCheckPointText.setText("Current CheckPoint: " + str( self.player.currentCheckPoint ))
                             
         taskMgr.add( self.messageUpdate, 'MessageTask' )
         taskMgr.add( self.taskFade, 'fadeTask' )
@@ -206,7 +223,7 @@ class Game( object ):
 #        self.currCheckPointText.destroy()
 #        self.currCheckPointText = OnscreenText(text = "Current CheckPoint: " + str( self.player.currentCheckPoint ), style = 1, fg = ( 1, 0, 0, 1 ),
 #                            pos = ( .1, -0.98 ), align=TextNode.ARight, scale = .07 )
-
+        self.currCheckPointText.setText("Current CheckPoint: " + str( self.player.currentCheckPoint ))
         return task.cont
         
     def timer( self, task ): 

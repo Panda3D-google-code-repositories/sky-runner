@@ -7,19 +7,25 @@ from direct.gui.DirectGui import *
 from direct.gui.OnscreenText import OnscreenText
 from direct.gui.OnscreenImage import OnscreenImage
 
+from pandac.PandaModules import AntialiasAttrib
+
 from Credits import Credits
 from GameStates import State
+
+#loadPrcFileData("", "framebuffer-multisample 1")
+#loadPrcFileData("", "multisamples 2")
 
 
 class InGameMenu(DirectObject.DirectObject):
     def __init__( self, skyRunner ):
         self.skyRunnerInstance = skyRunner
         self.frame = DirectFrame(frameSize=(-0.3, 0.3, -0.4, 0.4))
-        self.frame['frameColor']=(0.8,0.8,0.8,0.8)
+        self.frame['frameColor']=(0.8,0.8,0.8,0.0)
 
-        self.headline = DirectLabel(parent=self.frame, text="Sky Runner", scale=0.085, frameColor=(0,0,0,0), pos=(0,0,0.3))
+        #self.headline = DirectLabel(parent=self.frame, text="Sky Runner", scale=0.085, frameColor=(0,0,0,0), pos=(0,0,0.3))
         
-        mapsMainMenu = loader.loadModel('hud.Sources/mainMenu/buttons_mainmenu_maps.egg')        
+        mapsMainMenu = loader.loadModel('hud.Sources/mainMenu/buttons_mainmenu_maps.egg')   
+#        mapsMainMenu.setAntialias(AntialiasAttrib.MMultisample)
         self.startButton = DirectButton(parent=self.frame,pos=(0,0,0.1),image = (mapsMainMenu.find('**/mainmenuready'),
                          mapsMainMenu.find('**/mainmenuclicked'),
                          mapsMainMenu.find('**/mainmenurollover'),
