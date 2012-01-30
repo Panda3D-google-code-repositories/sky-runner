@@ -20,7 +20,13 @@ class InGameMenu(DirectObject.DirectObject):
     def __init__( self, skyRunner ):
         self.skyRunnerInstance = skyRunner
         self.frame = DirectFrame(frameSize=(-0.3, 0.3, -0.4, 0.4))
-        self.frame['frameColor']=(0.8,0.8,0.8,0.0)
+        self.frame['frameColor']=(0.8,0.8,0.8,0.8)
+        self.wingsL = OnscreenImage(parent=self.frame,image = "hud.Sources/wingLettersL.png",pos=(-0.3, 0.3, 0.5) , scale = (0.2,0.2,0.2))
+        self.wingsL.setTransparency(TransparencyAttrib.MAlpha)
+        self.wingsL.show()
+        self.wingsR = OnscreenImage(parent=self.frame,image = "hud.Sources/wingLetters.png",pos=(0.3, 0.3, 0.5) , scale = (0.2,0.2,0.2))
+        self.wingsR.setTransparency(TransparencyAttrib.MAlpha)
+        self.wingsR.show()
 
         #self.headline = DirectLabel(parent=self.frame, text="Sky Runner", scale=0.085, frameColor=(0,0,0,0), pos=(0,0,0.3))
         
