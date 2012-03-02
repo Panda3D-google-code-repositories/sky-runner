@@ -1,6 +1,6 @@
 import direct.directbase.DirectStart
 import sys
-import datetime
+import datetime 
 from pandac.PandaModules import *
 from direct.gui.OnscreenText import OnscreenText
 from direct.gui.OnscreenImage import OnscreenImage
@@ -8,11 +8,11 @@ from direct.gui.DirectGui import *
 from pandac.PandaModules import TransparencyAttrib
 from pandac.PandaModules import AntialiasAttrib
 
-from player import Player
+from Player import Player
 from GameStates import State
 
-#loadPrcFileData("", "framebuffer-multisample 1")
-#loadPrcFileData("", "multisamples 2")
+loadPrcFileData("", "framebuffer-multisample 1")
+loadPrcFileData("", "multisamples 2")
 
 class Game( object ):
 
@@ -22,67 +22,7 @@ class Game( object ):
         self.loadLevel()
         self.initPlayer()
         self.initSounds()
-
-        
-        self.frameWin = DirectFrame(frameSize=(-0.3, 0.3, -0.6, 0.4))
-        self.frameWin['frameColor']=(0.8,0.8,0.8,0)
-        self.frameWin['pos'] = (-.3,0,-.6)
-        self.frameWin.setTransparency(TransparencyAttrib.MAlpha)
-        self.frameWin.show()
-        
-        self.timeFont = loader.loadFont('hud.Sources/fonts/moderna.ttf')
-        self.textTimer = TextNode('Time')    
-        self.textTimer.setFont(self.timeFont)   
-        self.textTimer.setShadow(0.05, 0.05)
-        self.textTimer.setShadowColor(0, 0, 0, 1) 
-        self.textTimerNodePath = aspect2d.attachNewNode(self.textTimer) 
-        self.textTimerNodePath.setScale(0.05) 
-        self.textTimerNodePath.reparentTo(base.a2dTopRight) 
-        self.textTimerNodePath.setPos(-0.5, 0, -0.17) 
-
-        self.textRecord = TextNode('Record')    
-        self.textRecord.setFont(self.timeFont)   
-        self.textRecord.setShadow(0.05, 0.05)
-        self.textRecord.setShadowColor(0, 0, 0, 1) 
-        self.textRecordNodePath = aspect2d.attachNewNode(self.textRecord) 
-        self.textRecordNodePath.setScale(0.035) 
-        self.textRecordNodePath.reparentTo(base.a2dTopRight) 
-        self.textRecordNodePath.setPos(-0.415, 0, -0.21) 
-                        
-        
-        self.lifes = NodePath('Lifes')
-        self.lifes.reparentTo(base.a2dTopRight)
-        
-        self.fVidas1On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.1, 0, -0.1) , scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas1Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.1, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas1On.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas1On.setAntialias(AntialiasAttrib.MMultisample)
-        self.fVidas1Off.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas1Off.setAntialias(AntialiasAttrib.MMultisample)
-        
-        self.fVidas2On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas2Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas2On.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas2On.setAntialias(AntialiasAttrib.MMultisample)
-        self.fVidas2Off.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas2Off.setAntialias(AntialiasAttrib.MMultisample)
-        
-        self.fVidas3On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas3Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas3On.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas3On.setAntialias(AntialiasAttrib.MMultisample)
-        self.fVidas3Off.setTransparency(TransparencyAttrib.MAlpha)
-#        self.fVidas3Off.setAntialias(AntialiasAttrib.MMultisample)
-        
-        self.vVidasOn = [self.fVidas1On,self.fVidas2On,self.fVidas3On]
-        self.vVidasOff = [self.fVidas1Off,self.fVidas2Off,self.fVidas3Off]
-        
-        #self.fVidas2 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))self.fVidas1 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))
-        #self.fVidas3 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))self.fVidas1 = DirectFrame(frameSize=(-0.5,0.5,-0.5,0.5), parent=render2d, image="hud.Sources/wingLetters.png", sortOrder=(-1))
-
-
         self.initHud()
-
 
         self.loadRecord()
         # Make the mouse invisible, turn off normal mouse controls
@@ -118,8 +58,9 @@ class Game( object ):
         render.setLight(self.solarBeam)
         render.setLight(self.ambientLight)
         render.setAntialias(AntialiasAttrib.MMultisample)
-        
+        #self.showResult()
         #render.setShaderAuto()
+        
 
     def initSounds( self ):
         self.skyRunnerInstance.soundManager.soundWalking.play()
@@ -138,13 +79,13 @@ class Game( object ):
               <Collide> { Polyset keep descend } 
             in the egg file
         """
-        self.level = loader.loadModel('level.Sources/levelDesignSky-01.egg')
+        self.level = loader.loadModel('level.Sources/levelDesign-01.egg')
         self.level.reparentTo(render)
         self.level.setTwoSided(True)
         self.level.setPos(0.0,0.0,0.0)
         self.level.setAntialias(AntialiasAttrib.MMultisample)
         
-        self.SkyDome = loader.loadModel('level.Sources/Sky.egg')
+        self.SkyDome = loader.loadModel('level.Sources/Sky5.egg')
         self.SkyDome.reparentTo(render)
         self.SkyDome.setTwoSided(True)
         self.SkyDome.setPos(0.0,0.0,0.0)
@@ -165,6 +106,8 @@ class Game( object ):
         self.player = Player( self )
         self.player.player.setPos(-34.0,30.0,3.0)
         #self.player.player.setPos(32.0,-31.0,10.0)
+        
+        
 
     def initHud( self ):
         self.frameWin = DirectFrame(frameSize=(-0.3, 0.3, -0.6, 0.4))
@@ -197,18 +140,20 @@ class Game( object ):
         self.lifes = NodePath('Lifes')
         self.lifes.reparentTo(base.a2dTopRight)
         
-        self.fVidas1On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.1, 0, -0.1) , scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas1Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.1, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+                
+        
+        self.fVidas1On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn2.png",pos=(-0.1, 0, -0.1) , scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas1Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff2.png",pos=(-0.1, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.9,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas1On.setTransparency(TransparencyAttrib.MAlpha)
         self.fVidas1Off.setTransparency(TransparencyAttrib.MAlpha)
         
-        self.fVidas2On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas2Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas2On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn2.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas2Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff2.png",pos=(-0.3, 0, -0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.7,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas2On.setTransparency(TransparencyAttrib.MAlpha)
         self.fVidas2Off.setTransparency(TransparencyAttrib.MAlpha)
         
-        self.fVidas3On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
-        self.fVidas3Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas3On = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOn2.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOn.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
+        self.fVidas3Off = OnscreenImage(parent=self.lifes,image = "hud.Sources/lifeOff2.png",pos=(-0.5,0,-0.1), scale = (0.1,0.02,0.02))#DirectFrame(frameSize=(0.9,1,0.9,0.8), parent=render2d, frameColor=(0.8,0.8,0.8,.0),image="hud.Sources/lifeOff.png",image_pos=(0.5,-0.8,0.9),scale = (0.2,0.04,0.04), sortOrder=(-1))
         self.fVidas3On.setTransparency(TransparencyAttrib.MAlpha)
         self.fVidas3Off.setTransparency(TransparencyAttrib.MAlpha)
         
@@ -231,11 +176,88 @@ class Game( object ):
         self.currCheckPointTextNodePath.reparentTo(base.a2dBottomLeft) 
         self.currCheckPointTextNodePath.setPos(0.1, 0, 0.1) 
         self.currCheckPointText.setText("Current CheckPoint: " + str( self.player.currentCheckPoint ))
-
+        
     def messageUpdate( self, task ):
         self.currCheckPointText.setText("Current CheckPoint: " + str( self.player.currentCheckPoint ))
         #print "Position" , self.player.player.getPos() 
         return task.cont
+        
+
+    def showResult (self):
+        
+                
+        self.finalHudNode = NodePath('Lifes')
+        self.finalHudNode.reparentTo(base.a2dTopRight)
+        
+        self.finalHud = OnscreenImage(parent = self.finalHudNode ,image = "hud.Sources/finalHud2.png",pos=(-1.95,0,-0.75) , scale = (1.5,0.5,0.5))
+        self.finalHud.setTransparency(TransparencyAttrib.MAlpha)
+        
+        
+        self.textTitleLevel = TextNode('Sky Hill')    
+        self.textTitleLevel.setFont(self.timeFont)   
+        self.textTitleLevel.setShadow(0.05, 0.05)
+        self.textTitleLevel.setShadowColor(0, 0, 0, 1) 
+        self.textTitleLevelNodePath = aspect2d.attachNewNode(self.textTitleLevel) 
+        self.textTitleLevelNodePath.setScale(0.09) 
+        self.textTitleLevelNodePath.reparentTo(base.a2dTopRight) 
+        self.textTitleLevelNodePath.setPos(-2.7,0,-0.523) 
+        self.textTitleLevel.setText("Sky Hill")
+        
+        
+        self.displayTime = self.lastTimeStop + datetime.datetime.today() - self.startTime
+      
+        s = str(self.displayTime).split(':')
+      
+        s2 = s[2].split('.')
+        if len(s2) == 1:
+            s2.append('00')
+        self.textTimer.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:3])
+        
+        self.checkForRecord()
+        self.loadRecord()
+        
+        self.textLapTime = TextNode('Lap Time')    
+        self.textLapTime.setFont(self.timeFont)   
+        self.textLapTime.setShadow(0.05, 0.05)
+        self.textLapTime.setShadowColor(0, 0, 0, 1) 
+        self.textLapTimeNodePath = aspect2d.attachNewNode(self.textLapTime) 
+        self.textLapTimeNodePath.setScale(0.06) 
+        self.textLapTimeNodePath.reparentTo(base.a2dTopRight) 
+        self.textLapTimeNodePath.setPos(-2.7,0,-0.73) 
+        self.textLapTime.setText("Time " + self.textTimer.getText() )
+           
+        self.textLapRecord = TextNode('Lap Record')    
+        self.textLapRecord.setFont(self.timeFont)   
+        self.textLapRecord.setShadow(0.05, 0.05)
+        self.textLapRecord.setShadowColor(0, 0, 0, 1) 
+        self.textLapRecordNodePath = aspect2d.attachNewNode(self.textLapRecord) 
+        self.textLapRecordNodePath.setScale(0.06) 
+        self.textLapRecordNodePath.reparentTo(base.a2dTopRight) 
+        self.textLapRecordNodePath.setPos(-1.6,0,-0.73) 
+        self.textLapRecord.setText("Record " + self.textRecord.getText())
+        self.textLapRecord.setTextColor(1, 0, 0, 1)           
+#           
+#        self.textLapDiff = TextNode('Lap Diff')    
+#        self.textLapDiff.setFont(self.timeFont)   
+#        self.textLapDiff.setShadow(0.05, 0.05)
+#        self.textLapDiff.setShadowColor(0, 0, 0, 1) 
+#        self.textLapDiffNodePath = aspect2d.attachNewNode(self.textLapDiff) 
+#        self.textLapDiffNodePath.setScale(0.06) 
+#        self.textLapDiffNodePath.reparentTo(base.a2dTopRight) 
+#        self.textLapDiffNodePath.setPos(-1.8,0,-0.93) 
+#        
+#        self.textLapDiff.setText( tdelta )
+#        
+        
+        self.fVidas1On.hide()
+        self.fVidas2On.hide()
+        self.fVidas3On.hide()
+        self.fVidas1Off.hide()
+        self.fVidas2Off.hide()
+        self.fVidas3Off.hide()    
+        self.currCheckPointTextNodePath.hide() 
+        self.textTimerNodePath.hide()
+        self.textRecordNodePath.hide()
         
     def timer( self, task ): 
         nowTime = datetime.datetime.today()
@@ -244,12 +266,21 @@ class Game( object ):
       
         s = str(t).split(':')
       
-        s2 = s[2].split('.')
-        if len(s2) == 1:
-            s2.append('00')
-        self.textTimer.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:2])
+              
+        if self.player.currentCheckPoint == self.player.lastCheckPoint:
+            self.player.currentCheckPoint = 5
+            self.showResult()
+        else:   
+            s2 = s[2].split('.')
+            if len(s2) == 1:
+                s2.append('00')
+            if (self.player.currentCheckPoint == 4):
+                pass
+            else:
+                self.textTimer.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:3])
+                print self.textTimer.getText()
         #self.textRecord.setText(':'.join(s[:2])+':'+s2[0]+':'+s2[1][:2])
-      
+
         return task.cont
 
     def addTasks( self ):

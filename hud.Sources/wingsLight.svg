@@ -1747,6 +1747,223 @@
            id="feMergeNode4247-9-0-7-2" />
       </feMerge>
     </filter>
+    <filter
+       id="filter5549"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-.25"
+       y="-.25">
+      <feGaussianBlur
+         id="feGaussianBlur5551"
+         in="SourceAlpha"
+         stdDeviation="2"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix5553"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0 " />
+      <feOffset
+         id="feOffset5555"
+         in="bluralpha"
+         dx="4"
+         dy="4"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge5557">
+        <feMergeNode
+           id="feMergeNode5559"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode5561"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       color-interpolation-filters="sRGB"
+       id="filter5549-5"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-0.25"
+       y="-0.25">
+      <feGaussianBlur
+         id="feGaussianBlur5551-3"
+         in="SourceAlpha"
+         stdDeviation="2"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix5553-6"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0 " />
+      <feOffset
+         id="feOffset5555-3"
+         in="bluralpha"
+         dx="4"
+         dy="4"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge5557-5">
+        <feMergeNode
+           id="feMergeNode5559-3"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode5561-0"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter5636"
+       inkscape:label="Specular light"
+       inkscape:menu="ABCs"
+       inkscape:menu-tooltip="Basic specular bevel to use for building textures"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur5638"
+         result="result0"
+         in="SourceAlpha"
+         stdDeviation="6" />
+      <feSpecularLighting
+         id="feSpecularLighting5640"
+         specularExponent="25"
+         specularConstant="1"
+         surfaceScale="10"
+         lighting-color="rgb(255,255,255)"
+         result="result1"
+         in="result0">
+        <feDistantLight
+           id="feDistantLight5642"
+           azimuth="235"
+           elevation="45" />
+      </feSpecularLighting>
+      <feComposite
+         id="feComposite5644"
+         in2="result91"
+         k3="1"
+         k2="1"
+         operator="arithmetic"
+         result="result4"
+         in="SourceGraphic" />
+      <feComposite
+         id="feComposite5646"
+         in2="SourceAlpha"
+         operator="in"
+         result="result2"
+         in="result4" />
+    </filter>
+    <filter
+       id="filter5696"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-.25"
+       y="-.25">
+      <feGaussianBlur
+         id="feGaussianBlur5698"
+         in="SourceAlpha"
+         stdDeviation="2"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix5700"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0 " />
+      <feOffset
+         id="feOffset5702"
+         in="bluralpha"
+         dx="4"
+         dy="4"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge5704">
+        <feMergeNode
+           id="feMergeNode5706"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode5708"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter5710"
+       inkscape:label="Inner Shadow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Adds a colorizable drop shadow inside"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur5712"
+         stdDeviation="4"
+         result="result8" />
+      <feOffset
+         id="feOffset5714"
+         dx="4"
+         dy="4"
+         result="result11" />
+      <feComposite
+         id="feComposite5716"
+         in2="result11"
+         result="result6"
+         in="SourceGraphic"
+         operator="in" />
+      <feFlood
+         id="feFlood5718"
+         result="result10"
+         in="result6"
+         flood-opacity="1"
+         flood-color="rgb(0,0,0)" />
+      <feBlend
+         id="feBlend5720"
+         in2="result10"
+         mode="normal"
+         in="result6"
+         result="result12" />
+      <feComposite
+         id="feComposite5722"
+         in2="SourceGraphic"
+         result="result2"
+         operator="in" />
+    </filter>
+    <filter
+       id="filter5724"
+       inkscape:label="Inner Shadow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Adds a colorizable drop shadow inside"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur5726"
+         stdDeviation="4"
+         result="result8" />
+      <feOffset
+         id="feOffset5728"
+         dx="4"
+         dy="4"
+         result="result11" />
+      <feComposite
+         id="feComposite5730"
+         in2="result11"
+         result="result6"
+         in="SourceGraphic"
+         operator="in" />
+      <feFlood
+         id="feFlood5732"
+         result="result10"
+         in="result6"
+         flood-opacity="1"
+         flood-color="rgb(0,0,0)" />
+      <feBlend
+         id="feBlend5734"
+         in2="result10"
+         mode="normal"
+         in="result6"
+         result="result12" />
+      <feComposite
+         id="feComposite5736"
+         in2="SourceGraphic"
+         result="result2"
+         operator="in" />
+    </filter>
   </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -1761,13 +1978,13 @@
      inkscape:window-height="1056"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="0.28497695"
-     inkscape:cx="-251.0109"
-     inkscape:cy="164.15993"
+     inkscape:zoom="0.10075457"
+     inkscape:cx="-1337.2468"
+     inkscape:cy="-784.2232"
      inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer4"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -1776,6 +1993,88 @@
        type="xygrid"
        id="grid3791" />
   </sodipodi:namedview>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="back">
+    <text
+       xml:space="preserve"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:moderna;-inkscape-font-specification:moderna"
+       x="-1245.7148"
+       y="-584.25775"
+       id="text5541"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5543"
+         x="-1245.7148"
+         y="-584.25775" /></text>
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       id="rect5630"
+       width="960"
+       height="540"
+       x="-1666.8015"
+       y="-759.71057"
+       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/team.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ff0000;fill-opacity:1;stroke:none;font-family:moderna;-inkscape-font-specification:moderna"
+       x="-1561.5298"
+       y="-626.36646"
+       id="text5775"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/team.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan5777"
+         x="-1561.5298"
+         y="-626.36646">Team</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:moderna;-inkscape-font-specification:moderna"
+       x="-1419.0771"
+       y="-526.35834"
+       id="text5779"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/team.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan5781"
+         x="-1419.0771"
+         y="-526.35834">Felipe Moura</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:moderna;-inkscape-font-specification:moderna"
+       x="-1417.1172"
+       y="-442.73752"
+       id="text5779-1"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/team.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan5781-2"
+         x="-1417.1172"
+         y="-442.73752">Marcos Müller</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:moderna;-inkscape-font-specification:moderna"
+       x="-1419.0771"
+       y="-366.59253"
+       id="text5779-1-7"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/team.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan5781-2-8"
+         x="-1419.0771"
+         y="-366.59253">Renato Farias</tspan></text>
+  </g>
   <g
      inkscape:groupmode="layer"
      id="layer1"
@@ -1788,9 +2087,10 @@
        id="path3810"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="sscsczscsss"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/menu.png"
+       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/LogoIntro3.png"
        inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       inkscape:export-ydpi="90"
+       transform="matrix(0.50921395,0,0,0.50921395,764.14641,1077.8105)" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -1801,8 +2101,8 @@
     <g
        style="fill:#0044aa;stroke:#000000;stroke-width:3.03263235;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter3003)"
        id="g3740-2"
-       transform="matrix(0.85959699,-0.48240522,0.4862862,0.86553119,-200.70639,23.833718)"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/menu.png"
+       transform="matrix(0.43771878,-0.24564747,0.24762371,0.44074055,661.94401,1089.947)"
+       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/LogoIntro3.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
       <path
@@ -1824,21 +2124,23 @@
        id="path3083-5"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccccccc"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/menu.png"
+       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/LogoIntro3.png"
        inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       inkscape:export-ydpi="90"
+       transform="matrix(0.50921395,0,0,0.50921395,764.14641,1077.8105)" />
     <path
        inkscape:connector-curvature="0"
        style="fill:#e6e6e6;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter3003)"
        d="m 50.786973,-14.32674 c 8.656329,73.930115 -72.818227,148.83577 -116.6875,172.9375 -19.932696,10.95101 -62.525033,21.7543 -79.562503,43.28125 -19.24983,24.32227 -8.09298,78.33162 10.625,119.75 -3.94629,7.59935 -6.1875,16.28938 -6.1875,25.53125 0,29.73379 23.21151,53.84375 51.812503,53.84375 28.600993,0 51.78125,-24.10996 51.78125,-53.84375 0,-16.90432 -7.496152,-31.97347 -19.21875,-41.84375 6.670853,-0.96705 14.534919,-3.11049 24.21875,-6.75 -26.596768,-9.77705 -21.585637,-18.93493 -20.1875,-27.75 23.926943,7.59142 60.988746,12.11139 97.65625,-23.90625 -15.806032,8.97491 -24.90577,6.07987 -39.125,0.5 31.94534,-2.53189 61.19625,-19.84253 90.875,-79.5625 -11.93317,13.72417 -25.10161,21.95908 -40.78125,27.5625 24.63471,-13.58506 41.94038,-34.66452 46.187497,-70.34375 -5.469737,3.17452 -20.014807,17.93867 -25.406247,21.1875 13.29673,-22.63761 15.69366,-41.73979 16.25,-62.0625 -15.6527,20.27916 -9.81414,14.115242 -22.75,24.8125 15.58538,-27.247383 8.84092,-53.332471 -19.5,-123.34375 z"
        id="path3083-4-9-5-3-1-4-0-5"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/menu.png"
+       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/LogoIntro3.png"
        inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       inkscape:export-ydpi="90"
+       transform="matrix(0.50921395,0,0,0.50921395,764.14641,1077.8105)" />
     <g
        id="g4236"
-       transform="matrix(0.99789661,-0.06482551,0.06482551,0.99789661,-27.764491,-4.3671051)"
-       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/menu.png"
+       transform="matrix(0.50814287,-0.03301006,0.03301006,0.50814287,750.00841,1075.5867)"
+       inkscape:export-filename="/home/felipe/workspace/SkyRunner/master/hud.Sources/LogoIntro3.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
       <text

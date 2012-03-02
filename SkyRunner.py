@@ -9,10 +9,12 @@ from direct.gui.OnscreenImage import OnscreenImage
 from InGameMenu import InGameMenu
 from Credits import Credits
 from Game import Game
+from MapTour import MapTour
 from GameStates import State
 from SoundManager import SoundManager
 
 import direct.directbase.DirectStart
+
     
 class SkyRunner(DirectObject.DirectObject):
     def __init__(self,cond=1):
@@ -27,7 +29,7 @@ class SkyRunner(DirectObject.DirectObject):
         self.inGameMenu = None
         
         self.start()
-    
+   
     
     def start( self ):
         self.draw() 
@@ -77,8 +79,10 @@ class SkyRunner(DirectObject.DirectObject):
         if self.gameState == State.MAINMENU:
             self.gameState = State.INGAME
             self.hide()
+#            if self.game is None:
+#                self.game = Game(self)
             if self.game is None:
-                self.game = Game(self)     
+                self.game = Game(self)                     
     def showCredits(self):
         if self.gameState == State.MAINMENU:
             self.gameState = State.CREDITSMENU
